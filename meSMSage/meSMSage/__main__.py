@@ -1,7 +1,5 @@
 """Define the command-line interface for the meSMSage program."""
 
-from sheetfu import SpreadsheetApp
-
 import gspread
 import pandas
 import typer
