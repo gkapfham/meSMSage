@@ -8,6 +8,8 @@ authors = ["Gregory M. Kapfhammer <gkapfham@allegheny.edu>"]
 python = "^3.8"
 typer = "^0.3.2"
 gspread = "^3.7.0"
+sheetfu = "^1.5.4"
+pandas = "^1.2.3"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
