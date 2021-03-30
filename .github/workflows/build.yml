@@ -18,12 +18,12 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
-        python-version: [3.6, 3.9]
+        python-version: [3.7, 3.8, 3.9]
         include:
           - os: macos-latest
-            python-version: 3.8
+            python-version: [3.7, 3.8, 3.9]
           - os: windows-latest
-            python-version: 3.7
+            python-version: [3.7, 3.8, 3.9]
     env:
       # These environment variables are passed to CodeCov to identify each build
       OS: ${{ matrix.os }}
@@ -55,7 +55,7 @@ jobs:
           run: |
             cd meSMSage
             poetry install
-            poetry run python meSMSage --number 10 --approach iterative --display
+            poetry run python meSMSage --googlesheet meSMSage-volunteer-contact-schedule-sheet
         # Run the pytest test suite
         - name: Run Pytest Test Suite
           run: |
