@@ -1,5 +1,7 @@
 """Define the command-line interface for the meSMSage program."""
 
+import demonstrate
+
 import gspread
 import pandas
 import typer
@@ -16,10 +18,9 @@ def main(
     # create a connection to the specified Google Sheet
     google_client = gspread.service_account("credentials.json")
     worksheet = google_client.open(sheet).sheet1
-    # create a Pandas dataframe from the spreadsheet's worksheet
-    dataframe = pandas.DataFrame(worksheet.get_all_records())
-    print(dataframe)
-    print()
+    # create a Pandas volunteers_dataframe from the spreadsheet's worksheet
+    volunteers_dataframe = pandas.DataFrame(worksheet.get_all_records())
+    demonstrate.demonstrate_pandas_analysis(volunteers_dataframe)
 
 
 if __name__ == "__main__":
