@@ -1,0 +1,78 @@
+# Basic workflow
+name: build
+
+# Controls when the action will run
+# Workflow begins with push or PR events
+# Focuses on the master branch only
+on: [push, pull_request]
+
+# Create one single job
+# This job performs all necessary checks
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      # Turning fail-fast off ensures the entire strategy matrix is allowed to
+      # run to completion, allowing detection of individual platform issues
+      # regardless of the status of the other platforms.
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        python-version: [3.6, 3.9]
+        include:
+          - os: macos-latest
+            python-version: 3.8
+          - os: windows-latest
+            python-version: 3.7
+    env:
+      # These environment variables are passed to CodeCov to identify each build
+      OS: ${{ matrix.os }}
+      PYTHON: ${{ matrix.python-version }}
+    # Define the workflow steps
+    steps:
+    # Checkout the code of the repository
+        - name: Check out Repository Code
+          uses: actions/checkout@v2
+          with:
+            fetch-depth: 0
+        # Run the mdl linting tool
+        # Refers to .mdlrc file in repository
+        - name: Run Markdown Linting
+          uses: actionshub/markdownlint@master
+        # Setup Python for the current language version
+        - name: Setup Python ${{ matrix.python-version }}
+          if: always()
+          uses: actions/setup-python@v1
+          with:
+            python-version: ${{ matrix.python-version }}
+        # Install poetry
+        - name: Install Poetry
+          uses: abatilo/actions-poetry@v2.0.0
+          with:
+            poetry-version: 1.0.10
+        # Run the Python program
+        - name: Run Python Program
+          run: |
+            cd meSMSage
+            poetry install
+            poetry run python meSMSage --number 10 --approach iterative --display
+        # Run the pytest test suite
+        - name: Run Pytest Test Suite
+          run: |
+            cd meSMSage
+            poetry run pytest
+        # Run the black code formatter in checking mode
+        - name: Run Black Code Formatter
+          run: |
+            cd meSMSage
+            poetry run black meSMSage tests --check
+        # Run the pylint linting tool
+        - name: Run Pylint Linting Tool
+          run: |
+            cd meSMSage
+            poetry run pylint meSMSage tests
+        # Run the flake8 linting tool
+        - name: Run Flake8 Linting Tool
+          run: |
+            cd meSMSage
+            poetry run flake8 meSMSage tests
