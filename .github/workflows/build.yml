@@ -51,7 +51,7 @@ jobs:
           run: |
             cd meSMSage
             poetry install
-            poetry run python meSMSage --googlesheet meSMSage-volunteer-contact-schedule-sheet
+            poetry run python meSMSage --googlesheet-id 1ujmuIJy1NPhasIF4tnRSae0033hwa9g0wul5Ii2NwZU --debug-level DEBUG
         # Run the pytest test suite
         - name: Run Pytest Test Suite
           run: |
