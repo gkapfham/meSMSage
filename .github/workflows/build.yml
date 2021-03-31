@@ -65,6 +65,17 @@ jobs:
             poetry run pytest
         # Run the black code formatter in checking mode
         - name: Run Black Code Formatter
+          env:
+            SHEETFU_CONFIG_TYPE: ${{secrets.SHEETFU_CONFIG_TYPE}}
+            SHEETFU_CONFIG_TOKEN_URI: ${{secrets.SHEETFU_CONFIG_TOKEN_URI}}
+            SHEETFU_CONFIG_SHEETFU_CONFIG_PROJECT_ID: ${{secrets.SHEETFU_CONFIG_SHEETFU_CONFIG_PROJECT_ID}}
+            SHEETFU_CONFIG_PRIVATE_KEY_ID: ${{secrets.SHEETFU_CONFIG_PRIVATE_KEY_ID}}
+            SHEETFU_CONFIG_PRIVATE_KEY: ${{secrets.SHEETFU_CONFIG_PRIVATE_KEY}}
+            SHEETFU_CONFIG_CLIENT_X509_CERT_URL: ${{secrets.SHEETFU_CONFIG_CLIENT_X509_CERT_URL}}
+            SHEETFU_CONFIG_CLIENT_ID: ${{secrets.SHEETFU_CONFIG_CLIENT_ID}}
+            SHEETFU_CONFIG_CLIENT_EMAIL: ${{secrets.SHEETFU_CONFIG_CLIENT_EMAIL}}
+            SHEETFU_CONFIG_AUTH_URI: ${{secrets.SHEETFU_CONFIG_AUTH_URI}}
+            SHEETFU_CONFIG_AUTH_PROVIDER_X509_CERT_URL: ${{secrets.SHEETFU_CONFIG_AUTH_PROVIDER_X509_CERT_URL}}
           run: |
             cd meSMSage
             poetry run black meSMSage tests --check
