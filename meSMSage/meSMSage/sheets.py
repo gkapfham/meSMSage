@@ -16,7 +16,10 @@ def connect_to_sheet(requested_spreadsheet_id: str, requested_sheet_name: str = 
     """Connect to the specified Google Sheet and return the requested sheet (default is "Sheet1")."""
     logger = configure.configure_logging()
     load_dotenv()
-    logger.debug(f"Environment: {os.getenv('SHEETFU_CONFIG_TYPE')}")
+    config_type = os.getenv("SHEETFU_CONFIG_TYPE")
+    if config_type == "service_account":
+        logger.debug(f"Environment: {os.getenv('SHEETFU_CONFIG_TYPE')}")
+        logger.debug("Correct service account")
     sa = SpreadsheetApp(from_env=True)
     spreadsheet = sa.open_by_id(requested_spreadsheet_id)
     sheet = spreadsheet.get_sheet_by_name(requested_sheet_name)
