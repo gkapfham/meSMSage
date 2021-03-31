@@ -84,13 +84,18 @@ jobs:
           run: |
             cd meSMSage
             poetry run black meSMSage tests --check
-        # Run the pylint linting tool
-        - name: Run Pylint Linting Tool
-          run: |
-            cd meSMSage
-            poetry run pylint meSMSage tests
         # Run the flake8 linting tool
         - name: Run Flake8 Linting Tool
           run: |
             cd meSMSage
             poetry run flake8 meSMSage tests
+        # Run the pydocstyle linting tool
+        - name: Run pydocstyle Linting Tool
+          run: |
+            cd meSMSage
+            poetry run pydocstyle meSMSage tests
+        # Run the pylint linting tool
+        - name: Run Pylint Linting Tool
+          run: |
+            cd meSMSage
+            poetry run pylint meSMSage tests
