@@ -46,6 +46,7 @@ jobs:
             SHEETFU_CONFIG_TYPE: ${{secrets.SHEETFU_CONFIG_TYPE}}
           run: |
             cd meSMSage
+            echo $SHEETFU_CONFIG_TYPE
             poetry install
             poetry run python meSMSage --googlesheet-id 1ujmuIJy1NPhasIF4tnRSae0033hwa9g0wul5Ii2NwZU --debug-level DEBUG
         # Run the pytest test suite
