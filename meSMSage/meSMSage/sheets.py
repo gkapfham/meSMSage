@@ -32,15 +32,3 @@ def connect_to_sheet(requested_spreadsheet_id: str, requested_sheet_name: str = 
     spreadsheet = sa.open_by_id(requested_spreadsheet_id)
     sheet = spreadsheet.get_sheet_by_name(requested_sheet_name)
     return sheet
-
-    # sheet = spreadsheet.get_sheet_by_name('Sheet1')
-    # data_range = sheet.get_data_range()
-    # values = data_range.get_values()
-    # print(type(values))
-
-# # create a connection to the specified Google Sheet
-#     google_client = gspread.service_account(CREDENTIALS)
-#     # scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-#     # creds = ServiceAccountCredentials.from_json_keyfile_dict(create_keyfile_dictionary(), scope)
-#     worksheet = google_client.open(requested_sheet).sheet1
-#     return worksheet
