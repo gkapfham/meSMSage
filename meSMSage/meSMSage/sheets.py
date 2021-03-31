@@ -1,7 +1,5 @@
 """Connect to a Google Sheet using gspread to access sheets at data frames."""
 
-import os
-
 from dotenv import load_dotenv
 from sheetfu import model
 from sheetfu import SpreadsheetApp
@@ -17,12 +15,9 @@ def connect_to_sheet(
     """Connect to the specified Google Sheet and return the requested sheet (default is "Sheet1")."""
     logger = configure.configure_logging()
     load_dotenv()
-    config_type = os.getenv("SHEETFU_CONFIG_TYPE")
-    if config_type == "service_account":
-        logger.debug(f"Environment: {os.getenv('SHEETFU_CONFIG_TYPE')}")
-        logger.debug("Correct service account")
     sa = SpreadsheetApp(from_env=True)
     spreadsheet = sa.open_by_id(requested_spreadsheet_id)
     sheet = spreadsheet.get_sheet_by_name(requested_sheet_name)
-    print(type(sheet))
+    logger.debug(sheet)
+    logger.debug(type(sheet))
     return sheet
