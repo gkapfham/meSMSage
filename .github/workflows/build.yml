@@ -46,8 +46,8 @@ jobs:
             poetry-version: 1.0.10
         # Run the Python program
         - name: Run Python Program
-            env:
-              SHEETFU_CONFIG_TYPE: ${{secrets.SHEETFU_CONFIG_TYPE}}
+          env:
+            SHEETFU_CONFIG_TYPE: ${{secrets.SHEETFU_CONFIG_TYPE}}
           run: |
             cd meSMSage
             poetry install
