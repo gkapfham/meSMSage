@@ -8,23 +8,6 @@ from decouple import config
 SHEET = "Sheet1"
 
 
-def create_keyfile_dictionary():
-    """Return a dictionary that contains all of the correct environment variables."""
-    variables_keys = {
-        "type": config("SHEET_TYPE"),
-        "project_id": config("SHEET_PROJECT_ID"),
-        "private_key_id": config("SHEET_PRIVATE_KEY_ID"),
-        "private_key": config("SHEET_PRIVATE_KEY"),
-        "client_email": config("SHEET_CLIENT_EMAIL"),
-        "client_id": config("SHEET_CLIENT_ID"),
-        "auth_uri": config("SHEET_AUTH_URI"),
-        "token_uri": config("SHEET_TOKEN_URI"),
-        "auth_provider_x509_cert_url": config("SHEET_AUTH_PROVIDER_X509_CERT_URL"),
-        "client_x509_cert_url": config("SHEET_CLIENT_X509_CERT_URL")
-    }
-    return variables_keys
-
-
 def connect_to_sheet(requested_spreadsheet_id: str, requested_sheet_name: str = SHEET):
     """Connect to the specified Google Sheet and return the requested sheet (default is "Sheet1")."""
     load_dotenv()
