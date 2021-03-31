@@ -25,11 +25,16 @@ jobs:
       PYTHON: ${{ matrix.python-version }}
     # Define the workflow steps
     steps:
-    # Checkout the code of the repository
+        # Checkout the code of the repository
         - name: Check out Repository Code
           uses: actions/checkout@v2
           with:
             fetch-depth: 0
+        # Run the mdl linting tool
+        # Refers to .mdlrc file in repository
+        - name: Run Markdown Linting
+          if: runer.os=='Linux'
+          uses: actionshub/markdownlint@master
         # Setup Python for the current language version
         - name: Setup Python ${{ matrix.python-version }}
           uses: actions/setup-python@v1
