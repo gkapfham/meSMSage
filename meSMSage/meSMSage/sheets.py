@@ -11,7 +11,9 @@ import configure
 SHEET = "Sheet1"
 
 
-def connect_to_sheet(requested_spreadsheet_id: str, requested_sheet_name: str = SHEET) -> model.Sheet:
+def connect_to_sheet(
+    requested_spreadsheet_id: str, requested_sheet_name: str = SHEET
+) -> model.Sheet:
     """Connect to the specified Google Sheet and return the requested sheet (default is "Sheet1")."""
     logger = configure.configure_logging()
     load_dotenv()

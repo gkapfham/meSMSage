@@ -20,7 +20,9 @@ def demonstrate_pandas_analysis(volunteers_dataframe: pandas.DataFrame):
     logger.debug(volunteers_dataframe.size)
     logger.debug(volunteers_dataframe.memory_usage())
     # display the shifts for a specified person
-    greg_shifts = volunteers_dataframe[volunteers_dataframe['Volunteer Name'] == "Gregory Kapfhammer"]
+    greg_shifts = volunteers_dataframe[
+        volunteers_dataframe["Volunteer Name"] == "Gregory Kapfhammer"
+    ]
     logger.debug(greg_shifts)
     greg_shifts_list = []
     for column_name, column_contents in greg_shifts.iteritems():
@@ -28,7 +30,9 @@ def demonstrate_pandas_analysis(volunteers_dataframe: pandas.DataFrame):
         logger.debug(f"Column Contents:  {column_contents.values}")
         logger.debug(f"Column Contents Type:  {type(column_contents.values)}")
         logger.debug(f"Column Contents array index:  {column_contents.values[0]}")
-        logger.debug(f"Column Contents array index type:  {type(column_contents.values[0])}")
+        logger.debug(
+            f"Column Contents array index type:  {type(column_contents.values[0])}"
+        )
         if column_contents.values[0] is numpy.bool_(True):
             logger.debug("Working the shift!")
             greg_shifts_list.append(column_name)

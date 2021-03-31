@@ -9,8 +9,7 @@ import sheets
 
 
 def main(
-    googlesheet_id: str = typer.Option(...),
-    debug_level: str = typer.Option("DEBUG")
+    googlesheet_id: str = typer.Option(...), debug_level: str = typer.Option("DEBUG")
 ):
     """Access the command-line argument(s) and then perform actions."""
     # configure the use of rich for improved terminal output
@@ -26,7 +25,9 @@ def main(
     data_range = sheet.get_data_range()
     values = data_range.get_values()
     logger.info(f"All values: {values}")
-    sheetfu_volunteers_dataframe = pandas.DataFrame(values[1:len(values)], columns=values[0])
+    sheetfu_volunteers_dataframe = pandas.DataFrame(
+        values[1 : len(values)], columns=values[0]
+    )
     print(sheetfu_volunteers_dataframe)
     demonstrate.demonstrate_pandas_analysis(sheetfu_volunteers_dataframe)
 

@@ -27,7 +27,9 @@ def configure_tracebacks() -> None:
     install()
 
 
-def configure_logging(debug_level: str = DEFAULT_LOGGING_LEVEL, force: bool = False) -> logging.Logger:
+def configure_logging(
+    debug_level: str = DEFAULT_LOGGING_LEVEL, force: bool = False
+) -> logging.Logger:
     """Configure standard Python logging package to use rich."""
     logging.basicConfig(
         level=debug_level, format=FORMAT, datefmt="[%X]", handlers=[RichHandler()]
