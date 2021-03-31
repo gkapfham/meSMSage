@@ -1,18 +1,11 @@
 """Define the command-line interface for the meSMSage program."""
 
-import logging
-import logging.config
-
-from rich.logging import RichHandler
-from rich.traceback import install
-
 import pandas
 import typer
 
 import configure
 import demonstrate
 import sheets
-
 
 
 def main(
