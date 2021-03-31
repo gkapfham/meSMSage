@@ -36,13 +36,7 @@ def main(
     sheet = sheets.connect_to_sheet(googlesheet_id)
     # extract the Pandas data frame from the sheet in sheetfu's internal format
     dataframe = sheets.extract_dataframe(sheet)
-    # data_range = sheet.get_data_range()
-    # values = data_range.get_values()
-    # logger.info(f"All values: {values}")
-    # sheetfu_volunteers_dataframe = pandas.DataFrame(
-    #     values[1 : len(values)], columns=values[0]
-    # )
-    # print(sheetfu_volunteers_dataframe)
+    # demonstrate the use of the dataframe with an example
     demonstrate.demonstrate_pandas_analysis(dataframe)
 
 
