@@ -33,7 +33,7 @@ jobs:
         # Run the mdl linting tool
         # Refers to .mdlrc file in repository
         - name: Run Markdown Linting
-          if: runer.os=='Linux'
+          if: runner.os=='Linux'
           uses: actionshub/markdownlint@master
         # Setup Python for the current language version
         - name: Setup Python ${{ matrix.python-version }}
