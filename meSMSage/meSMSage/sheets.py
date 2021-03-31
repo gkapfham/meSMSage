@@ -8,7 +8,6 @@ from sheetfu import SpreadsheetApp
 
 import configure
 
-
 SHEET = "Sheet1"
 
 
