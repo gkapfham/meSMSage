@@ -19,6 +19,7 @@
 #                providing. Allowed types are:
 #             * feat (add feature)
 #             * fix (fix defect)
+#             * debug (add debugging or logging code)
 #             * docs (add or modify user documentation)
 #             * coms (add or modify code documentation)
 #             * style (improve code or doc formatting)
