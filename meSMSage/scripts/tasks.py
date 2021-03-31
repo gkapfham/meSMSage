@@ -32,7 +32,9 @@ def cover(c):
     display_internal_python_version(c)
     print("Begin " + inspect.currentframe().f_code.co_name + " --->")
     # run the test suite and collect coverage information
-    c.run("poetry run pytest -s --cov-config .coveragerc --cov-report term-missing --cov=meSMSage --cov-branch")
+    c.run(
+        "poetry run pytest -s --cov-config .coveragerc --cov-report term-missing --cov=meSMSage --cov-branch"
+    )
     print("---> End " + inspect.currentframe().f_code.co_name)
 
 
