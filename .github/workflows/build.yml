@@ -17,13 +17,8 @@ jobs:
       # regardless of the status of the other platforms.
       fail-fast: false
       matrix:
-        os: [ubuntu-latest]
+        os: [ubuntu-latest, macos-latest, windows-latest]
         python-version: [3.7, 3.8, 3.9]
-        include:
-          - os: macos-latest
-            python-version: [3.7, 3.8, 3.9]
-          - os: windows-latest
-            python-version: [3.7, 3.8, 3.9]
     env:
       # These environment variables are passed to CodeCov to identify each build
       OS: ${{ matrix.os }}
@@ -41,7 +36,6 @@ jobs:
           uses: actionshub/markdownlint@master
         # Setup Python for the current language version
         - name: Setup Python ${{ matrix.python-version }}
-          if: always()
           uses: actions/setup-python@v1
           with:
             python-version: ${{ matrix.python-version }}
