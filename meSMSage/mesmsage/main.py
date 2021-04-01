@@ -45,7 +45,7 @@ def send(
     configure.configure_tracebacks()
     # --> rich-based logging to improve display of all program console output
     logger = configure.configure_logging(debug_level.value)
-    # display the debugging output for the program's command-line arguments
+    # DEBUG: display the debugging output for the program's command-line arguments
     logger.debug(f"The Google Sheet is {googlesheet_id}.")
     logger.debug(f"The debugging level is {debug_level.value}.")
     # construct the full name of the .env file
@@ -57,6 +57,7 @@ def send(
     # the file name was not specified so construct the default name
     else:
         env_file_name = constants.markers.Nothing.join([os.getcwd(), os.sep, ".env"])
+    # DEBUG: display the constructed name of the .env file
     logger.debug(f"Environment file: {env_file_name}")
     # load the required secure environment for connecting to Google Sheets
     util.load_environment(env_file_name)
