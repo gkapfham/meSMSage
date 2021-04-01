@@ -1,17 +1,14 @@
 """Define the command-line interface for the meSMSage program."""
 
-import typer
-
-
-app = typer.Typer()
-
-
 from enum import Enum
-
 
 from mesmsage import configure
 from mesmsage import demonstrate
 from mesmsage import sheets
+
+import typer
+
+app = typer.Typer()
 
 
 class DebugLevel(str, Enum):
