@@ -29,7 +29,7 @@ def history():
 
 @app.command()
 def send(
-    googlesheet_id: str = typer.Option(...), debug_level: DebugLevel = DebugLevel.DEBUG
+    googlesheet_id: str = typer.Option(...), data_file: Path = typer.Option(...), debug_level: DebugLevel = DebugLevel.DEBUG
 ):
     """Send SMS messages."""
     # configure the use of rich for improved terminal output
