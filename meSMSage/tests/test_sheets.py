@@ -4,7 +4,7 @@ from sheetfu import model
 
 from googleapiclient import errors
 
-from meSMSage import sheets
+from mesmsage import sheets
 
 import pytest
 
