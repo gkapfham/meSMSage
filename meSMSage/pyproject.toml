@@ -3,10 +3,14 @@ name = "meSMSage"
 version = "0.1.0"
 description = ""
 authors = ["Gregory M. Kapfhammer <gkapfham@allegheny.edu>"]
+readme = "README.md"
+
+[tool.poetry.scripts]
+mesmsage = "mesmsage.main:app"
 
 [tool.poetry.dependencies]
-python = "^3.8"
-typer = "^0.3.2"
+python = "^3.9"
+typer = {extras = ["all"], version = "^0.3.2"}
 pandas = "^1.2.3"
 sheetfu = "^1.5.4"
 numpy = "^1.20.2"
@@ -23,5 +27,5 @@ invoke = "^1.5.0"
 pytest-cov = "^2.11.1"
 
 [build-system]
-requires = ["poetry>=0.12"]
-build-backend = "poetry.masonry.api"
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
