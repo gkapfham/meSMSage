@@ -12,13 +12,13 @@ SHEET = "Sheet1"
 
 
 def connect_to_sheet(
-    requested_spreadsheet_id: str, requested_sheet_name: str = SHEET
+    requested_spreadsheet_id: str, env_file_name: str, requested_sheet_name: str = SHEET
 ) -> model.Sheet:
     """Connect to the specified Google Sheet and return the requested sheet (default is "Sheet1")."""
     # extract a logger
     logger = configure.configure_logging()
     # load the environment variables, either from a .env file if it is available
-    load_dotenv()
+    load_dotenv(dotenv_path=env_file_name)
     # use sheetfu to load the spreadsheet with configuration in environment variables
     sa = SpreadsheetApp(from_env=True)
     # get the spreadsheet by its identifier and then extract the specific
