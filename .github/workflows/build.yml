@@ -4,7 +4,11 @@ name: build
 # Controls when the action will run
 # Workflow begins with push or PR events
 # Focuses on the master branch only
-on: [push, pull_request]
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
 # Create one single job
 # This job performs all necessary checks
