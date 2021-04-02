@@ -79,10 +79,12 @@ def pylint(c):
 
 
 @task(black, flake8, pydocstyle, pylint)
+# pylint: disable=unused-argument
 def linters(c):
     """Run all of the tasks."""
 
 
 @task(cover, linters)
+# pylint: disable=unused-argument
 def all(c):
     """Run all of the tasks."""
