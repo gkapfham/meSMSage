@@ -25,6 +25,8 @@ pydocstyle = "^5.1.1"
 flake8 = "^3.8.4"
 invoke = "^1.5.0"
 pytest-cov = "^2.11.1"
+mypy = "^0.812"
+pandas-stubs = "^1.0.4"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
