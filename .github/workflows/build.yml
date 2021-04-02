@@ -94,7 +94,7 @@ jobs:
             cd meSMSage
             poetry run invoke -c scripts/tasks flake8
         # Run the pydocstyle linting tool
-        - name: Run pydocstyle Linting Tool
+        - name: Run Pydocstyle Linting Tool
           run: |
             cd meSMSage
             poetry run invoke -c scripts/tasks pydocstyle
