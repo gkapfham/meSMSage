@@ -10,6 +10,12 @@ from mesmsage import configure
 SHEET = "Sheet1"
 
 
+class SheetNotFoundError(Exception):
+    """Indicate that there is no sheet available."""
+
+    pass
+
+
 def connect_to_sheet(
     requested_spreadsheet_id: str,
     requested_sheet_name: str = SHEET,
@@ -31,7 +37,9 @@ def connect_to_sheet(
 
 def extract_dataframe(sheet: model.Sheet) -> pandas.DataFrame:
     """Extract a Pandas DataFrame from the sheet in sheetfu's internal format."""
-    data_range = sheet.get_data_range()
-    values = data_range.get_values()
-    extracted_dataframe = pandas.DataFrame(values[1 : len(values)], columns=values[0])
-    return extracted_dataframe
+    if sheet is not None:
+        data_range = sheet.get_data_range()
+        values = data_range.get_values()
+        extracted_dataframe = pandas.DataFrame(values[1 : len(values)], columns=values[0])
+        return extracted_dataframe
+    raise SheetNotFoundError
