@@ -49,7 +49,7 @@ def send(
     logger.debug(f"The Google Sheet is {googlesheet_id}.")
     logger.debug(f"The debugging level is {debug_level.value}.")
     # construct the full name of the .env file
-    env_file_name = ""
+    env_file_name = constants.markers.Nothing
     # the file was specified and it is valid so derive its full name
     if env_file is not None:
         if env_file.is_file():
