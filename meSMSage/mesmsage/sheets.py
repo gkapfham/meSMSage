@@ -40,6 +40,8 @@ def extract_dataframe(sheet: model.Sheet) -> pandas.DataFrame:
     if sheet is not None:
         data_range = sheet.get_data_range()
         values = data_range.get_values()
-        extracted_dataframe = pandas.DataFrame(values[1 : len(values)], columns=values[0])
+        extracted_dataframe = pandas.DataFrame(
+            values[1 : len(values)], columns=values[0]
+        )
         return extracted_dataframe
     raise SheetNotFoundError
