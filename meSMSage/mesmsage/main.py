@@ -53,13 +53,15 @@ def send(
     # the file was specified and it is valid so derive its full name
     if env_file is not None:
         if env_file.is_file():
-            logger.debug("Using provided .env file")
+            # DEBUG: indicate that the .env file on command-line is in use
+            logger.debug("Using provided .env file from the command-line")
             # convert the Pathlib Path to a string
             env_file_name = str(env_file)
     # the file name was not specified so construct the default name
     else:
         env_file_name = constants.markers.Nothing.join([os.getcwd(), os.sep, ".env"])
-        logger.debug("Using constructed .env file")
+        # DEBUG: indicate the use of the .env file in the current working directory
+        logger.debug("Using constructed .env file in current directory")
     # DEBUG: display the constructed name of the .env file
     logger.debug(f"Environment file: {env_file_name}")
     # load the required secure environment for connecting to Google Sheets
