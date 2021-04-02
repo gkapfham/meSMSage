@@ -93,6 +93,11 @@ jobs:
           run: |
             cd meSMSage
             poetry run invoke -c scripts/tasks flake8
+        # Run the mypy type checking tool
+        - name: Run Mypy Type Checking Tool
+          run: |
+            cd meSMSage
+            poetry run invoke -c scripts/tasks mypy
         # Run the pydocstyle linting tool
         - name: Run Pydocstyle Linting Tool
           run: |
