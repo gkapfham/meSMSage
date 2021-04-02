@@ -82,24 +82,24 @@ jobs:
             SHEETFU_CONFIG_AUTH_PROVIDER_X509_CERT_URL: ${{secrets.SHEETFU_CONFIG_AUTH_PROVIDER_X509_CERT_URL}}
           run: |
             cd meSMSage
-            poetry run pytest
+            poetry run invoke -c scripts/tasks cover
         # Run the black code formatter in checking mode
         - name: Run Black Code Formatter
           run: |
             cd meSMSage
-            poetry run black meSMSage tests --check
+            poetry run invoke -c scripts/tasks black
         # Run the flake8 linting tool
         - name: Run Flake8 Linting Tool
           run: |
             cd meSMSage
-            poetry run flake8 meSMSage tests
+            poetry run invoke -c scripts/tasks flake8
         # Run the pydocstyle linting tool
         - name: Run pydocstyle Linting Tool
           run: |
             cd meSMSage
-            poetry run pydocstyle meSMSage tests
+            poetry run invoke -c scripts/tasks pydocstyle
         # Run the pylint linting tool
         - name: Run Pylint Linting Tool
           run: |
             cd meSMSage
-            poetry run pylint meSMSage tests
+            poetry run invoke -c scripts/tasks pylint
