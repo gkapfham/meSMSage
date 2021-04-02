@@ -2,7 +2,7 @@
 
 import pandas
 
-from sheetfu import model
+from sheetfu import model  # type: ignore
 from sheetfu import SpreadsheetApp
 
 from mesmsage import configure
