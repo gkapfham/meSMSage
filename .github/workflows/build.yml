@@ -66,7 +66,7 @@ jobs:
             cd meSMSage
             echo $SHEETFU_CONFIG_TYPE
             poetry install
-            poetry run python meSMSage --googlesheet-id 1ujmuIJy1NPhasIF4tnRSae0033hwa9g0wul5Ii2NwZU --debug-level DEBUG
+            poetry run mesmsage send --googlesheet-id 1ujmuIJy1NPhasIF4tnRSae0033hwa9g0wul5Ii2NwZU --debug-level DEBUG
         # Run the pytest test suite
         - name: Run Pytest Test Suite
           env:
