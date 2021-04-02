@@ -59,6 +59,16 @@ def flake8(c):
 
 
 @task
+def mypy(c):
+    """Run mypy."""
+    display_internal_python_version(c)
+    print("Begin " + inspect.currentframe().f_code.co_name + " --->")
+    # run the test suite and collect coverage information
+    c.run("poetry run mypy mesmsage")
+    print("---> End " + inspect.currentframe().f_code.co_name)
+
+
+@task
 def pydocstyle(c):
     """Run pydocstyle."""
     display_internal_python_version(c)
@@ -78,7 +88,7 @@ def pylint(c):
     print("---> End " + inspect.currentframe().f_code.co_name)
 
 
-@task(black, flake8, pydocstyle, pylint)
+@task(black, flake8, mypy, pydocstyle, pylint)
 # pylint: disable=unused-argument
 def linters(c):
     """Run all of the tasks."""
