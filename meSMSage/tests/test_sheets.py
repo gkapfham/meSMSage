@@ -33,7 +33,9 @@ def test_connect_to_not_existing_worksheet_in_valid_googlesheet():
     with pytest.raises(SheetNameNoMatchError):
         util.load_environment()
         googlesheet_id_exists = "1ujmuIJy1NPhasIF4tnRSae0033hwa9g0wul5Ii2NwZU"
-        _ = sheets.connect_to_sheet(googlesheet_id_exists, requested_sheet_name="SheetNotThere")
+        _ = sheets.connect_to_sheet(
+            googlesheet_id_exists, requested_sheet_name="SheetNotThere"
+        )
 
 
 def test_extract_dataframe_from_existing_googlesheet_and_existing_worksheet():
