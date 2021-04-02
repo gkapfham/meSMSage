@@ -9,7 +9,7 @@ readme = "README.md"
 mesmsage = "mesmsage.main:app"
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.8"
 typer = {extras = ["all"], version = "^0.3.2"}
 pandas = "^1.2.3"
 sheetfu = "^1.5.4"
