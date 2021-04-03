@@ -36,7 +36,7 @@ def history():
 @app.command()
 def send(
     googlesheet_id: str = typer.Option(...),
-    debug_level: DebugLevel = DebugLevel.DEBUG,
+    debug_level: DebugLevel = DebugLevel.ERROR,
     env_file: Path = typer.Option(None),
 ):
     """Send SMS messages."""
