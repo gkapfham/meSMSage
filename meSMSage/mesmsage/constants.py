@@ -46,4 +46,6 @@ markers = create_constants(
 sheets = create_constants(
     "sheets",
     Default="Sheet1",
+    Name="Individual Name",
+    Number="Individual Phone Number"
 )
