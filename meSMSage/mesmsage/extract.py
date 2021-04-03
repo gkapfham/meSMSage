@@ -9,12 +9,21 @@ import pandas
 from mesmsage import constants
 
 
+class IndividualNotFoundError(Exception):
+    """Define error to indicate that there is no column available."""
+
+    pass
+
+
 def get_individual_names(
     individuals_dataframe: pandas.DataFrame,
 ) -> pandas.core.series.Series:
     """Extract the names of individuals from the data frame."""
     logger = logging.getLogger(constants.logging.Rich)
-    individuals = individuals_dataframe.loc[:, constants.sheets.Name]
+    try:
+        individuals = individuals_dataframe.loc[:, constants.sheets.Name]
+    except KeyError:
+        raise IndividualNotFoundError
     logger.debug(individuals)
     return individuals
 
