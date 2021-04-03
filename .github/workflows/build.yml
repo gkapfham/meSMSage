@@ -4,7 +4,11 @@ name: build
 # Controls when the action will run
 # Workflow begins with push or PR events
 # Focuses on the master branch only
-on: [push, pull_request]
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
 # Create one single job
 # This job performs all necessary checks
@@ -34,7 +38,7 @@ jobs:
         # Refers to .mdlrc file in repository
         - name: Run Markdown Linting
           if: runner.os=='Linux'
-          uses: actionshub/markdownlint@master
+          uses: actionshub/markdownlint@main
         # Setup Python for the current language version
         - name: Setup Python ${{ matrix.python-version }}
           uses: actions/setup-python@v1
@@ -62,7 +66,7 @@ jobs:
             cd meSMSage
             echo $SHEETFU_CONFIG_TYPE
             poetry install
-            poetry run python meSMSage --googlesheet-id 1ujmuIJy1NPhasIF4tnRSae0033hwa9g0wul5Ii2NwZU --debug-level DEBUG
+            poetry run mesmsage send --googlesheet-id 1ujmuIJy1NPhasIF4tnRSae0033hwa9g0wul5Ii2NwZU --debug-level DEBUG
         # Run the pytest test suite
         - name: Run Pytest Test Suite
           env:
@@ -78,24 +82,29 @@ jobs:
             SHEETFU_CONFIG_AUTH_PROVIDER_X509_CERT_URL: ${{secrets.SHEETFU_CONFIG_AUTH_PROVIDER_X509_CERT_URL}}
           run: |
             cd meSMSage
-            poetry run pytest
+            poetry run invoke -c scripts/tasks cover
         # Run the black code formatter in checking mode
         - name: Run Black Code Formatter
           run: |
             cd meSMSage
-            poetry run black meSMSage tests --check
+            poetry run invoke -c scripts/tasks black
         # Run the flake8 linting tool
         - name: Run Flake8 Linting Tool
           run: |
             cd meSMSage
-            poetry run flake8 meSMSage tests
-        # Run the pydocstyle linting tool
-        - name: Run pydocstyle Linting Tool
+            poetry run invoke -c scripts/tasks flake8
+        # Run the mypy type checking tool
+        - name: Run Mypy Type Checking Tool
           run: |
             cd meSMSage
-            poetry run pydocstyle meSMSage tests
+            poetry run invoke -c scripts/tasks mypy
+        # Run the pydocstyle linting tool
+        - name: Run Pydocstyle Linting Tool
+          run: |
+            cd meSMSage
+            poetry run invoke -c scripts/tasks pydocstyle
         # Run the pylint linting tool
         - name: Run Pylint Linting Tool
           run: |
             cd meSMSage
-            poetry run pylint meSMSage tests
+            poetry run invoke -c scripts/tasks pylint

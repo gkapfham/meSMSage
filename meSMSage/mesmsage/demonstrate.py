@@ -3,7 +3,7 @@
 import numpy
 import pandas
 
-import configure
+from mesmsage import configure
 
 
 def demonstrate_pandas_analysis(volunteers_dataframe: pandas.DataFrame):

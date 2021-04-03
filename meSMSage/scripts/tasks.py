@@ -33,7 +33,7 @@ def cover(c):
     print("Begin " + inspect.currentframe().f_code.co_name + " --->")
     # run the test suite and collect coverage information
     c.run(
-        "poetry run pytest -s --cov-config .coveragerc --cov-report term-missing --cov=meSMSage --cov-branch"
+        "poetry run pytest -s --cov-config .coveragerc --cov-report term-missing --cov=mesmsage --cov-branch"
     )
     print("---> End " + inspect.currentframe().f_code.co_name)
 
@@ -44,7 +44,7 @@ def black(c):
     display_internal_python_version(c)
     print("Begin " + inspect.currentframe().f_code.co_name + " --->")
     # run the test suite and collect coverage information
-    c.run("poetry run black meSMSage tests --check")
+    c.run("poetry run black mesmsage tests --check")
     print("---> End " + inspect.currentframe().f_code.co_name)
 
 
@@ -54,7 +54,17 @@ def flake8(c):
     display_internal_python_version(c)
     print("Begin " + inspect.currentframe().f_code.co_name + " --->")
     # run the test suite and collect coverage information
-    c.run("poetry run flake8 -v meSMSage tests")
+    c.run("poetry run flake8 -v mesmsage tests")
+    print("---> End " + inspect.currentframe().f_code.co_name)
+
+
+@task
+def mypy(c):
+    """Run mypy."""
+    display_internal_python_version(c)
+    print("Begin " + inspect.currentframe().f_code.co_name + " --->")
+    # run the test suite and collect coverage information
+    c.run("poetry run mypy mesmsage")
     print("---> End " + inspect.currentframe().f_code.co_name)
 
 
@@ -64,7 +74,7 @@ def pydocstyle(c):
     display_internal_python_version(c)
     print("Begin " + inspect.currentframe().f_code.co_name + " --->")
     # run the test suite and collect coverage information
-    c.run("poetry run pydocstyle -v meSMSage tests")
+    c.run("poetry run pydocstyle -v mesmsage tests")
     print("---> End " + inspect.currentframe().f_code.co_name)
 
 
@@ -74,15 +84,17 @@ def pylint(c):
     display_internal_python_version(c)
     print("Begin " + inspect.currentframe().f_code.co_name + " --->")
     # run the test suite and collect coverage information
-    c.run("poetry run pylint meSMSage tests")
+    c.run("poetry run pylint mesmsage tests")
     print("---> End " + inspect.currentframe().f_code.co_name)
 
 
-@task(black, flake8, pydocstyle, pylint)
+@task(black, flake8, mypy, pydocstyle, pylint)
+# pylint: disable=unused-argument
 def linters(c):
     """Run all of the tasks."""
 
 
 @task(cover, linters)
+# pylint: disable=unused-argument
 def all(c):
     """Run all of the tasks."""
