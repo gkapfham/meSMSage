@@ -6,7 +6,7 @@ import pandas
 from mesmsage import configure
 
 
-def demonstrate_pandas_analysis(volunteers_dataframe: pandas.DataFrame):
+def demonstrate_pandas_analysis(volunteers_dataframe: pandas.DataFrame) -> None:
     """Demonstrate the use of different functions for the analysis of a pandas data frame."""
     logger = configure.configure_logging()
     logger.debug(volunteers_dataframe)
@@ -19,6 +19,9 @@ def demonstrate_pandas_analysis(volunteers_dataframe: pandas.DataFrame):
     logger.debug(volunteers_dataframe.shape)
     logger.debug(volunteers_dataframe.size)
     logger.debug(volunteers_dataframe.memory_usage())
+    # display the details about all of the people
+    individuals = volunteers_dataframe.loc[:, "Volunteer Name"]
+    logger.debug(individuals)
     # display the shifts for a specified person
     greg_shifts = volunteers_dataframe[
         volunteers_dataframe["Volunteer Name"] == "Gregory Kapfhammer"
