@@ -10,7 +10,7 @@ from mesmsage import constants
 
 
 class SheetNotFoundError(Exception):
-    """Indicate that there is no sheet available."""
+    """Define error to indicate that there is no sheet available."""
 
     pass
 
