@@ -16,6 +16,7 @@ sheetfu = "^1.5.4"
 numpy = "^1.20.2"
 python-dotenv = "^0.16.0"
 rich = "^10.0.1"
+InquirerPy = "^0.1.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
