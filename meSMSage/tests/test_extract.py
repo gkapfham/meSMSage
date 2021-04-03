@@ -21,7 +21,7 @@ def test_extract_individual_names():
             "Individual Phone Number": ["888-111-5555", "888-222-5555", "888-333-5555"],
         }
     )
-    individual_names = extract.extract_individual_names(dataframe)
+    individual_names = extract.get_individual_names(dataframe)
     assert individual_names is not None
     individual_names_list = individual_names.values.tolist()
     assert individual_names_list is not None
