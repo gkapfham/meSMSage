@@ -3,7 +3,7 @@
 from textwrap import indent
 from typing import List
 
-from InquirerPy import get_style, inquirer
+from InquirerPy import get_style, inquirer  # type: ignore
 
 from mesmsage import constants
 
