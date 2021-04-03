@@ -15,6 +15,14 @@ def create_constants(name, *args, **kwargs):
     return new_constants(*itertools.chain(args, kwargs.values()))
 
 
+# define the logging constants
+logging = create_constants(
+    "logging",
+    Default_Logging_Level="ERROR",
+    Format="%(message)s",
+    Rich="Rich",
+)
+
 # define the markers for files and output
 markers = create_constants(
     "markers",
@@ -29,5 +37,5 @@ markers = create_constants(
 # define the terminology used for spreadsheets
 sheets = create_constants(
     "sheets",
-    DEFAULT="Sheet1",
+    Default="Sheet1",
 )
