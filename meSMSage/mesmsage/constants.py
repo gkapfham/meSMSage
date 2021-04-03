@@ -47,5 +47,6 @@ sheets = create_constants(
     "sheets",
     Default="Sheet1",
     Name="Individual Name",
-    Number="Individual Phone Number"
+    Name_Prompt="individual's name",
+    Number="Individual Phone Number",
 )
