@@ -92,7 +92,9 @@ def send(
     individual_names_list = extract.convert_series_to_list(individual_names_series)
     console.print()
     chosen_individual_names = interface.perform_fuzzy_selection(individual_names_list)
-    chosen_individual_names_str = interface.reindent("\n".join(chosen_individual_names), 4)
+    chosen_individual_names_str = interface.reindent(
+        "\n".join(chosen_individual_names), 4
+    )
     chosen_individual_names_text = Text(chosen_individual_names_str)
     console.print()
     console.print("Sending SMS messages to:")
