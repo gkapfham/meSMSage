@@ -15,6 +15,14 @@ def create_constants(name, *args, **kwargs):
     return new_constants(*itertools.chain(args, kwargs.values()))
 
 
+# The defined levels, in order of increasing severity, are as follows:
+#
+# DEBUG
+# INFO
+# WARNING
+# ERROR
+# CRITICAL
+
 # define the logging constants
 logging = create_constants(
     "logging",
