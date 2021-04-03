@@ -21,7 +21,10 @@ def configure_logging(
 ) -> logging.Logger:
     """Configure standard Python logging package to use rich."""
     logging.basicConfig(
-        level=debug_level, format=constants.logging.Format, datefmt="[%X]", handlers=[RichHandler()]
+        level=debug_level,
+        format=constants.logging.Format,
+        datefmt="[%X]",
+        handlers=[RichHandler()],
     )
     # if the global logger has not yet been set, set it to the configured logger
     global logger
