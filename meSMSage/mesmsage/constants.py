@@ -25,3 +25,9 @@ markers = create_constants(
     Nothing="",
     Space=" ",
 )
+
+# define the terminology used for spreadsheets
+sheets = create_constants(
+    "sheets",
+    DEFAULT="Sheet1",
+)
