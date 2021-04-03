@@ -2,6 +2,8 @@
 
 import logging
 
+from typing import List
+
 import pandas
 
 from mesmsage import constants
@@ -15,3 +17,9 @@ def extract_individual_names(
     individuals = volunteers_dataframe.loc[:, constants.sheets.Name]
     logger.debug(individuals)
     return individuals
+
+
+def convert_series_to_list(series: pandas.core.series.Series) -> List:
+    """Convert a pandas series to a standard list."""
+    series_list = series.values.tolist()
+    return series_list
