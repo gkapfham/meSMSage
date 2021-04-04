@@ -140,7 +140,21 @@ def send(
     chosen_individual_names_list = select_individuals(dataframe, console)
     # STEP: display the names of individuals who will receive SMS
     display_recipients(chosen_individual_names_list, console)
-    # EXTRA:demonstrate the use of the dataframe with an example
+
+
+@app.command()
+def demo(
+    googlesheet_id: str = typer.Option(...),
+    debug_level: DebugLevel = DebugLevel.ERROR,
+    env_file: Path = typer.Option(None),
+):
+    """Demonstrate features."""
+    # STEP: setup the console and the logger and then create a blank line for space
+    console, logger = setup(debug_level)
+    console.print()
+    # STEP: download the spreadsheet and produce a Pandas data frame
+    dataframe = download(googlesheet_id, env_file, console, debug_level)
+    # EXTRA: demonstrate the use of the dataframe with an example
     demonstrate.demonstrate_pandas_analysis(dataframe)
 
 
