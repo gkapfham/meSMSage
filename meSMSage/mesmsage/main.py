@@ -53,7 +53,9 @@ def setup(debug_level: DebugLevel) -> Tuple[Console, Logger]:
     return console, logger
 
 
-def download(googlesheet_id: str, env_file: Path, console: Console, debug_level: DebugLevel) -> DataFrame:
+def download(
+    googlesheet_id: str, env_file: Path, console: Console, debug_level: DebugLevel
+) -> DataFrame:
     """Download the spreadsheet from Google Sheets, process it, and return an Pandas data frame."""
     # perform initialization and download actions with a progress bar
     with Progress(
@@ -76,7 +78,7 @@ def download(googlesheet_id: str, env_file: Path, console: Console, debug_level:
         # the file name was not specified so construct the default name
         else:
             env_file_name = constants.markers.Nothing.join(
-                [os.getcwd(), os.sep, ".env"]
+                [os.getcwd(), os.sep, constants.file.Env]
             )
             # DEBUG: indicate the use of the .env file in the current working directory
             logger.debug("Using constructed .env file in current directory")
@@ -84,13 +86,13 @@ def download(googlesheet_id: str, env_file: Path, console: Console, debug_level:
         logger.debug(f"Environment file: {env_file_name}")
         # load the required secure environment for connecting to Google Sheets
         util.load_environment(env_file_name)
-        progress.update(access_dataframe_task, advance=0.4)
+        progress.update(access_dataframe_task, advance=constants.progress.Medium_Step)
         # connect the specified Google Sheet using the default internal sheet of "Sheet1"
         sheet = sheets.connect_to_sheet(googlesheet_id)
-        progress.update(access_dataframe_task, advance=0.4)
+        progress.update(access_dataframe_task, advance=constants.progress.Medium_Step)
         # extract the Pandas data frame from the sheet in sheetfu's internal format
         dataframe = sheets.extract_dataframe(sheet)
-        progress.update(access_dataframe_task, advance=0.2)
+        progress.update(access_dataframe_task, advance=constants.progress.Small_Step)
         console.print()
         return dataframe
 
@@ -101,14 +103,18 @@ def select_individuals(dataframe: DataFrame, console: Console) -> List[str]:
     individual_names_series = extract.get_individual_names(dataframe)
     individual_names_list = extract.convert_series_to_list(individual_names_series)
     console.print()
-    chosen_individual_names_list = interface.perform_fuzzy_selection(individual_names_list)
+    chosen_individual_names_list = interface.perform_fuzzy_selection(
+        individual_names_list
+    )
     return chosen_individual_names_list
 
 
-def display_recipients(chosen_individual_names_list: List[str], console: Console) -> None:
+def display_recipients(
+    chosen_individual_names_list: List[str], console: Console
+) -> None:
     """Display the names of people who will receive the SMS message."""
     chosen_individual_names_str = interface.reindent(
-        "\n".join(chosen_individual_names_list), 4
+        "\n".join(chosen_individual_names_list), constants.size.Tab
     )
     chosen_individual_names_text = Text(chosen_individual_names_str)
     console.print()
