@@ -7,6 +7,9 @@ from pathlib import Path
 
 from rich.console import Console
 from rich.progress import Progress
+from rich.progress import BarColumn
+from rich.progress import SpinnerColumn
+from rich.progress import TextColumn
 from rich.text import Text
 
 
@@ -54,8 +57,11 @@ def send(
     # create a console used to display messages in terminal window
     console = Console()
     console.print()
-    with Progress(transient=True) as progress:
-        access_dataframe_task = progress.add_task("Downloading Google Sheet", total=0.5)
+    # perform initialization and download actions with a progress bar
+    with Progress(
+        SpinnerColumn(), TextColumn("{task.description}"), BarColumn(), transient=True
+    ) as progress:
+        access_dataframe_task = progress.add_task("Download Google Sheet", total=0.5)
         # DEBUG: display the debugging output for the program's command-line arguments
         logger.debug(f"The Google Sheet is {googlesheet_id}.")
         logger.debug(f"The debugging level is {debug_level.value}.")
