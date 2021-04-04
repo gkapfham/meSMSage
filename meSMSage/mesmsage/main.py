@@ -1,9 +1,12 @@
 """Define the command-line interface for the meSMSage program."""
 
 import os
+import logging
 
 from enum import Enum
+from logging import Logger
 from pathlib import Path
+from typing import Tuple
 
 from rich.console import Console
 from rich.progress import Progress
@@ -12,6 +15,7 @@ from rich.progress import SpinnerColumn
 from rich.progress import TextColumn
 from rich.text import Text
 
+from pandas import DataFrame
 
 from mesmsage import configure
 from mesmsage import constants
@@ -36,31 +40,25 @@ class DebugLevel(str, Enum):
     CRITICAL = "CRITICAL"
 
 
-@app.command()
-def history():
-    """Show SMS message history."""
-    typer.echo("History of SMS sending")
-
-
-@app.command()
-def send(
-    googlesheet_id: str = typer.Option(...),
-    debug_level: DebugLevel = DebugLevel.ERROR,
-    env_file: Path = typer.Option(None),
-):
-    """Send SMS messages."""
-    # configure the use of rich for improved terminal output
+def setup(debug_level: DebugLevel) -> Tuple[Console, Logger]:
+    """Perform the setup steps and return a Console for terminal-based display."""
+    # configure the use of rich for improved terminal output:
     # --> rich-based tracebacks to enable better debugging on program crash
     configure.configure_tracebacks()
     # --> rich-based logging to improve display of all program console output
     logger = configure.configure_logging(debug_level.value)
-    # create a console used to display messages in terminal window
+    # --> rich-based console to display messages and features in terminal window
     console = Console()
-    console.print()
+    return console, logger
+
+
+def download(googlesheet_id: str, env_file: Path, console: Console, debug_level: DebugLevel) -> DataFrame:
+    """Download the spreadsheet from Google Sheets, process it, and return an Pandas data frame."""
     # perform initialization and download actions with a progress bar
     with Progress(
         SpinnerColumn(), TextColumn("{task.description}"), BarColumn(), transient=True
     ) as progress:
+        logger = logging.getLogger(constants.logging.Rich)
         access_dataframe_task = progress.add_task("Download Google Sheet", total=0.5)
         # DEBUG: display the debugging output for the program's command-line arguments
         logger.debug(f"The Google Sheet is {googlesheet_id}.")
@@ -93,6 +91,21 @@ def send(
         dataframe = sheets.extract_dataframe(sheet)
         progress.update(access_dataframe_task, advance=0.2)
         console.print()
+        return dataframe
+
+
+@app.command()
+def send(
+    googlesheet_id: str = typer.Option(...),
+    debug_level: DebugLevel = DebugLevel.ERROR,
+    env_file: Path = typer.Option(None),
+):
+    """Send SMS messages."""
+    # setup the console and the logger and then create a blank line for space
+    console, logger = setup(debug_level)
+    console.print()
+    # download the spreadsheet and produce a Pandas data frame
+    dataframe = download(googlesheet_id, env_file, console, debug_level)
     # extract all of the individual names from the dataframe
     individual_names_series = extract.get_individual_names(dataframe)
     individual_names_list = extract.convert_series_to_list(individual_names_series)
@@ -109,3 +122,9 @@ def send(
     console.print()
     # EXTRA:demonstrate the use of the dataframe with an example
     demonstrate.demonstrate_pandas_analysis(dataframe)
+
+
+@app.command()
+def history():
+    """Show SMS message history."""
+    typer.echo("History of SMS sending")
