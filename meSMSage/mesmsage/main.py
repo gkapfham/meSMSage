@@ -6,6 +6,7 @@ import logging
 from enum import Enum
 from logging import Logger
 from pathlib import Path
+from typing import List
 from typing import Tuple
 
 from rich.console import Console
@@ -94,25 +95,20 @@ def download(googlesheet_id: str, env_file: Path, console: Console, debug_level:
         return dataframe
 
 
-@app.command()
-def send(
-    googlesheet_id: str = typer.Option(...),
-    debug_level: DebugLevel = DebugLevel.ERROR,
-    env_file: Path = typer.Option(None),
-):
-    """Send SMS messages."""
-    # setup the console and the logger and then create a blank line for space
-    console, logger = setup(debug_level)
-    console.print()
-    # download the spreadsheet and produce a Pandas data frame
-    dataframe = download(googlesheet_id, env_file, console, debug_level)
+def select_individuals(dataframe: DataFrame, console: Console) -> List[str]:
+    """Interactively select the individuals who will receive the SMS messages."""
     # extract all of the individual names from the dataframe
     individual_names_series = extract.get_individual_names(dataframe)
     individual_names_list = extract.convert_series_to_list(individual_names_series)
     console.print()
-    chosen_individual_names = interface.perform_fuzzy_selection(individual_names_list)
+    chosen_individual_names_list = interface.perform_fuzzy_selection(individual_names_list)
+    return chosen_individual_names_list
+
+
+def display_recipients(chosen_individual_names_list: List[str], console: Console) -> None:
+    """Display the names of people who will receive the SMS message."""
     chosen_individual_names_str = interface.reindent(
-        "\n".join(chosen_individual_names), 4
+        "\n".join(chosen_individual_names_list), 4
     )
     chosen_individual_names_text = Text(chosen_individual_names_str)
     console.print()
@@ -120,6 +116,24 @@ def send(
     console.print()
     console.print(chosen_individual_names_text)
     console.print()
+
+
+@app.command()
+def send(
+    googlesheet_id: str = typer.Option(...),
+    debug_level: DebugLevel = DebugLevel.ERROR,
+    env_file: Path = typer.Option(None),
+):
+    """Send SMS messages."""
+    # STEP: setup the console and the logger and then create a blank line for space
+    console, logger = setup(debug_level)
+    console.print()
+    # STEP: download the spreadsheet and produce a Pandas data frame
+    dataframe = download(googlesheet_id, env_file, console, debug_level)
+    # STEP: let the person using the program select individuals to receive SMS
+    chosen_individual_names_list = select_individuals(dataframe, console)
+    # STEP: display the names of individuals who will receive SMS
+    display_recipients(chosen_individual_names_list, console)
     # EXTRA:demonstrate the use of the dataframe with an example
     demonstrate.demonstrate_pandas_analysis(dataframe)
 
