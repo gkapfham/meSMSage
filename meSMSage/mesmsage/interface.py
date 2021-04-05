@@ -1,5 +1,7 @@
 """Provide a command-line interface."""
 
+import logging
+
 from textwrap import indent
 from typing import List
 
@@ -47,3 +49,22 @@ def perform_fuzzy_selection(
 def reindent(text: str, num_spaces: int = 4) -> str:
     """Add indentation spaces to a (potentially) multiline string."""
     return indent(text, constants.markers.Space * num_spaces)
+
+
+def create_individuals_list(
+    chosen_individuals_list: List[str], total_individuals_list: List[str]
+) -> List[str]:
+    """Check to see if the list of current individuals contains a request for all individuals."""
+    # DEBUG: display details about the individuals chosen and passed as input
+    logger = logging.getLogger(constants.logging.Rich)
+    logger.debug(f"Chosen individuals: {chosen_individuals_list}")
+    logger.debug(f"Total individuals: {total_individuals_list}")
+    # if "All Individuals" was chosen as at least one of the inputs
+    # then this function must return all possible individuals
+    if constants.markers.All_Individuals in chosen_individuals_list:
+        logger.debug("All individuals was chosen")
+        # extract the marker of "All Individuals" from the total list
+        # of every person evident in the spreadsheet of individuals
+        total_individuals_list.remove(constants.markers.All_Individuals)
+        return total_individuals_list
+    return chosen_individuals_list
