@@ -124,7 +124,9 @@ def display_recipients(
     console.print()
 
 
-def connect_and_download(googlesheet_id: str, debug_level: DebugLevel, env_file: Path) -> Tuple[DataFrame, Console, Logger]:
+def connect_and_download(
+    googlesheet_id: str, debug_level: DebugLevel, env_file: Path
+) -> Tuple[DataFrame, Console, Logger]:
     """Connect to the spreadsheet and then download it and return it."""
     # STEP: setup the console and the logger and then create a blank line for space
     console, logger = setup(debug_level)
@@ -142,7 +144,9 @@ def send(
 ):
     """Send SMS messages."""
     # STEP: connect to the spreadsheet, download it, and use it in follow-on steps
-    dataframe, console, logger = connect_and_download(googlesheet_id, debug_level, env_file)
+    dataframe, console, logger = connect_and_download(
+        googlesheet_id, debug_level, env_file
+    )
     # STEP: let the person using the program select individuals to receive the SMS
     chosen_individual_names_list = select_individuals(dataframe, console)
     # STEP: display the names of individuals who will receive the SMS
@@ -157,7 +161,9 @@ def demo(
 ):
     """Demonstrate features."""
     # STEP: connect to the spreadsheet, download it, and use it for a demonstration
-    dataframe, console, logger = connect_and_download(googlesheet_id, debug_level, env_file)
+    dataframe, console, logger = connect_and_download(
+        googlesheet_id, debug_level, env_file
+    )
     # EXTRA: demonstrate the use of the dataframe with an example
     demonstrate.demonstrate_pandas_analysis(dataframe)
 
