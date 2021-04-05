@@ -102,11 +102,25 @@ def select_individuals(dataframe: DataFrame, console: Console) -> List[str]:
     # extract all of the individual names from the dataframe
     individual_names_series = extract.get_individual_names(dataframe)
     individual_names_list = extract.convert_series_to_list(individual_names_series)
+    # prepend the "All Individuals" option to the list of choices for
+    # the user so that a person does not have to select every person
+    # in order to send the SMS to all people in the spreadsheet
+    individual_names_list.insert(
+        constants.sizes.First, constants.markers.All_Individuals
+    )
     console.print()
+    # allow the user to perform the fuzzy selection of individuals
     chosen_individual_names_list = interface.perform_fuzzy_selection(
         individual_names_list
     )
-    return chosen_individual_names_list
+    # if "All Individuals" was selected, then make sure to return every
+    # individual in the spreadsheet instead of returning the label
+    # "All Individuals", which is only a convenience marker for users
+    # Note that create_individuals_list assumes that the marker
+    # "All Individuals" is always going to be individual_names_list
+    return interface.create_individuals_list(
+        chosen_individual_names_list, individual_names_list
+    )
 
 
 def display_recipients(
@@ -114,7 +128,7 @@ def display_recipients(
 ) -> None:
     """Display the names of people who will receive the SMS message."""
     chosen_individual_names_str = interface.reindent(
-        "\n".join(chosen_individual_names_list), constants.size.Tab
+        "\n".join(chosen_individual_names_list), constants.sizes.Tab
     )
     chosen_individual_names_text = Text(chosen_individual_names_str)
     console.print()
