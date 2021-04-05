@@ -40,6 +40,7 @@ logging = create_constants(
 # define the markers for files and output
 markers = create_constants(
     "markers",
+    All_Individuals="All Individuals",
     Empty=b"",
     Indent="  ",
     In_A_File="in a file",
@@ -52,7 +53,7 @@ markers = create_constants(
 progress = create_constants("progress", Small_Step=0.2, Medium_Step=0.4, Large_Step=0.6)
 
 # define constants for the various sizes
-size = create_constants("size", Tab=4)
+sizes = create_constants("size", First=0, Singleton=1, Tab=4)
 
 # define the terminology used for spreadsheets
 sheets = create_constants(
