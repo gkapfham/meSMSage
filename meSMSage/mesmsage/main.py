@@ -124,6 +124,16 @@ def display_recipients(
     console.print()
 
 
+def connect_and_download(googlesheet_id: str, debug_level: DebugLevel, env_file: Path) -> Tuple[DataFrame, Console, Logger]:
+    """Connect to the spreadsheet and then download it and return it."""
+    # STEP: setup the console and the logger and then create a blank line for space
+    console, logger = setup(debug_level)
+    console.print()
+    # STEP: download the spreadsheet and produce a Pandas data frame
+    dataframe = download(googlesheet_id, env_file, console, debug_level)
+    return dataframe, console, logger
+
+
 @app.command()
 def send(
     googlesheet_id: str = typer.Option(...),
@@ -131,14 +141,11 @@ def send(
     env_file: Path = typer.Option(None),
 ):
     """Send SMS messages."""
-    # STEP: setup the console and the logger and then create a blank line for space
-    console, logger = setup(debug_level)
-    console.print()
-    # STEP: download the spreadsheet and produce a Pandas data frame
-    dataframe = download(googlesheet_id, env_file, console, debug_level)
-    # STEP: let the person using the program select individuals to receive SMS
+    # STEP: connect to the spreadsheet, download it, and use it in follow-on steps
+    dataframe, console, logger = connect_and_download(googlesheet_id, debug_level, env_file)
+    # STEP: let the person using the program select individuals to receive the SMS
     chosen_individual_names_list = select_individuals(dataframe, console)
-    # STEP: display the names of individuals who will receive SMS
+    # STEP: display the names of individuals who will receive the SMS
     display_recipients(chosen_individual_names_list, console)
 
 
@@ -149,11 +156,8 @@ def demo(
     env_file: Path = typer.Option(None),
 ):
     """Demonstrate features."""
-    # STEP: setup the console and the logger and then create a blank line for space
-    console, logger = setup(debug_level)
-    console.print()
-    # STEP: download the spreadsheet and produce a Pandas data frame
-    dataframe = download(googlesheet_id, env_file, console, debug_level)
+    # STEP: connect to the spreadsheet, download it, and use it for a demonstration
+    dataframe, console, logger = connect_and_download(googlesheet_id, debug_level, env_file)
     # EXTRA: demonstrate the use of the dataframe with an example
     demonstrate.demonstrate_pandas_analysis(dataframe)
 
