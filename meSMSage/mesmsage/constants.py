@@ -15,9 +15,32 @@ def create_constants(name, *args, **kwargs):
     return new_constants(*itertools.chain(args, kwargs.values()))
 
 
+# define the file constants
+file = create_constants(
+    "file",
+    Env=".env",
+)
+
+# The defined levels, in order of increasing severity, are as follows:
+#
+# DEBUG
+# INFO
+# WARNING
+# ERROR
+# CRITICAL
+
+# define the logging constants
+logging = create_constants(
+    "logging",
+    Default_Logging_Level="ERROR",
+    Format="%(message)s",
+    Rich="Rich",
+)
+
 # define the markers for files and output
 markers = create_constants(
     "markers",
+    All_Individuals="All Individuals",
     Empty=b"",
     Indent="  ",
     In_A_File="in a file",
@@ -26,8 +49,17 @@ markers = create_constants(
     Space=" ",
 )
 
+# define constants for the progress bars
+progress = create_constants("progress", Small_Step=0.2, Medium_Step=0.4, Large_Step=0.6)
+
+# define constants for the various sizes
+sizes = create_constants("size", First=0, Singleton=1, Tab=4)
+
 # define the terminology used for spreadsheets
 sheets = create_constants(
     "sheets",
-    DEFAULT="Sheet1",
+    Default="Sheet1",
+    Name="Individual Name",
+    Name_Prompt="individual's name",
+    Number="Individual Phone Number",
 )

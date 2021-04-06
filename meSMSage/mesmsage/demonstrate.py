@@ -1,14 +1,16 @@
 """Demonstrate examples associated with using pandas on the dataframe."""
 
+import logging
+
 import numpy
 import pandas
 
-from mesmsage import configure
+from mesmsage import constants
 
 
-def demonstrate_pandas_analysis(volunteers_dataframe: pandas.DataFrame):
+def demonstrate_pandas_analysis(volunteers_dataframe: pandas.DataFrame) -> None:
     """Demonstrate the use of different functions for the analysis of a pandas data frame."""
-    logger = configure.configure_logging()
+    logger = logging.getLogger(constants.logging.Rich)
     logger.debug(volunteers_dataframe)
     logger.debug("General Debugging information about volunteers_dataframe")
     logger.debug(volunteers_dataframe.columns)
@@ -19,9 +21,13 @@ def demonstrate_pandas_analysis(volunteers_dataframe: pandas.DataFrame):
     logger.debug(volunteers_dataframe.shape)
     logger.debug(volunteers_dataframe.size)
     logger.debug(volunteers_dataframe.memory_usage())
+    # display the details about all of the people
+    individuals = volunteers_dataframe.loc[:, "Individual Name"]
+    logger.debug(type(individuals))
+    logger.debug(individuals)
     # display the shifts for a specified person
     greg_shifts = volunteers_dataframe[
-        volunteers_dataframe["Volunteer Name"] == "Gregory Kapfhammer"
+        volunteers_dataframe["Individual Name"] == "Gregory Kapfhammer"
     ]
     logger.debug(greg_shifts)
     greg_shifts_list = []

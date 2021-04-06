@@ -6,20 +6,7 @@ import logging.config
 from rich.logging import RichHandler
 from rich.traceback import install
 
-# The defined levels, in order of increasing severity, are as follows:
-#
-# DEBUG
-# INFO
-# WARNING
-# ERROR
-# CRITICAL
-
-DEFAULT_LOGGING_LEVEL = "DEBUG"
-
-FORMAT = "%(message)s"
-RICH = "rich"
-
-logger = None
+from mesmsage import constants
 
 
 def configure_tracebacks() -> None:
@@ -28,14 +15,15 @@ def configure_tracebacks() -> None:
 
 
 def configure_logging(
-    debug_level: str = DEFAULT_LOGGING_LEVEL, force: bool = False
+    debug_level: str = constants.logging.Default_Logging_Level,
 ) -> logging.Logger:
     """Configure standard Python logging package to use rich."""
     logging.basicConfig(
-        level=debug_level, format=FORMAT, datefmt="[%X]", handlers=[RichHandler()]
+        level=debug_level,
+        format=constants.logging.Format,
+        datefmt="[%X]",
+        handlers=[RichHandler()],
     )
-    # if the global logger has not yet been set, set it to the configured logger
-    global logger
-    if logger is None or force is True:
-        logger = logging.getLogger(RICH)
+    # create a global logger and then make it available with the "Rich" name
+    logger = logging.getLogger(constants.logging.Rich)
     return logger

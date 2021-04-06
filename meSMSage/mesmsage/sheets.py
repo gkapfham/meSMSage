@@ -17,7 +17,7 @@ class SheetNotFoundError(Exception):
 
 def connect_to_sheet(
     requested_spreadsheet_id: str,
-    requested_sheet_name: str = constants.sheets.DEFAULT,
+    requested_sheet_name: str = constants.sheets.Default,
 ) -> model.Sheet:
     """Connect to the specified Google Sheet and return the requested sheet (default is "Sheet1")."""
     # extract a logger
