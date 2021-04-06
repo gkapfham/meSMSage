@@ -53,3 +53,50 @@ def test_extract_get_phone_numbers_single_person():
     individual_names_list = ["Madelyn"]
     phone_numbers = extract.get_individual_numbers(dataframe, individual_names_list)
     assert phone_numbers is not None
+    assert phone_numbers.ndim == 2
+    assert phone_numbers.size == 2
+
+
+def test_extract_get_phone_numbers_multiple_person():
+    """Ensure that it is possible to get multiple people's telephone number from the data frame."""
+    dataframe = pandas.DataFrame(
+        {
+            "Individual Name": ["Gregory", "Jessica", "Madelyn"],
+            "Individual Phone Number": ["888-111-5555", "888-222-5555", "888-333-5555"],
+        }
+    )
+    individual_names_list = ["Madelyn", "Gregory"]
+    phone_numbers = extract.get_individual_numbers(dataframe, individual_names_list)
+    assert phone_numbers is not None
+    assert phone_numbers.ndim == 2
+    assert phone_numbers.size == 4
+
+
+def test_extract_get_phone_numbers_no_matching_person():
+    """Ensure that it is possible to get no matching person's telephone number from the data frame."""
+    dataframe = pandas.DataFrame(
+        {
+            "Individual Name": ["Gregory", "Jessica", "Madelyn"],
+            "Individual Phone Number": ["888-111-5555", "888-222-5555", "888-333-5555"],
+        }
+    )
+    individual_names_list = ["Incorrect Name"]
+    phone_numbers = extract.get_individual_numbers(dataframe, individual_names_list)
+    assert phone_numbers is not None
+    assert phone_numbers.ndim == 2
+    assert phone_numbers.size == 0
+
+
+def test_extract_get_phone_numbers_no_matching_person_empty_list():
+    """Ensure that it is possible to get no matching person's telephone number from the data frame."""
+    dataframe = pandas.DataFrame(
+        {
+            "Individual Name": ["Gregory", "Jessica", "Madelyn"],
+            "Individual Phone Number": ["888-111-5555", "888-222-5555", "888-333-5555"],
+        }
+    )
+    individual_names_list = []
+    phone_numbers = extract.get_individual_numbers(dataframe, individual_names_list)
+    assert phone_numbers is not None
+    assert phone_numbers.ndim == 2
+    assert phone_numbers.size == 0
