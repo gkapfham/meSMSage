@@ -166,7 +166,9 @@ def send(
     # STEP: display the names of individuals who will receive the SMS
     display_recipients(chosen_individual_names_list, console)
     # STEP: get the phone numbers of the selected individuals
-    phone_numbers = extract.get_individual_numbers(dataframe, chosen_individual_names_list)
+    phone_numbers = extract.get_individual_numbers(
+        dataframe, chosen_individual_names_list
+    )
     logger.debug(f"Phone numbers: {phone_numbers}")
 
 
