@@ -32,6 +32,11 @@ file = create_constants(
 # define the logging constants
 logging = create_constants(
     "logging",
+    Debug="DEBUG",
+    Info="INFO",
+    Warning="WARNING",
+    Error="ERROR",
+    Critical="CRITICAL",
     Default_Logging_Level="ERROR",
     Format="%(message)s",
     Rich="Rich",
