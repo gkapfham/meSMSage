@@ -40,3 +40,16 @@ def test_extract_individual_names_column_does_not_exists():
     )
     with pytest.raises(extract.IndividualNotFoundError):
         _ = extract.get_individual_names(dataframe)
+
+
+def test_extract_get_phone_numbers_single_person():
+    """Ensure that it is possible to get a single person's telephone number from the data frame."""
+    dataframe = pandas.DataFrame(
+        {
+            "Individual Name": ["Gregory", "Jessica", "Madelyn"],
+            "Individual Phone Number": ["888-111-5555", "888-222-5555", "888-333-5555"],
+        }
+    )
+    individual_names_list = ["Madelyn"]
+    phone_numbers = extract.get_individual_numbers(dataframe, individual_names_list)
+    assert phone_numbers is not None
