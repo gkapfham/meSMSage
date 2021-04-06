@@ -27,6 +27,16 @@ def test(c):
 
 
 @task
+def debugtest(c):
+    """Run the test suite."""
+    display_internal_python_version(c)
+    print("Begin " + inspect.currentframe().f_code.co_name + " --->")
+    # run the test suite
+    c.run("poetry run pytest -x -s --log-cli-level=DEBUG")
+    print("---> End " + inspect.currentframe().f_code.co_name)
+
+
+@task
 def cover(c):
     """Run the test suite and collect coverage information."""
     display_internal_python_version(c)
