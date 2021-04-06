@@ -43,3 +43,7 @@ def demonstrate_pandas_analysis(volunteers_dataframe: pandas.DataFrame) -> None:
             logger.debug("Working the shift!")
             greg_shifts_list.append(column_name)
     logger.debug(greg_shifts_list)
+    data = volunteers_dataframe
+    names = ["Gregory Kapfhammer", "Jessica Kapfhammer"]
+    phone_numbers = data.loc[data["Individual Name"].isin(names), ["Individual Name", "Individual Phone Number"]]
+    logger.debug(phone_numbers)
