@@ -45,5 +45,12 @@ def demonstrate_pandas_analysis(volunteers_dataframe: pandas.DataFrame) -> None:
     logger.debug(greg_shifts_list)
     data = volunteers_dataframe
     names = ["Gregory Kapfhammer", "Jessica Kapfhammer"]
-    phone_numbers = data.loc[data["Individual Name"].isin(names), ["Individual Name", "Individual Phone Number"]]
+    phone_numbers = data.loc[
+        data["Individual Name"].isin(names),
+        ["Individual Name", "Individual Phone Number"],
+    ]
     logger.debug(phone_numbers)
+    logger.debug(type(phone_numbers))
+    for index, row in phone_numbers.iterrows():
+        logger.debug(row["Individual Name"])
+        logger.debug(row["Individual Phone Number"])
