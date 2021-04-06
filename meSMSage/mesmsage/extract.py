@@ -10,7 +10,7 @@ from mesmsage import constants
 
 
 class IndividualNotFoundError(Exception):
-    """Define error to indicate that there is no column available."""
+    """Define error to indicate that there is no row available for an individual."""
 
     pass
 
