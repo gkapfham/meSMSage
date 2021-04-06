@@ -46,7 +46,7 @@ def test_extract_dataframe_from_existing_googlesheet_and_existing_worksheet():
     dataframe = sheets.extract_dataframe(sheet)
     assert dataframe is not None
     assert dataframe.ndim == 2
-    assert dataframe.size == 12
+    assert dataframe.size == 640
 
 
 def test_extract_dataframe_from_not_existing_sheet():
