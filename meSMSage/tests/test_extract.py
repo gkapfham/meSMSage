@@ -53,8 +53,8 @@ def test_extract_get_phone_numbers_single_person():
     individual_names_list = ["Madelyn"]
     phone_numbers = extract.get_individual_numbers(dataframe, individual_names_list)
     assert phone_numbers is not None
-    assert phone_numbers.ndim == 2
-    assert phone_numbers.size == 2
+    assert len(phone_numbers.keys()) == 1
+    assert phone_numbers["Madelyn"] == "888-333-5555"
 
 
 def test_extract_get_phone_numbers_multiple_person():
@@ -68,8 +68,9 @@ def test_extract_get_phone_numbers_multiple_person():
     individual_names_list = ["Madelyn", "Gregory"]
     phone_numbers = extract.get_individual_numbers(dataframe, individual_names_list)
     assert phone_numbers is not None
-    assert phone_numbers.ndim == 2
-    assert phone_numbers.size == 4
+    assert len(phone_numbers.keys()) == 2
+    assert phone_numbers["Madelyn"] == "888-333-5555"
+    assert phone_numbers["Gregory"] == "888-111-5555"
 
 
 def test_extract_get_phone_numbers_no_matching_person():
@@ -83,8 +84,7 @@ def test_extract_get_phone_numbers_no_matching_person():
     individual_names_list = ["Incorrect Name"]
     phone_numbers = extract.get_individual_numbers(dataframe, individual_names_list)
     assert phone_numbers is not None
-    assert phone_numbers.ndim == 2
-    assert phone_numbers.size == 0
+    assert len(phone_numbers.keys()) == 0
 
 
 def test_extract_get_phone_numbers_no_matching_person_empty_list():
@@ -98,5 +98,4 @@ def test_extract_get_phone_numbers_no_matching_person_empty_list():
     individual_names_list = []
     phone_numbers = extract.get_individual_numbers(dataframe, individual_names_list)
     assert phone_numbers is not None
-    assert phone_numbers.ndim == 2
-    assert phone_numbers.size == 0
+    assert len(phone_numbers.keys()) == 0
