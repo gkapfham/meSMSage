@@ -40,14 +40,18 @@ def get_individual_numbers(
         ["Individual Name", "Individual Phone Number"],
     ]
     logger.debug(f"Phone numbers: {phone_numbers}")
-    return phone_numbers
+    phone_numbers_dictionary = {}
+    for (index, row) in phone_numbers.iterrows():
+        logger.debug(index)
+        logger.debug(row)
+        phone_numbers_dictionary[row["Individual Name"]] = row["Individual Phone Number"]
+    return phone_numbers_dictionary
 
 
 def get_individual_activities(
     individuals_dataframe: pandas.DataFrame, chosen_individuals_list: List[str]
 ) -> Dict[str, str]:
     """Get the activities for each of the specified individuals."""
-    pandas.set_option("display.max_columns", None)
     logger = logging.getLogger(constants.logging.Rich)
     individuals_have_shifts = individuals_dataframe[individuals_dataframe.any(1)]
     specific_individuals_have_shifts = individuals_have_shifts.loc[
