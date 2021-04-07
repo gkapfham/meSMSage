@@ -32,19 +32,24 @@ def get_individual_names(
 
 def get_individual_numbers(
     individuals_dataframe: pandas.DataFrame, chosen_individuals_list: List[str]
-) -> pandas.DataFrame:
+) -> Dict[str, str]:
     """Get the phone numbers for each of the specified individuals in a complete data frame with names."""
     logger = logging.getLogger(constants.logging.Rich)
+    # extract the phone numbers of the chosen individuals
     phone_numbers = individuals_dataframe.loc[
         individuals_dataframe["Individual Name"].isin(chosen_individuals_list),
         ["Individual Name", "Individual Phone Number"],
     ]
     logger.debug(f"Phone numbers: {phone_numbers}")
+    # create an empty dictionary that will store mappings of the form:
+    # <Name of a Person> --> <Phone Number of a Person>
     phone_numbers_dictionary = {}
+    # iterate through each row in the Pandas DataFrame and create a dictionary
+    # entry out of the name of a person and their phone number
     for (index, row) in phone_numbers.iterrows():
-        logger.debug(index)
-        logger.debug(row)
-        phone_numbers_dictionary[row["Individual Name"]] = row["Individual Phone Number"]
+        phone_numbers_dictionary[row["Individual Name"]] = row[
+            "Individual Phone Number"
+        ]
     return phone_numbers_dictionary
 
 
