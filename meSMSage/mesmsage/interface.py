@@ -40,7 +40,7 @@ def perform_fuzzy_selection(
         style=style,
         qmark="➔",
         border=False,
-        info=False,
+        info=True,
         vi_mode=True,
     ).execute(raise_keyboard_interrupt=False)
     return selection_list
