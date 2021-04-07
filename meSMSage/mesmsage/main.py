@@ -170,6 +170,11 @@ def send(
         dataframe, chosen_individual_names_list
     )
     logger.debug(f"Phone numbers: {phone_numbers}")
+    # STEP: get the activities for individuals
+    name_activities_dictionary = extract.get_individual_activities(
+        dataframe, chosen_individual_names_list
+    )
+    logger.debug(f"Individuals and activities: {name_activities_dictionary}")
 
 
 @app.command()
