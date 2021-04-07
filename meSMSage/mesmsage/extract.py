@@ -44,7 +44,7 @@ def get_individual_numbers(
     # create an empty dictionary that will store mappings of the form:
     # <Name of a Person> --> <Phone Number of a Person>
     phone_numbers_dictionary = {}
-    # iterate through each row in the Pandas DataFrame and create a dictionary
+    # iterate through each row in the data frame and create a dictionary
     # entry out of the name of a person and their phone number
     for (index, row) in phone_numbers.iterrows():
         phone_numbers_dictionary[row["Individual Name"]] = row[
@@ -58,42 +58,64 @@ def get_individual_activities(
 ) -> Dict[str, str]:
     """Get the activities for each of the specified individuals."""
     logger = logging.getLogger(constants.logging.Rich)
-    individuals_have_shifts = individuals_dataframe[individuals_dataframe.any(1)]
-    specific_individuals_have_shifts = individuals_have_shifts.loc[
-        individuals_have_shifts["Individual Name"].isin(chosen_individuals_list)
+    # remove columns in the data frame for which no individual has an activity
+    individuals_have_activities = individuals_dataframe
+    logger.debug(individuals_have_activities)
+    # only consider the individuals who were chosen
+    specific_individuals_have_activities = individuals_have_activities.loc[
+        individuals_have_activities["Individual Name"].isin(chosen_individuals_list)
     ]
-    logger.debug(specific_individuals_have_shifts)
-    specific_individuals_specific_shifts = specific_individuals_have_shifts.loc[
-        :, (specific_individuals_have_shifts != 0).any(axis=0)
+    logger.debug(specific_individuals_have_activities)
+    # only consider the activities for which one of these individuals is active, meaning
+    # that this step removes activities for which all of the entries are False
+    specific_individuals_specific_activities = specific_individuals_have_activities.loc[
+        :, (specific_individuals_have_activities != 0).any(axis=0)
     ]
-    logger.debug(specific_individuals_specific_shifts)
-    specific_individuals_specific_shifts_dict = (
-        specific_individuals_specific_shifts.to_dict("list")
+    logger.debug(specific_individuals_specific_activities)
+    # reshape the data frame by converting it to a list and then back to a data frame
+    # ultimately producing a "tall" data frame where each column is an individual,
+    # their contact information, and the activities that they are going to need
+    specific_individuals_specific_activities_dict = (
+        specific_individuals_specific_activities.to_dict("list")
     )
-    specific_individuals_specific_shifts_tall = pandas.DataFrame.from_dict(
-        specific_individuals_specific_shifts_dict, orient="index"
+    specific_individuals_specific_activities_tall = pandas.DataFrame.from_dict(
+        specific_individuals_specific_activities_dict, orient="index"
     )
+    # iterate through each of the columns in the tall data frame and create
+    # a dictionary that maps an individual to a list of their activities
     name_activities_dictionary = {}
     for (
         column_name,
         column_contents,
-    ) in specific_individuals_specific_shifts_tall.iteritems():
-        logger.debug(list(column_contents))
-        logger.debug(list(column_contents.index.values))
+    ) in specific_individuals_specific_activities_tall.iteritems():
         current_name = None
+        # iterate through the metadata (i.e., headers of original data frame)
+        # and the data (i.e., the contents of the original data frame)
         for (data, metadata) in zip(
             list(column_contents), list(column_contents.index.values)
         ):
-            logger.debug(f"Data: {data}")
-            logger.debug(f"Metadata: {metadata}")
+            # store the name of the current individual since this will
+            # serve as the key in the name_activities_dictionary
             if metadata == "Individual Name":
                 current_name = data
+            # indicate that the person is going to work a shift since
+            # there is a "checkmark" (i.e., a True value) for the specific
+            # data entry associated with this activity
             if data is True:
+                # this individual already has an entry in the dictionary
+                # and so the function must extract the existing list of
+                # activities and append to it the current description of
+                # the activity (i.e., the metadata originally stored in
+                # the header of the data frame)
                 if current_name in name_activities_dictionary:
                     metadata_list = name_activities_dictionary[current_name]
                     metadata_list.append(metadata)
+                # this individual does not already have an entry in the
+                # dictionary and so the function must create a new list
+                # of activity descriptions and then create the mapping
                 else:
                     name_activities_dictionary[current_name] = [metadata]
+        # support the movement to a new name
         current_name = None
     return name_activities_dictionary
 
