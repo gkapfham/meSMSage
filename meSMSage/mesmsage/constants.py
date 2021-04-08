@@ -54,6 +54,13 @@ markers = create_constants(
     Space=" ",
 )
 
+# define the terminology for using pandas
+dataframes = create_constants(
+    "dataframes",
+    Index="index",
+    List="list",
+)
+
 # define constants for the progress bars
 progress = create_constants("progress", Small_Step=0.2, Medium_Step=0.4, Large_Step=0.6)
 
