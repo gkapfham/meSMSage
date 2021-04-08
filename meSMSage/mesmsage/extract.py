@@ -8,6 +8,7 @@ from typing import List
 import pandas
 
 from mesmsage import constants
+from mesmsage import util
 
 
 class IndividualNotFoundError(Exception):
@@ -121,6 +122,26 @@ def get_individual_activities(
         current_name = None
     logger.debug(name_activities_dictionary)
     return name_activities_dictionary
+
+
+def get_sms_messages(
+    number_dictionary: Dict[str, str], activities_dictionary: Dict[str, List[str]]
+) -> Dict[str, str]:
+    """Create a dictionary of the format {Phone Number, SMS message} for each number and activities."""
+    sms_dictionary: Dict[str, str] = {}
+    for name, activity in activities_dictionary.items():
+        # get the activities for this individual
+        phone_number = number_dictionary[name]
+        # generate the SMS message for the given number
+        names_message = (
+            "Hello "
+            + name
+            + "! You are working the following shift(s) at the Motzing Center. "
+            + util.get_spiffy_list(activity) + ". "
+            + "If you are unable to work any shift(s) please respond to this text. Thank you!"
+        )
+        sms_dictionary[phone_number] = names_message
+    return sms_dictionary
 
 
 def convert_series_to_list(series: pandas.core.series.Series) -> List:
