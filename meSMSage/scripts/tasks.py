@@ -17,22 +17,28 @@ def display_internal_python_version(c):
 
 
 @task
-def test(c):
+def test(c, nosheets=False):
     """Run the test suite."""
     display_internal_python_version(c)
     print("Begin " + inspect.currentframe().f_code.co_name + " --->")
     # run the test suite
-    c.run("poetry run pytest -x -s")
+    if nosheets:
+        c.run("poetry run pytest -x -s -m 'not googlesheets'")
+    else:
+        c.run("poetry run pytest -x -s")
     print("---> End " + inspect.currentframe().f_code.co_name)
 
 
 @task
-def debugtest(c):
+def debugtest(c, nosheets=False):
     """Run the test suite."""
     display_internal_python_version(c)
     print("Begin " + inspect.currentframe().f_code.co_name + " --->")
     # run the test suite
-    c.run("poetry run pytest -x -s --log-cli-level=DEBUG")
+    if nosheets:
+        c.run("poetry run pytest -x -s --log-cli-level=DEBUG -m 'not googlesheets'")
+    else:
+        c.run("poetry run pytest -x -s --log-cli-level=DEBUG")
     print("---> End " + inspect.currentframe().f_code.co_name)
 
 

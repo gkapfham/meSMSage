@@ -6,6 +6,7 @@ import logging
 from enum import Enum
 from logging import Logger
 from pathlib import Path
+from typing import Dict
 from typing import List
 from typing import Tuple
 
@@ -127,7 +128,7 @@ def display_recipients(
     chosen_individual_names_list: List[str], console: Console
 ) -> None:
     """Display the names of people who will receive the SMS message."""
-    chosen_individual_names_str = interface.reindent(
+    chosen_individual_names_str = util.reindent(
         "\n".join(chosen_individual_names_list), constants.sizes.Tab
     )
     chosen_individual_names_text = Text(chosen_individual_names_str)
@@ -135,6 +136,26 @@ def display_recipients(
     console.print("Sending SMS messages to:")
     console.print()
     console.print(chosen_individual_names_text)
+    console.print()
+
+
+def display_activities(
+    individual_activities_dict: Dict[str, List[str]], console: Console
+) -> None:
+    """Display the names of individuals and their associated activities."""
+    console.print("Sending reminders for these activities:")
+    console.print()
+    activities_text = util.get_printable_dictionary_list(individual_activities_dict)
+    console.print(activities_text)
+    console.print()
+
+
+def display_sms(number_sms_dict: Dict[str, str], console: Console) -> None:
+    """Display the names of individuals and their associated activities."""
+    console.print("Preparing to send these SMS:")
+    console.print()
+    sms_text = util.get_printable_dictionary_str(number_sms_dict)
+    console.print(sms_text)
     console.print()
 
 
@@ -166,10 +187,22 @@ def send(
     # STEP: display the names of individuals who will receive the SMS
     display_recipients(chosen_individual_names_list, console)
     # STEP: get the phone numbers of the selected individuals
-    phone_numbers = extract.get_individual_numbers(
+    phone_numbers_dictionary = extract.get_individual_numbers(
         dataframe, chosen_individual_names_list
     )
-    logger.debug(f"Phone numbers: {phone_numbers}")
+    logger.debug(f"Phone numbers: {phone_numbers_dictionary}")
+    # STEP: get the activities for individuals
+    name_activities_dictionary = extract.get_individual_activities(
+        dataframe, chosen_individual_names_list
+    )
+    logger.debug(f"Individuals and activities: {name_activities_dictionary}")
+    display_activities(name_activities_dictionary, console)
+    # STEP: generate the messages for the individuals
+    number_sms_dictionary = extract.get_sms_messages(
+        phone_numbers_dictionary, name_activities_dictionary
+    )
+    logger.debug(f"Phone numbers and SMS messages: {number_sms_dictionary}")
+    display_sms(number_sms_dictionary, console)
 
 
 @app.command()

@@ -53,8 +53,8 @@ def test_extract_get_phone_numbers_single_person():
     individual_names_list = ["Madelyn"]
     phone_numbers = extract.get_individual_numbers(dataframe, individual_names_list)
     assert phone_numbers is not None
-    assert phone_numbers.ndim == 2
-    assert phone_numbers.size == 2
+    assert len(phone_numbers.keys()) == 1
+    assert phone_numbers["Madelyn"] == "888-333-5555"
 
 
 def test_extract_get_phone_numbers_multiple_person():
@@ -68,8 +68,9 @@ def test_extract_get_phone_numbers_multiple_person():
     individual_names_list = ["Madelyn", "Gregory"]
     phone_numbers = extract.get_individual_numbers(dataframe, individual_names_list)
     assert phone_numbers is not None
-    assert phone_numbers.ndim == 2
-    assert phone_numbers.size == 4
+    assert len(phone_numbers.keys()) == 2
+    assert phone_numbers["Madelyn"] == "888-333-5555"
+    assert phone_numbers["Gregory"] == "888-111-5555"
 
 
 def test_extract_get_phone_numbers_no_matching_person():
@@ -83,8 +84,7 @@ def test_extract_get_phone_numbers_no_matching_person():
     individual_names_list = ["Incorrect Name"]
     phone_numbers = extract.get_individual_numbers(dataframe, individual_names_list)
     assert phone_numbers is not None
-    assert phone_numbers.ndim == 2
-    assert phone_numbers.size == 0
+    assert len(phone_numbers.keys()) == 0
 
 
 def test_extract_get_phone_numbers_no_matching_person_empty_list():
@@ -98,5 +98,111 @@ def test_extract_get_phone_numbers_no_matching_person_empty_list():
     individual_names_list = []
     phone_numbers = extract.get_individual_numbers(dataframe, individual_names_list)
     assert phone_numbers is not None
-    assert phone_numbers.ndim == 2
-    assert phone_numbers.size == 0
+    assert len(phone_numbers.keys()) == 0
+
+
+def test_extract_individual_activities_single_individual():
+    """Ensure that it is possible to get one person's activities from the data frame."""
+    dataframe = pandas.DataFrame(
+        {
+            "Individual Name": ["Gregory", "Jessica", "Madelyn"],
+            "Individual Phone Number": ["888-111-5555", "888-222-5555", "888-333-5555"],
+            "Read Email": [True, True, True],
+            "Wash Car": [False, False, True],
+            "Write Python": [True, False, True],
+        }
+    )
+    individual_names_list = ["Madelyn"]
+    individual_activities = extract.get_individual_activities(
+        dataframe, individual_names_list
+    )
+    assert individual_activities is not None
+    assert individual_activities["Madelyn"] == [
+        "Read Email",
+        "Wash Car",
+        "Write Python",
+    ]
+
+
+def test_extract_individual_activities_multiple_individual():
+    """Ensure that it is possible to get multiple people's activities from the data frame."""
+    dataframe = pandas.DataFrame(
+        {
+            "Individual Name": ["Gregory", "Jessica", "Madelyn"],
+            "Individual Phone Number": ["888-111-5555", "888-222-5555", "888-333-5555"],
+            "Read Email": [True, True, True],
+            "Wash Car": [False, False, True],
+            "Write Python": [True, False, True],
+        }
+    )
+    individual_names_list = ["Madelyn", "Gregory"]
+    individual_activities = extract.get_individual_activities(
+        dataframe, individual_names_list
+    )
+    assert individual_activities is not None
+    assert individual_activities["Madelyn"] == [
+        "Read Email",
+        "Wash Car",
+        "Write Python",
+    ]
+    assert individual_activities["Gregory"] == [
+        "Read Email",
+        "Write Python",
+    ]
+
+
+def test_extract_individual_activities_no_individuals():
+    """Ensure that it is possible to get one person's activities from the data frame."""
+    dataframe = pandas.DataFrame(
+        {
+            "Individual Name": ["Gregory", "Jessica", "Madelyn"],
+            "Individual Phone Number": ["888-111-5555", "888-222-5555", "888-333-5555"],
+            "Read Email": [True, True, True],
+            "Wash Car": [False, False, True],
+            "Write Python": [True, False, True],
+        }
+    )
+    individual_names_list = ["MadelynNotThere"]
+    individual_activities = extract.get_individual_activities(
+        dataframe, individual_names_list
+    )
+    assert individual_activities is not None
+    assert len(individual_activities.keys()) == 0
+
+
+def test_extract_individual_activities_no_individuals_empty_list():
+    """Ensure that it is possible to get one person's activities from the data frame."""
+    dataframe = pandas.DataFrame(
+        {
+            "Individual Name": ["Gregory", "Jessica", "Madelyn"],
+            "Individual Phone Number": ["888-111-5555", "888-222-5555", "888-333-5555"],
+            "Read Email": [True, True, True],
+            "Wash Car": [False, False, True],
+            "Write Python": [True, False, True],
+        }
+    )
+    individual_names_list = []
+    individual_activities = extract.get_individual_activities(
+        dataframe, individual_names_list
+    )
+    assert individual_activities is not None
+    assert len(individual_activities.keys()) == 0
+
+
+def test_extract_individual_activities_single_individuals_no_activities():
+    """Ensure that it is possible to get one person's activities from the data frame."""
+    dataframe = pandas.DataFrame(
+        {
+            "Individual Name": ["Gregory", "Jessica", "Madelyn"],
+            "Individual Phone Number": ["888-111-5555", "888-222-5555", "888-333-5555"],
+            "Read Email": [True, False, True],
+            "Wash Car": [False, False, True],
+            "Write Python": [True, False, True],
+        }
+    )
+    individual_names_list = ["Jessica"]
+    individual_activities = extract.get_individual_activities(
+        dataframe, individual_names_list
+    )
+    assert individual_activities is not None
+    assert len(individual_activities.keys()) == 0

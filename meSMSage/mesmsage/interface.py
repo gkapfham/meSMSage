@@ -2,7 +2,6 @@
 
 import logging
 
-from textwrap import indent
 from typing import List
 
 from InquirerPy import get_style, inquirer  # type: ignore
@@ -40,15 +39,10 @@ def perform_fuzzy_selection(
         style=style,
         qmark="➔",
         border=False,
-        info=False,
+        info=True,
         vi_mode=True,
     ).execute(raise_keyboard_interrupt=False)
     return selection_list
-
-
-def reindent(text: str, num_spaces: int = 4) -> str:
-    """Add indentation spaces to a (potentially) multiline string."""
-    return indent(text, constants.markers.Space * num_spaces)
 
 
 def create_individuals_list(
