@@ -150,9 +150,7 @@ def display_activities(
     console.print()
 
 
-def display_sms(
-    number_sms_dict: Dict[str, str], console: Console
-) -> None:
+def display_sms(number_sms_dict: Dict[str, str], console: Console) -> None:
     """Display the names of individuals and their associated activities."""
     console.print("Preparing to send these SMS:")
     console.print()
