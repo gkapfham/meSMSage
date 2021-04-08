@@ -143,7 +143,6 @@ def display_activities(
     individual_activities_dict: Dict[str, List[str]], console: Console
 ) -> None:
     """Display the names of individuals and their associated activities."""
-    console.print()
     console.print("Sending reminders for these activities:")
     console.print()
     activities_text = util.get_printable_dictionary(individual_activities_dict)
