@@ -54,7 +54,7 @@ def get_individual_numbers(
 
 def get_individual_activities(
     individuals_dataframe: pandas.DataFrame, chosen_individuals_list: List[str]
-) -> Dict[str, str]:
+) -> Dict[str, List[str]]:
     """Get the activities for each of the specified individuals."""
     logger = logging.getLogger(constants.logging.Rich)
     # remove columns in the data frame for which no individual has an activity
@@ -82,7 +82,7 @@ def get_individual_activities(
     )
     # iterate through each of the columns in the tall data frame and create
     # a dictionary that maps an individual to a list of their activities
-    name_activities_dictionary = {}
+    name_activities_dictionary: Dict[str, List[str]] = {}
     for (
         column_name,
         column_contents,
@@ -113,7 +113,8 @@ def get_individual_activities(
                 # dictionary and so the function must create a new list
                 # of activity descriptions and then create the mapping
                 else:
-                    name_activities_dictionary[current_name] = [metadata]
+                    new_metadata_list: List[str] = [metadata]
+                    name_activities_dictionary[current_name] = new_metadata_list  # type: ignore
         # support the movement to a new name
         current_name = None
     return name_activities_dictionary
