@@ -99,3 +99,26 @@ def test_extract_get_phone_numbers_no_matching_person_empty_list():
     phone_numbers = extract.get_individual_numbers(dataframe, individual_names_list)
     assert phone_numbers is not None
     assert len(phone_numbers.keys()) == 0
+
+
+def test_extract_individual_activities_single_individual():
+    """Ensure that it is possible to get one person's activities from the data frame."""
+    dataframe = pandas.DataFrame(
+        {
+            "Individual Name": ["Gregory", "Jessica", "Madelyn"],
+            "Individual Phone Number": ["888-111-5555", "888-222-5555", "888-333-5555"],
+            "Read Email": [True, True, True],
+            "Wash Car": [False, False, True],
+            "Write Python": [True, False, True],
+        }
+    )
+    individual_names_list = ["Madelyn"]
+    individual_activities = extract.get_individual_activities(
+        dataframe, individual_names_list
+    )
+    assert individual_activities is not None
+    assert individual_activities["Madelyn"] == [
+        "Read Email",
+        "Wash Car",
+        "Write Python",
+    ]
