@@ -23,8 +23,13 @@ def load_environment(env_file_name: str = None) -> None:
 def get_printable_dictionary(provided_dict: Dict[str, List[str]]) -> str:
     """Create a textual representation of a dictionary."""
     lines = []
+    # iterate through the names and activities in provided_dict
+    # and create a list of lines for each key-value pair in provided_dict
     for name, activities in provided_dict.items():
         lines.append(name + " -> " + ", ".join(activities))
+    # create a multiple-line string that contains all of the individual
+    # listings of a person's name and their chosen activities. Then,
+    # re-indent this multiple-line string so that it is tabbed in
     return reindent("\n".join(lines), constants.sizes.Tab)
 
 
