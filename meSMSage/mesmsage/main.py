@@ -6,6 +6,7 @@ import logging
 from enum import Enum
 from logging import Logger
 from pathlib import Path
+from typing import Dict
 from typing import List
 from typing import Tuple
 
@@ -127,7 +128,7 @@ def display_recipients(
     chosen_individual_names_list: List[str], console: Console
 ) -> None:
     """Display the names of people who will receive the SMS message."""
-    chosen_individual_names_str = interface.reindent(
+    chosen_individual_names_str = util.reindent(
         "\n".join(chosen_individual_names_list), constants.sizes.Tab
     )
     chosen_individual_names_text = Text(chosen_individual_names_str)
@@ -135,6 +136,18 @@ def display_recipients(
     console.print("Sending SMS messages to:")
     console.print()
     console.print(chosen_individual_names_text)
+    console.print()
+
+
+def display_activities(
+    individual_activities_dict: Dict[str, List[str]], console: Console
+) -> None:
+    """Display the names of individuals and their associated activities."""
+    console.print()
+    console.print("Sending reminders for these activities:")
+    console.print()
+    activities_text = util.get_printable_dictionary(individual_activities_dict)
+    console.print(activities_text)
     console.print()
 
 
@@ -175,6 +188,7 @@ def send(
         dataframe, chosen_individual_names_list
     )
     logger.debug(f"Individuals and activities: {name_activities_dictionary}")
+    display_activities(name_activities_dictionary, console)
 
 
 @app.command()
