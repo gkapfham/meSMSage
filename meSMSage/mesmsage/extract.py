@@ -36,8 +36,8 @@ def get_individual_numbers(
     logger = logging.getLogger(constants.logging.Rich)
     # extract the phone numbers of the chosen individuals
     phone_numbers = individuals_dataframe.loc[
-        individuals_dataframe["Individual Name"].isin(chosen_individuals_list),
-        ["Individual Name", "Individual Phone Number"],
+        individuals_dataframe[constants.sheets.Name].isin(chosen_individuals_list),
+        [constants.sheets.Name, constants.sheets.Number],
     ]
     logger.debug(f"Phone numbers: {phone_numbers}")
     # create an empty dictionary that will store mappings of the form:
