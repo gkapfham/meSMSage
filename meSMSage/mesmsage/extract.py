@@ -77,9 +77,11 @@ def get_individual_activities(
     specific_individuals_specific_activities_dict = (
         specific_individuals_specific_activities.to_dict("list")
     )
+    logger.debug(specific_individuals_specific_activities_dict)
     specific_individuals_specific_activities_tall = pandas.DataFrame.from_dict(
         specific_individuals_specific_activities_dict, orient="index"
     )
+    logger.debug(specific_individuals_specific_activities_tall)
     # iterate through each of the columns in the tall data frame and create
     # a dictionary that maps an individual to a list of their activities
     name_activities_dictionary: Dict[str, List[str]] = {}
@@ -117,6 +119,7 @@ def get_individual_activities(
                     name_activities_dictionary[current_name] = new_metadata_list  # type: ignore
         # support the movement to a new name
         current_name = None
+    logger.debug(name_activities_dictionary)
     return name_activities_dictionary
 
 
