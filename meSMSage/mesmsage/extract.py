@@ -62,7 +62,7 @@ def get_individual_activities(
     logger.debug(individuals_have_activities)
     # only consider the individuals who were chosen
     specific_individuals_have_activities = individuals_have_activities.loc[
-        individuals_have_activities["Individual Name"].isin(chosen_individuals_list)
+        individuals_have_activities[constants.sheets.Name].isin(chosen_individuals_list)
     ]
     logger.debug(specific_individuals_have_activities)
     # only consider the activities for which one of these individuals is active, meaning
@@ -75,11 +75,11 @@ def get_individual_activities(
     # ultimately producing a "tall" data frame where each column is an individual,
     # their contact information, and the activities that they are going to need
     specific_individuals_specific_activities_dict = (
-        specific_individuals_specific_activities.to_dict("list")
+        specific_individuals_specific_activities.to_dict(constants.dataframes.List)
     )
     logger.debug(specific_individuals_specific_activities_dict)
     specific_individuals_specific_activities_tall = pandas.DataFrame.from_dict(
-        specific_individuals_specific_activities_dict, orient="index"
+        specific_individuals_specific_activities_dict, orient=constants.dataframes.Index
     )
     logger.debug(specific_individuals_specific_activities_tall)
     # iterate through each of the columns in the tall data frame and create
@@ -97,7 +97,7 @@ def get_individual_activities(
         ):
             # store the name of the current individual since this will
             # serve as the key in the name_activities_dictionary
-            if metadata == "Individual Name":
+            if metadata == constants.sheets.Name:
                 current_name = data
             # indicate that the person is going to work a shift since
             # there is a "checkmark" (i.e., a True value) for the specific
