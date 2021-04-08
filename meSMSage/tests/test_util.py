@@ -32,7 +32,7 @@ def test_reindent_two_word_string():
 def test_create_printable_dictionary_single_key():
     """Ensure that the creation of a printable dictionary works correctly."""
     dictionary = {"Gregory": ["Task One", "Task Two"]}
-    printable_dictionary = util.get_printable_dictionary(dictionary)
+    printable_dictionary = util.get_printable_dictionary_list(dictionary)
     assert printable_dictionary is not None
     assert "Gregory" in printable_dictionary
     assert "Task One" in printable_dictionary
