@@ -1,6 +1,5 @@
 """Extract contents from a Pandas dataframe."""
 
-import itertools
 import logging
 
 from typing import Dict
