@@ -27,3 +27,13 @@ def test_reindent_two_word_string():
     reindented_message = util.reindent(message)
     assert reindented_message is not None
     assert reindented_message == "    hello world"
+
+
+def test_create_printable_dictionary_single_key():
+    """Ensure that the creation of a printable dictionary works correctly."""
+    dictionary = {"Gregory": ["Task One", "Task Two"]}
+    printable_dictionary = util.get_printable_dictionary(dictionary)
+    assert printable_dictionary is not None
+    assert "Gregory" in printable_dictionary
+    assert "Task One" in printable_dictionary
+    assert "Task Two" in printable_dictionary
