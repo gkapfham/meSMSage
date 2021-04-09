@@ -15,6 +15,14 @@ def create_constants(name, *args, **kwargs):
     return new_constants(*itertools.chain(args, kwargs.values()))
 
 
+# define the terminology for using pandas
+dataframes = create_constants(
+    "dataframes",
+    Index="index",
+    List="list",
+)
+
+
 # define the environment constants
 environment = create_constants(
     "environment",
@@ -66,12 +74,6 @@ markers = create_constants(
     Space=" ",
 )
 
-# define the terminology for using pandas
-dataframes = create_constants(
-    "dataframes",
-    Index="index",
-    List="list",
-)
 
 # define constants for the progress bars
 progress = create_constants("progress", Small_Step=0.2, Medium_Step=0.4, Large_Step=0.6)
