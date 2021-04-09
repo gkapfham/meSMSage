@@ -53,7 +53,7 @@ def get_spiffy_list(contents: List[str]) -> str:
     if len(contents) > 1:
         out = ", ".join(contents[:-1])
         # add the last element, separated by the word "and"
-        return "{} and {}".format(out, contents[-1])
+        return "{}, and {}".format(out, contents[-1])
     elif len(contents) == 1:
         return " ".join(contents)
     else:
