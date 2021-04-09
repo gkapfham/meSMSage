@@ -115,3 +115,57 @@ def test_markers_constant_cannot_redefine():
         constants.markers.Nothing = CANNOT_SET_CONSTANT_VARIABLE
     with pytest.raises(AttributeError):
         constants.markers.Space = CANNOT_SET_CONSTANT_VARIABLE
+
+
+def test_progress_constant_defined():
+    """Check correctness for the variables in the dataframes constant."""
+    assert constants.progress.Small_Step == 0.2
+    assert constants.progress.Medium_Step == 0.4
+    assert constants.progress.Large_Step == 0.6
+
+
+def test_progress_constant_cannot_redefine():
+    """Check cannot redefine the variables in the environment constant."""
+    with pytest.raises(AttributeError):
+        constants.progress.Small_Step = CANNOT_SET_CONSTANT_VARIABLE
+    with pytest.raises(AttributeError):
+        constants.progress.Medium_Step = CANNOT_SET_CONSTANT_VARIABLE
+    with pytest.raises(AttributeError):
+        constants.progress.Large_Step = CANNOT_SET_CONSTANT_VARIABLE
+
+
+def test_sizes_constant_defined():
+    """Check correctness for the variables in the dataframes constant."""
+    assert constants.sizes.First == 0
+    assert constants.sizes.Singleton == 1
+    assert constants.sizes.Tab == 4
+
+
+def test_sizes_constant_cannot_redefine():
+    """Check cannot redefine the variables in the environment constant."""
+    with pytest.raises(AttributeError):
+        constants.progress.First = CANNOT_SET_CONSTANT_VARIABLE
+    with pytest.raises(AttributeError):
+        constants.progress.Singleton = CANNOT_SET_CONSTANT_VARIABLE
+    with pytest.raises(AttributeError):
+        constants.progress.Tab = CANNOT_SET_CONSTANT_VARIABLE
+
+
+def test_sheets_constant_defined():
+    """Check correctness for the variables in the dataframes constant."""
+    assert constants.sheets.Default == "Sheet1"
+    assert constants.sheets.Name == "Individual Name"
+    assert constants.sheets.Name_Prompt == "individual's name"
+    assert constants.sheets.Number == "Individual Phone Number"
+
+
+def test_sheets_constant_cannot_redefine():
+    """Check cannot redefine the variables in the environment constant."""
+    with pytest.raises(AttributeError):
+        constants.sheetes.Default = CANNOT_SET_CONSTANT_VARIABLE
+    with pytest.raises(AttributeError):
+        constants.sheets.Name = CANNOT_SET_CONSTANT_VARIABLE
+    with pytest.raises(AttributeError):
+        constants.sheets.Name_Prompt = CANNOT_SET_CONSTANT_VARIABLE
+    with pytest.raises(AttributeError):
+        constants.sheets.Number = CANNOT_SET_CONSTANT_VARIABLE
