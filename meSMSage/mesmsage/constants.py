@@ -18,13 +18,19 @@ def create_constants(name, *args, **kwargs):
 # define the environment constants
 environment = create_constants(
     "environment",
-    Twilio_Phone_number="TWILIO_PHONE_NUMBER",
+    Twilio_Phone_Number="TWILIO_PHONE_NUMBER",
 )
 
 # define the files constants
 files = create_constants(
     "file",
     Env=".env",
+)
+
+# define the locales constants
+locales = create_constants(
+    "locales",
+    Us="US",
 )
 
 # The defined logging levels, in order of increasing severity, are as follows:
