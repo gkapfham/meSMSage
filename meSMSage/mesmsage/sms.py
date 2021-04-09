@@ -4,6 +4,7 @@ import logging
 import os
 
 from typing import Dict
+from typing import List
 
 import phonenumbers  # type: ignore
 
@@ -29,17 +30,20 @@ def send_message(client, to_number, from_number, message):
     return sent_message.sid
 
 
-def send_messages(message_dictionary: Dict[str, str]) -> str:
+def send_messages(message_dictionary: Dict[str, str]) -> List[str]:
     """Use the Twilio client to send all of the messages in the provided dictionary."""
     client = Client()
+    sid_list = []
     twilio_phone_number = os.getenv(constants.environment.Twilio_Phone_Number)
-    twilio_phone_number_parsed = phonenumbers.parse(twilio_phone_number, "US")
+    twilio_phone_number_parsed = phonenumbers.parse(twilio_phone_number, constants.locales.Us)
     twilio_phone_number_e164 = phonenumbers.format_number(
         twilio_phone_number_parsed, phonenumbers.PhoneNumberFormat.E164
     )
     for phone_number_to, message in message_dictionary.items():
-        phone_number_parsed = phonenumbers.parse(phone_number_to, "US")
+        phone_number_parsed = phonenumbers.parse(phone_number_to, constants.locales.Us)
         phone_number_e164 = phonenumbers.format_number(
             phone_number_parsed, phonenumbers.PhoneNumberFormat.E164
         )
-        send_message(client, phone_number_e164, twilio_phone_number_e164, message)
+        sid = send_message(client, phone_number_e164, twilio_phone_number_e164, message)
+        sid_list.append(sid)
+    return sid_list
