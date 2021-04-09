@@ -13,9 +13,6 @@ from twilio.rest import Client
 
 from mesmsage import constants
 
-TWILIO_PHONE_NUMBER = os.getenv(constants.environment.Twilio_Phone_Number)
-DEFAULT_FROM_NUMBER = TWILIO_PHONE_NUMBER
-
 
 def send_message(client, to_number, from_number, message):
     """Send a message using the global Twilio client."""
