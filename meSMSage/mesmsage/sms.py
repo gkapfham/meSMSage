@@ -8,8 +8,8 @@ from typing import List
 
 import phonenumbers  # type: ignore
 
-from twilio.base.exceptions import TwilioRestException
-from twilio.rest import Client
+from twilio.base.exceptions import TwilioRestException  # type: ignore
+from twilio.rest import Client  # type: ignore
 
 from mesmsage import constants
 
