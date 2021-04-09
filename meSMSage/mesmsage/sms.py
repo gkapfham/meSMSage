@@ -40,7 +40,7 @@ def send_messages(message_dictionary: Dict[str, str]) -> List[str]:
     # ensure that the Twilio phone number is in the E164 international format:
     # https://support.twilio.com/hc/en-us/articles/223183008-Formatting-International-Phone-Numbers
     twilio_phone_number_parsed = phonenumbers.parse(
-        twilio_phone_number, constants.locales.Us
+        twilio_phone_number, constants.locations.Us
     )
     twilio_phone_number_e164 = phonenumbers.format_number(
         twilio_phone_number_parsed, phonenumbers.PhoneNumberFormat.E164
@@ -51,7 +51,7 @@ def send_messages(message_dictionary: Dict[str, str]) -> List[str]:
     # 2. Use the send_message function in this module to send the message
     # 3. Collect the message SID in the list of SIDs for diagnostic purposes
     for phone_number_to, message in message_dictionary.items():
-        phone_number_parsed = phonenumbers.parse(phone_number_to, constants.locales.Us)
+        phone_number_parsed = phonenumbers.parse(phone_number_to, constants.locations.Us)
         phone_number_e164 = phonenumbers.format_number(
             phone_number_parsed, phonenumbers.PhoneNumberFormat.E164
         )
