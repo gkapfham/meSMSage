@@ -25,6 +25,7 @@ from mesmsage import demonstrate
 from mesmsage import extract
 from mesmsage import interface
 from mesmsage import sheets
+from mesmsage import sms
 from mesmsage import util
 
 import typer
@@ -79,7 +80,7 @@ def download(
         # the file name was not specified so construct the default name
         else:
             env_file_name = constants.markers.Nothing.join(
-                [os.getcwd(), os.sep, constants.file.Env]
+                [os.getcwd(), os.sep, constants.files.Env]
             )
             # DEBUG: indicate the use of the .env file in the current working directory
             logger.debug("Using constructed .env file in current directory")
@@ -203,6 +204,9 @@ def send(
     )
     logger.debug(f"Phone numbers and SMS messages: {number_sms_dictionary}")
     display_sms(number_sms_dictionary, console)
+    # STEP: send the SMS messages for each individual
+    sid = sms.send_messages(number_sms_dictionary)
+    logger.debug(f"Twilio returned SID: {sid}")
 
 
 @app.command()
