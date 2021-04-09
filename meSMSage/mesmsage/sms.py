@@ -39,7 +39,9 @@ def send_messages(message_dictionary: Dict[str, str]) -> List[str]:
     twilio_phone_number = os.getenv(constants.environment.Twilio_Phone_Number)
     # ensure that the Twilio phone number is in the E164 international format:
     # https://support.twilio.com/hc/en-us/articles/223183008-Formatting-International-Phone-Numbers
-    twilio_phone_number_parsed = phonenumbers.parse(twilio_phone_number, constants.locales.Us)
+    twilio_phone_number_parsed = phonenumbers.parse(
+        twilio_phone_number, constants.locales.Us
+    )
     twilio_phone_number_e164 = phonenumbers.format_number(
         twilio_phone_number_parsed, phonenumbers.PhoneNumberFormat.E164
     )
