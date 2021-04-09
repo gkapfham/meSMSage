@@ -15,13 +15,19 @@ def create_constants(name, *args, **kwargs):
     return new_constants(*itertools.chain(args, kwargs.values()))
 
 
-# define the file constants
-file = create_constants(
+# define the environment constants
+environment = create_constants(
+    "environment",
+    Twilio_Phone_number="TWILIO_PHONE_NUMBER",
+)
+
+# define the files constants
+files = create_constants(
     "file",
     Env=".env",
 )
 
-# The defined levels, in order of increasing severity, are as follows:
+# The defined logging levels, in order of increasing severity, are as follows:
 #
 # DEBUG
 # INFO
