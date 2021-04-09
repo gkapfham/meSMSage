@@ -136,7 +136,7 @@ def get_sms_messages(
         names_message = (
             "Hello "
             + name
-            + "! You are working the following shift(s) at the Motzing Center. "
+            + "! You are working the following shift(s) at the Motzing Center: "
             + util.get_spiffy_list(activity)
             + ". "
             + "If you are unable to work any shift(s) please respond to this text. Thank you!"
