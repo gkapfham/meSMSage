@@ -28,8 +28,8 @@ files = create_constants(
 )
 
 # define the locales constants
-locales = create_constants(
-    "locales",
+locations = create_constants(
+    "locations",
     Us="US",
 )
 
