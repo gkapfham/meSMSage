@@ -14,7 +14,7 @@ def test_dataframes_constant_defined():
 
 
 def test_dataframes_constant_cannot_redefine():
-    """Check cannot redefine the variables in the environment constant."""
+    """Check cannot redefine the variables in the dataframes constant."""
     with pytest.raises(AttributeError):
         constants.dataframes.Index = CANNOT_SET_CONSTANT_VARIABLE
     with pytest.raises(AttributeError):
@@ -121,14 +121,14 @@ def test_markers_constant_cannot_redefine():
 
 
 def test_progress_constant_defined():
-    """Check correctness for the variables in the dataframes constant."""
+    """Check correctness for the variables in the progress constant."""
     assert constants.progress.Small_Step == 0.2
     assert constants.progress.Medium_Step == 0.4
     assert constants.progress.Large_Step == 0.6
 
 
 def test_progress_constant_cannot_redefine():
-    """Check cannot redefine the variables in the environment constant."""
+    """Check cannot redefine the variables in the progress constant."""
     with pytest.raises(AttributeError):
         constants.progress.Small_Step = CANNOT_SET_CONSTANT_VARIABLE
     with pytest.raises(AttributeError):
@@ -137,15 +137,26 @@ def test_progress_constant_cannot_redefine():
         constants.progress.Large_Step = CANNOT_SET_CONSTANT_VARIABLE
 
 
+def test_messages_constant_defined():
+    """Check correctness for the variables in the messages constant."""
+    assert constants.messages.Sms_Did_Not_Work == "Sending SMS with Twilio did not work:"
+
+
+def test_messages_constant_cannot_redefine():
+    """Check cannot redefine the variables in the messages constant."""
+    with pytest.raises(AttributeError):
+        constants.messages.Sms_Did_Not_Work = CANNOT_SET_CONSTANT_VARIABLE
+
+
 def test_sizes_constant_defined():
-    """Check correctness for the variables in the dataframes constant."""
+    """Check correctness for the variables in the sizes constant."""
     assert constants.sizes.First == 0
     assert constants.sizes.Singleton == 1
     assert constants.sizes.Tab == 4
 
 
 def test_sizes_constant_cannot_redefine():
-    """Check cannot redefine the variables in the environment constant."""
+    """Check cannot redefine the variables in the sizes constant."""
     with pytest.raises(AttributeError):
         constants.progress.First = CANNOT_SET_CONSTANT_VARIABLE
     with pytest.raises(AttributeError):
@@ -155,7 +166,7 @@ def test_sizes_constant_cannot_redefine():
 
 
 def test_sheets_constant_defined():
-    """Check correctness for the variables in the dataframes constant."""
+    """Check correctness for the variables in the sheets constant."""
     assert constants.sheets.Default == "Sheet1"
     assert constants.sheets.Name == "Individual Name"
     assert constants.sheets.Name_Prompt == "individual's name"
@@ -163,7 +174,7 @@ def test_sheets_constant_defined():
 
 
 def test_sheets_constant_cannot_redefine():
-    """Check cannot redefine the variables in the environment constant."""
+    """Check cannot redefine the variables in the sheets constant."""
     with pytest.raises(AttributeError):
         constants.sheetes.Default = CANNOT_SET_CONSTANT_VARIABLE
     with pytest.raises(AttributeError):
