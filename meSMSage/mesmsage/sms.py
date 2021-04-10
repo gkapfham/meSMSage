@@ -8,10 +8,17 @@ from typing import List
 
 import phonenumbers  # type: ignore
 
+from dotenv import load_dotenv
+
 from twilio.base.exceptions import TwilioRestException  # type: ignore
 from twilio.rest import Client  # type: ignore
 
 from mesmsage import constants
+
+# create a client using those authentication
+# variables found in environment variables
+load_dotenv()
+client = Client()
 
 
 def send_message(client: Client, to_number: str, from_number: str, message: str) -> str:
@@ -39,8 +46,7 @@ def send_message(client: Client, to_number: str, from_number: str, message: str)
 
 def send_messages(message_dictionary: Dict[str, str]) -> List[str]:
     """Use the Twilio client to send all of the messages in the provided dictionary."""
-    # create a client using those authentication variables found in environment variables
-    client = Client()
+    # note that the client is created globally as part of this module
     # create an empty list of the message SIDs that are returned from send_message
     sid_list = []
     # extract the Twilio phone number stored in the environment that will be the number
