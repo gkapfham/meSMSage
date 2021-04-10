@@ -26,6 +26,7 @@ dataframes = create_constants(
 # define the environment constants
 environment = create_constants(
     "environment",
+    Recipient_Phone_Number="RECIPIENT_PHONE_NUMBER",
     Twilio_Phone_Number="TWILIO_PHONE_NUMBER",
 )
 
