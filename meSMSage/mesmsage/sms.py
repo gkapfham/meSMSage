@@ -36,7 +36,7 @@ def send_message(client: Client, to_number: str, from_number: str, message: str)
     # it as an error that will be visible in the logging system
     except TwilioRestException as e:
         logger.error("Sending SMS with Twilio did not work: " + str(e))
-        return
+        return None
     # return the 34-character string that serves as the unique
     # identifier for this specific message sent through Twilio.
     # Note that an sid pre-pended with "SM" means that it was a
