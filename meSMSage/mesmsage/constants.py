@@ -36,7 +36,7 @@ files = create_constants(
     Env=".env",
 )
 
-# define the locales constants
+# define the locations constants
 locations = create_constants(
     "locations",
     Us="US",
