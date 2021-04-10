@@ -14,8 +14,8 @@ from twilio.rest import Client  # type: ignore
 from mesmsage import constants
 
 
-def send_message(client, to_number, from_number, message):
-    """Send a message using the global Twilio client."""
+def send_message(client: Client, to_number: str, from_number: str, message: str) -> str:
+    """Send a message using the provided Twilio client."""
     logger = logging.getLogger(constants.logging.Rich)
     # send the message using the Twilio client object.
     # Note that the from_number must be a number that is
@@ -31,7 +31,9 @@ def send_message(client, to_number, from_number, message):
         logger.error("Sending SMS with Twilio did not work: " + str(e))
         return
     # return the 34-character string that serves as the unique
-    # identifier for this specific message sent through Twilio
+    # identifier for this specific message sent through Twilio.
+    # Note that an sid pre-pended with "SM" means that it was a
+    # text message and with "MM" means that it was a media message.
     return sent_message.sid
 
 
