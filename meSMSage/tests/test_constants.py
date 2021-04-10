@@ -139,7 +139,9 @@ def test_progress_constant_cannot_redefine():
 
 def test_messages_constant_defined():
     """Check correctness for the variables in the messages constant."""
-    assert constants.messages.Sms_Did_Not_Work == "Sending SMS with Twilio did not work:"
+    assert (
+        constants.messages.Sms_Did_Not_Work == "Sending SMS with Twilio did not work:"
+    )
 
 
 def test_messages_constant_cannot_redefine():
