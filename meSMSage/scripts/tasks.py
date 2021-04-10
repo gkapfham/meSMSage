@@ -36,7 +36,9 @@ def debugtest(c, noexternal=False):
     print("Begin " + inspect.currentframe().f_code.co_name + " --->")
     # run the test suite
     if noexternal:
-        c.run("poetry run pytest -x -s --log-cli-level=DEBUG -m 'not googlesheets and not twilio'")
+        c.run(
+            "poetry run pytest -x -s --log-cli-level=DEBUG -m 'not googlesheets and not twilio'"
+        )
     else:
         c.run("poetry run pytest -x -s --log-cli-level=DEBUG")
     print("---> End " + inspect.currentframe().f_code.co_name)
