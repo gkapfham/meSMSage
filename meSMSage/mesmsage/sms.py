@@ -21,6 +21,12 @@ load_dotenv()
 client = Client()
 
 
+class TwilioCommunicationError(Exception):
+    """Define error to communication with Twilio did not work correctly."""
+
+    pass
+
+
 def send_message(client: Client, to_number: str, from_number: str, message: str) -> str:
     """Send a message using the provided Twilio client."""
     logger = logging.getLogger(constants.logging.Rich)
@@ -38,7 +44,7 @@ def send_message(client: Client, to_number: str, from_number: str, message: str)
         logger.error(
             constants.messages.Sms_Did_Not_Work + constants.markers.Space + str(e)
         )
-        return None
+        raise TwilioCommunicationError
     # return the 34-character string that serves as the unique
     # identifier for this specific message sent through Twilio.
     # Note that an sid pre-pended with "SM" means that it was a
