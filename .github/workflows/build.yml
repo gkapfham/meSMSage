@@ -82,7 +82,7 @@ jobs:
             SHEETFU_CONFIG_AUTH_PROVIDER_X509_CERT_URL: ${{secrets.SHEETFU_CONFIG_AUTH_PROVIDER_X509_CERT_URL}}
           run: |
             cd meSMSage
-            poetry run invoke -c scripts/tasks cover
+            poetry run invoke -c scripts/tasks test --noexternal
         # Run the black code formatter in checking mode
         - name: Run Black Code Formatter
           run: |
