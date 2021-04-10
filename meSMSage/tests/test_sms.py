@@ -50,13 +50,14 @@ def test_cannot_send_single_message_real_twilio_global_client():
     """Ensure that it is not possible to send the SMS message through Twilio service if it is incorrect."""
     twilio_phone_number = "IncorrectPhoneNumber"
     recipient_phone_number = os.getenv(constants.environment.Recipient_Phone_Number)
-    sid = sms.send_message(
-        client,
-        recipient_phone_number,
-        twilio_phone_number,
-        "Test: Sending Message Through Twilio",
-    )
-    assert sid is None
+    with pytest.raises(sms.TwilioCommunicationError):
+        sid = sms.send_message(
+            client,
+            recipient_phone_number,
+            twilio_phone_number,
+            "Test: Sending Message Through Twilio",
+        )
+        assert sid is None
 
 
 @mock.patch("mesmsage.sms.client.messages.create")
@@ -88,12 +89,13 @@ def test_send_single_message_mock_twilio_exception(create_message_mock, caplog):
     create_message_mock.side_effect = TwilioRestException(
         status, uri, msg=error_message
     )
-    sid = sms.send_message(
-        client,
-        recipient_phone_number,
-        twilio_phone_number,
-        "Test: Sending Message Through Twilio",
-    )
-    assert sid is None
-    assert error_message in caplog.text
-    assert constants.messages.Sms_Did_Not_Work in caplog.text
+    with pytest.raises(sms.TwilioCommunicationError):
+        sid = sms.send_message(
+            client,
+            recipient_phone_number,
+            twilio_phone_number,
+            "Test: Sending Message Through Twilio",
+        )
+        assert sid is None
+        assert error_message in caplog.text
+        assert constants.messages.Sms_Did_Not_Work in caplog.text
