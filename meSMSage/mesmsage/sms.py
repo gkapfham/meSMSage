@@ -17,13 +17,21 @@ from mesmsage import constants
 def send_message(client, to_number, from_number, message):
     """Send a message using the global Twilio client."""
     logger = logging.getLogger(constants.logging.Rich)
+    # send the message using the Twilio client object.
+    # Note that the from_number must be a number that is
+    # registered with Twilio; this means that you cannot
+    # include any potential number for the from_ parameter
     try:
         sent_message = client.messages.create(
             to=to_number, from_=from_number, body=message
         )
+    # something went wrong with sending the message, so log
+    # it as an error that will be visible in the logging system
     except TwilioRestException as e:
         logger.error("Sending SMS with Twilio did not work: " + str(e))
         return
+    # return the 34-character string that serves as the unique
+    # identifier for this specific message sent through Twilio
     return sent_message.sid
 
 
