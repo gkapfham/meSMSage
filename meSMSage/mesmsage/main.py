@@ -25,6 +25,7 @@ from mesmsage import demonstrate
 from mesmsage import extract
 from mesmsage import interface
 from mesmsage import sheets
+from mesmsage import sms
 from mesmsage import util
 
 import typer
@@ -79,7 +80,7 @@ def download(
         # the file name was not specified so construct the default name
         else:
             env_file_name = constants.markers.Nothing.join(
-                [os.getcwd(), os.sep, constants.file.Env]
+                [os.getcwd(), os.sep, constants.files.Env]
             )
             # DEBUG: indicate the use of the .env file in the current working directory
             logger.debug("Using constructed .env file in current directory")
@@ -150,9 +151,13 @@ def display_activities(
     console.print()
 
 
-def display_sms(number_sms_dict: Dict[str, str], console: Console) -> None:
+def display_sms(
+    number_sms_dict: Dict[str, str], console: Console, dry_run: bool = False
+) -> None:
     """Display the names of individuals and their associated activities."""
-    console.print("Preparing to send these SMS:")
+    if not dry_run:
+        console.print("Preparing to send these SMS:")
+    console.print("Would send send these SMS:")
     console.print()
     sms_text = util.get_printable_dictionary_str(number_sms_dict)
     console.print(sms_text)
@@ -176,6 +181,7 @@ def send(
     googlesheet_id: str = typer.Option(...),
     debug_level: DebugLevel = DebugLevel.ERROR,
     env_file: Path = typer.Option(None),
+    dry_run: bool = typer.Option(False),
 ):
     """Send SMS messages."""
     # STEP: connect to the spreadsheet, download it, and use it in follow-on steps
@@ -202,7 +208,11 @@ def send(
         phone_numbers_dictionary, name_activities_dictionary
     )
     logger.debug(f"Phone numbers and SMS messages: {number_sms_dictionary}")
-    display_sms(number_sms_dictionary, console)
+    display_sms(number_sms_dictionary, console, dry_run)
+    # STEP: send the SMS messages for each individual
+    if not dry_run:
+        sid = sms.send_messages(number_sms_dictionary)
+        logger.debug(f"Twilio returned SID: {sid}")
 
 
 @app.command()

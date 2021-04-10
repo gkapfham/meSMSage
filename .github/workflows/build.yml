@@ -62,6 +62,10 @@ jobs:
             SHEETFU_CONFIG_CLIENT_EMAIL: ${{secrets.SHEETFU_CONFIG_CLIENT_EMAIL}}
             SHEETFU_CONFIG_AUTH_URI: ${{secrets.SHEETFU_CONFIG_AUTH_URI}}
             SHEETFU_CONFIG_AUTH_PROVIDER_X509_CERT_URL: ${{secrets.SHEETFU_CONFIG_AUTH_PROVIDER_X509_CERT_URL}}
+            TWILIO_ACCOUNT_SID: ${{secrets.TWILIO_ACCOUNT_SID}}
+            TWILIO_AUTH_TOKEN: ${{secrets.TWILIO_AUTH_TOKEN}}
+            TWILIO_PHONE_NUMBER: ${{secrets.TWILIO_PHONE_NUMBER}}
+            RECIPIENT_PHONE_NUMBER: ${{secrets.RECIPIENT_PHONE_NUMBER}}
           run: |
             cd meSMSage
             echo $SHEETFU_CONFIG_TYPE
@@ -69,6 +73,7 @@ jobs:
             poetry run mesmsage demo --googlesheet-id 1ujmuIJy1NPhasIF4tnRSae0033hwa9g0wul5Ii2NwZU --debug-level DEBUG
         # Run the pytest test suite
         - name: Run Pytest Test Suite
+          if: runner.os=='Linux' || runner.os=='macOS'
           env:
             SHEETFU_CONFIG_TYPE: ${{secrets.SHEETFU_CONFIG_TYPE}}
             SHEETFU_CONFIG_TOKEN_URI: ${{secrets.SHEETFU_CONFIG_TOKEN_URI}}
@@ -80,9 +85,13 @@ jobs:
             SHEETFU_CONFIG_CLIENT_EMAIL: ${{secrets.SHEETFU_CONFIG_CLIENT_EMAIL}}
             SHEETFU_CONFIG_AUTH_URI: ${{secrets.SHEETFU_CONFIG_AUTH_URI}}
             SHEETFU_CONFIG_AUTH_PROVIDER_X509_CERT_URL: ${{secrets.SHEETFU_CONFIG_AUTH_PROVIDER_X509_CERT_URL}}
+            TWILIO_ACCOUNT_SID: ${{secrets.TWILIO_ACCOUNT_SID}}
+            TWILIO_AUTH_TOKEN: ${{secrets.TWILIO_AUTH_TOKEN}}
+            TWILIO_PHONE_NUMBER: ${{secrets.TWILIO_PHONE_NUMBER}}
+            RECIPIENT_PHONE_NUMBER: ${{secrets.RECIPIENT_PHONE_NUMBER}}
           run: |
             cd meSMSage
-            poetry run invoke -c scripts/tasks cover
+            poetry run invoke -c scripts/tasks test --noexternal
         # Run the black code formatter in checking mode
         - name: Run Black Code Formatter
           run: |

@@ -15,13 +15,34 @@ def create_constants(name, *args, **kwargs):
     return new_constants(*itertools.chain(args, kwargs.values()))
 
 
-# define the file constants
-file = create_constants(
+# define the terminology for using pandas
+dataframes = create_constants(
+    "dataframes",
+    Index="index",
+    List="list",
+)
+
+
+# define the environment constants
+environment = create_constants(
+    "environment",
+    Recipient_Phone_Number="RECIPIENT_PHONE_NUMBER",
+    Twilio_Phone_Number="TWILIO_PHONE_NUMBER",
+)
+
+# define the files constants
+files = create_constants(
     "file",
     Env=".env",
 )
 
-# The defined levels, in order of increasing severity, are as follows:
+# define the locations constants
+locations = create_constants(
+    "locations",
+    Us="US",
+)
+
+# The defined logging levels, in order of increasing severity, are as follows:
 #
 # DEBUG
 # INFO
@@ -54,11 +75,9 @@ markers = create_constants(
     Space=" ",
 )
 
-# define the terminology for using pandas
-dataframes = create_constants(
-    "dataframes",
-    Index="index",
-    List="list",
+# define constants for the messages
+messages = create_constants(
+    "messages", Sms_Did_Not_Work="Sending SMS with Twilio did not work:"
 )
 
 # define constants for the progress bars
