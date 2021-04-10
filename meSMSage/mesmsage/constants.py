@@ -75,6 +75,10 @@ markers = create_constants(
     Space=" ",
 )
 
+# define constants for the messages
+messages = create_constants(
+    "messages", Sms_Did_Not_Work="Sending SMS with Twilio did not work:"
+)
 
 # define constants for the progress bars
 progress = create_constants("progress", Small_Step=0.2, Medium_Step=0.4, Large_Step=0.6)
