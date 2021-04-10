@@ -32,6 +32,17 @@ def test_send_single_message_real_twilio_constructed_client():
 
 
 @pytest.mark.twilio
+def test_send_multiple_messages_real_twilio_constructed_client():
+    """Ensure that it is possible to send the SMS message(s) through Twilio service."""
+    util.load_environment()
+    recipient_phone_number = os.getenv(constants.environment.Recipient_Phone_Number)
+    phone_number_message_dictionary = {recipient_phone_number: "Test Message First"}
+    sid_list = sms.send_messages(phone_number_message_dictionary)
+    assert sid_list is not None
+    assert len(sid_list) == 1
+
+
+@pytest.mark.twilio
 def test_send_single_message_real_twilio_global_client():
     """Ensure that it is possible to send the SMS message through Twilio service."""
     twilio_phone_number = os.getenv(constants.environment.Twilio_Phone_Number)
@@ -43,6 +54,16 @@ def test_send_single_message_real_twilio_global_client():
         "Test: Sending Message Through Twilio",
     )
     assert sid is not None
+
+
+@pytest.mark.twilio
+def test_send_multiple_messages_real_twilio_global_client():
+    """Ensure that it is possible to send the SMS message(s) through Twilio service."""
+    recipient_phone_number = os.getenv(constants.environment.Recipient_Phone_Number)
+    phone_number_message_dictionary = {recipient_phone_number: "Test Message First"}
+    sid_list = sms.send_messages(phone_number_message_dictionary)
+    assert sid_list is not None
+    assert len(sid_list) == 1
 
 
 @pytest.mark.twilio
