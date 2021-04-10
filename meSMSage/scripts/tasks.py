@@ -30,13 +30,13 @@ def test(c, noexternal=False):
 
 
 @task
-def debugtest(c, nosheets=False):
+def debugtest(c, noexternal=False):
     """Run the test suite."""
     display_internal_python_version(c)
     print("Begin " + inspect.currentframe().f_code.co_name + " --->")
     # run the test suite
-    if nosheets:
-        c.run("poetry run pytest -x -s --log-cli-level=DEBUG -m 'not googlesheets'")
+    if noexternal:
+        c.run("poetry run pytest -x -s --log-cli-level=DEBUG -m 'not googlesheets and not twilio'")
     else:
         c.run("poetry run pytest -x -s --log-cli-level=DEBUG")
     print("---> End " + inspect.currentframe().f_code.co_name)
