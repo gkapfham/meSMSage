@@ -73,6 +73,7 @@ jobs:
             poetry run mesmsage demo --googlesheet-id 1ujmuIJy1NPhasIF4tnRSae0033hwa9g0wul5Ii2NwZU --debug-level DEBUG
         # Run the pytest test suite
         - name: Run Pytest Test Suite
+          if: runner.os=='Linux' || runner.os=='macOS'
           env:
             SHEETFU_CONFIG_TYPE: ${{secrets.SHEETFU_CONFIG_TYPE}}
             SHEETFU_CONFIG_TOKEN_URI: ${{secrets.SHEETFU_CONFIG_TOKEN_URI}}
