@@ -33,7 +33,7 @@ def send_message(client: Client, to_number: str, from_number: str, message: str)
     # return the 34-character string that serves as the unique
     # identifier for this specific message sent through Twilio.
     # Note that an sid pre-pended with "SM" means that it was a
-    # text message and with "MM" means that it was a media message.
+    # text message and with "MM" means that it was a media message
     return sent_message.sid
 
 
