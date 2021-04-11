@@ -176,38 +176,35 @@ def send(
     dry_run: bool = typer.Option(False),
 ):
     """Send SMS messages."""
-    try:
-        # STEP: connect to the spreadsheet, download it, and use it in follow-on steps
-        dataframe, console, logger = connect_and_download(
-            googlesheet_id, debug_level, env_file
-        )
-        # STEP: let the person using the program select individuals to receive the SMS
-        chosen_individual_names_list = select_individuals(dataframe, console)
-        # STEP: display the names of individuals who will receive the SMS
-        display_recipients(chosen_individual_names_list, console)
-        # STEP: get the phone numbers of the selected individuals
-        phone_numbers_dictionary = extract.get_individual_numbers(
-            dataframe, chosen_individual_names_list
-        )
-        logger.debug(f"Phone numbers: {phone_numbers_dictionary}")
-        # STEP: get the activities for individuals
-        name_activities_dictionary = extract.get_individual_activities(
-            dataframe, chosen_individual_names_list
-        )
-        logger.debug(f"Individuals and activities: {name_activities_dictionary}")
-        display_activities(name_activities_dictionary, console)
-        # STEP: generate the messages for the individuals
-        number_sms_dictionary = extract.get_sms_messages(
-            phone_numbers_dictionary, name_activities_dictionary
-        )
-        logger.debug(f"Phone numbers and SMS messages: {number_sms_dictionary}")
-        display_sms(number_sms_dictionary, console, dry_run)
-        # STEP: send the SMS messages for each individual
-        if not dry_run:
-            sid = sms.send_messages(number_sms_dictionary)
-            logger.debug(f"Twilio returned SID: {sid}")
-    except KeyboardInterrupt:
-        sys.exit(1)
+    # STEP: connect to the spreadsheet, download it, and use it in follow-on steps
+    dataframe, console, logger = connect_and_download(
+        googlesheet_id, debug_level, env_file
+    )
+    # STEP: let the person using the program select individuals to receive the SMS
+    chosen_individual_names_list = select_individuals(dataframe, console)
+    # STEP: display the names of individuals who will receive the SMS
+    display_recipients(chosen_individual_names_list, console)
+    # STEP: get the phone numbers of the selected individuals
+    phone_numbers_dictionary = extract.get_individual_numbers(
+        dataframe, chosen_individual_names_list
+    )
+    logger.debug(f"Phone numbers: {phone_numbers_dictionary}")
+    # STEP: get the activities for individuals
+    name_activities_dictionary = extract.get_individual_activities(
+        dataframe, chosen_individual_names_list
+    )
+    logger.debug(f"Individuals and activities: {name_activities_dictionary}")
+    display_activities(name_activities_dictionary, console)
+    # STEP: generate the messages for the individuals
+    number_sms_dictionary = extract.get_sms_messages(
+        phone_numbers_dictionary, name_activities_dictionary
+    )
+    logger.debug(f"Phone numbers and SMS messages: {number_sms_dictionary}")
+    display_sms(number_sms_dictionary, console, dry_run)
+    # STEP: send the SMS messages for each individual
+    if not dry_run:
+        sid = sms.send_messages(number_sms_dictionary)
+        logger.debug(f"Twilio returned SID: {sid}")
 
 
 @app.command()
