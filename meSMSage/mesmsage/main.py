@@ -51,9 +51,7 @@ def setup(debug_level: DebugLevel) -> Tuple[Console, Logger]:
     return console, logger
 
 
-def download(
-    googlesheet_id: str, env_file: Path, debug_level: DebugLevel
-) -> DataFrame:
+def download(googlesheet_id: str, env_file: Path, debug_level: DebugLevel) -> DataFrame:
     """Download the spreadsheet from Google Sheets, process it, and return an Pandas data frame."""
     logger = logging.getLogger(constants.logging.Rich)
     # DEBUG: display the debugging output for the program's command-line arguments
