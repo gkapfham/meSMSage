@@ -1,7 +1,8 @@
 """Define the command-line interface for the meSMSage program."""
 
-import os
 import logging
+import os
+import sys
 
 from enum import Enum
 from logging import Logger
@@ -59,44 +60,36 @@ def download(
     googlesheet_id: str, env_file: Path, console: Console, debug_level: DebugLevel
 ) -> DataFrame:
     """Download the spreadsheet from Google Sheets, process it, and return an Pandas data frame."""
-    # perform initialization and download actions with a progress bar
-    with Progress(
-        SpinnerColumn(), TextColumn("{task.description}"), BarColumn(), transient=True
-    ) as progress:
-        logger = logging.getLogger(constants.logging.Rich)
-        access_dataframe_task = progress.add_task("Download Google Sheet", total=0.5)
-        # DEBUG: display the debugging output for the program's command-line arguments
-        logger.debug(f"The Google Sheet is {googlesheet_id}.")
-        logger.debug(f"The debugging level is {debug_level.value}.")
-        # construct the full name of the .env file
-        env_file_name = constants.markers.Nothing
-        # the file was specified and it is valid so derive its full name
-        if env_file is not None:
-            if env_file.is_file():
-                # DEBUG: indicate that the .env file on command-line is in use
-                logger.debug("Using provided .env file from the command-line")
-                # convert the Pathlib Path to a string
-                env_file_name = str(env_file)
-        # the file name was not specified so construct the default name
-        else:
-            env_file_name = constants.markers.Nothing.join(
-                [os.getcwd(), os.sep, constants.files.Env]
-            )
-            # DEBUG: indicate the use of the .env file in the current working directory
-            logger.debug("Using constructed .env file in current directory")
-        # DEBUG: display the constructed name of the .env file
-        logger.debug(f"Environment file: {env_file_name}")
-        # load the required secure environment for connecting to Google Sheets
-        util.load_environment(env_file_name)
-        progress.update(access_dataframe_task, advance=constants.progress.Medium_Step)
-        # connect the specified Google Sheet using the default internal sheet of "Sheet1"
-        sheet = sheets.connect_to_sheet(googlesheet_id)
-        progress.update(access_dataframe_task, advance=constants.progress.Medium_Step)
-        # extract the Pandas data frame from the sheet in sheetfu's internal format
-        dataframe = sheets.extract_dataframe(sheet)
-        progress.update(access_dataframe_task, advance=constants.progress.Small_Step)
-        console.print()
-        return dataframe
+    logger = logging.getLogger(constants.logging.Rich)
+    # DEBUG: display the debugging output for the program's command-line arguments
+    logger.debug(f"The Google Sheet is {googlesheet_id}.")
+    logger.debug(f"The debugging level is {debug_level.value}.")
+    # construct the full name of the .env file
+    env_file_name = constants.markers.Nothing
+    # the file was specified and it is valid so derive its full name
+    if env_file is not None:
+        if env_file.is_file():
+            # DEBUG: indicate that the .env file on command-line is in use
+            logger.debug("Using provided .env file from the command-line")
+            # convert the Pathlib Path to a string
+            env_file_name = str(env_file)
+    # the file name was not specified so construct the default name
+    else:
+        env_file_name = constants.markers.Nothing.join(
+            [os.getcwd(), os.sep, constants.files.Env]
+        )
+        # DEBUG: indicate the use of the .env file in the current working directory
+        logger.debug("Using constructed .env file in current directory")
+    # DEBUG: display the constructed name of the .env file
+    logger.debug(f"Environment file: {env_file_name}")
+    # load the required secure environment for connecting to Google Sheets
+    util.load_environment(env_file_name)
+    # connect the specified Google Sheet using the default internal sheet of "Sheet1"
+    sheet = sheets.connect_to_sheet(googlesheet_id)
+    # extract the Pandas data frame from the sheet in sheetfu's internal format
+    dataframe = sheets.extract_dataframe(sheet)
+    # console.print(constants.markers.Indent + "Downloading")
+    return dataframe
 
 
 def select_individuals(dataframe: DataFrame, console: Console) -> List[str]:
@@ -110,7 +103,6 @@ def select_individuals(dataframe: DataFrame, console: Console) -> List[str]:
     individual_names_list.insert(
         constants.sizes.First, constants.markers.All_Individuals
     )
-    console.print()
     # allow the user to perform the fuzzy selection of individuals
     chosen_individual_names_list = interface.perform_fuzzy_selection(
         individual_names_list
@@ -184,35 +176,38 @@ def send(
     dry_run: bool = typer.Option(False),
 ):
     """Send SMS messages."""
-    # STEP: connect to the spreadsheet, download it, and use it in follow-on steps
-    dataframe, console, logger = connect_and_download(
-        googlesheet_id, debug_level, env_file
-    )
-    # STEP: let the person using the program select individuals to receive the SMS
-    chosen_individual_names_list = select_individuals(dataframe, console)
-    # STEP: display the names of individuals who will receive the SMS
-    display_recipients(chosen_individual_names_list, console)
-    # STEP: get the phone numbers of the selected individuals
-    phone_numbers_dictionary = extract.get_individual_numbers(
-        dataframe, chosen_individual_names_list
-    )
-    logger.debug(f"Phone numbers: {phone_numbers_dictionary}")
-    # STEP: get the activities for individuals
-    name_activities_dictionary = extract.get_individual_activities(
-        dataframe, chosen_individual_names_list
-    )
-    logger.debug(f"Individuals and activities: {name_activities_dictionary}")
-    display_activities(name_activities_dictionary, console)
-    # STEP: generate the messages for the individuals
-    number_sms_dictionary = extract.get_sms_messages(
-        phone_numbers_dictionary, name_activities_dictionary
-    )
-    logger.debug(f"Phone numbers and SMS messages: {number_sms_dictionary}")
-    display_sms(number_sms_dictionary, console, dry_run)
-    # STEP: send the SMS messages for each individual
-    if not dry_run:
-        sid = sms.send_messages(number_sms_dictionary)
-        logger.debug(f"Twilio returned SID: {sid}")
+    try:
+        # STEP: connect to the spreadsheet, download it, and use it in follow-on steps
+        dataframe, console, logger = connect_and_download(
+            googlesheet_id, debug_level, env_file
+        )
+        # STEP: let the person using the program select individuals to receive the SMS
+        chosen_individual_names_list = select_individuals(dataframe, console)
+        # STEP: display the names of individuals who will receive the SMS
+        display_recipients(chosen_individual_names_list, console)
+        # STEP: get the phone numbers of the selected individuals
+        phone_numbers_dictionary = extract.get_individual_numbers(
+            dataframe, chosen_individual_names_list
+        )
+        logger.debug(f"Phone numbers: {phone_numbers_dictionary}")
+        # STEP: get the activities for individuals
+        name_activities_dictionary = extract.get_individual_activities(
+            dataframe, chosen_individual_names_list
+        )
+        logger.debug(f"Individuals and activities: {name_activities_dictionary}")
+        display_activities(name_activities_dictionary, console)
+        # STEP: generate the messages for the individuals
+        number_sms_dictionary = extract.get_sms_messages(
+            phone_numbers_dictionary, name_activities_dictionary
+        )
+        logger.debug(f"Phone numbers and SMS messages: {number_sms_dictionary}")
+        display_sms(number_sms_dictionary, console, dry_run)
+        # STEP: send the SMS messages for each individual
+        if not dry_run:
+            sid = sms.send_messages(number_sms_dictionary)
+            logger.debug(f"Twilio returned SID: {sid}")
+    except KeyboardInterrupt:
+        sys.exit(1)
 
 
 @app.command()
