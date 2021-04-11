@@ -51,7 +51,7 @@ def cover(c):
     print("Begin " + inspect.currentframe().f_code.co_name + " --->")
     # run the test suite and collect coverage information
     c.run(
-        "poetry run pytest -s --cov-config .coveragerc --cov-report term-missing --cov=mesmsage --cov-branch"
+        "poetry run pytest -s --cov-config .coveragerc --cov-report term-missing --cov=mesmsage --cov-branch -m 'not twilio'"
     )
     print("---> End " + inspect.currentframe().f_code.co_name)
 
