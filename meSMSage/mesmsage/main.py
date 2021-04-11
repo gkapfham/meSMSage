@@ -2,7 +2,6 @@
 
 import logging
 import os
-import sys
 
 from enum import Enum
 from logging import Logger
@@ -12,10 +11,6 @@ from typing import List
 from typing import Tuple
 
 from rich.console import Console
-from rich.progress import Progress
-from rich.progress import BarColumn
-from rich.progress import SpinnerColumn
-from rich.progress import TextColumn
 from rich.text import Text
 
 from pandas import DataFrame
@@ -57,7 +52,7 @@ def setup(debug_level: DebugLevel) -> Tuple[Console, Logger]:
 
 
 def download(
-    googlesheet_id: str, env_file: Path, console: Console, debug_level: DebugLevel
+    googlesheet_id: str, env_file: Path, debug_level: DebugLevel
 ) -> DataFrame:
     """Download the spreadsheet from Google Sheets, process it, and return an Pandas data frame."""
     logger = logging.getLogger(constants.logging.Rich)
@@ -92,7 +87,7 @@ def download(
     return dataframe
 
 
-def select_individuals(dataframe: DataFrame, console: Console) -> List[str]:
+def select_individuals(dataframe: DataFrame) -> List[str]:
     """Interactively select the individuals who will receive the SMS messages."""
     # extract all of the individual names from the dataframe
     individual_names_series = extract.get_individual_names(dataframe)
@@ -164,7 +159,7 @@ def connect_and_download(
     console, logger = setup(debug_level)
     console.print()
     # STEP: download the spreadsheet and produce a Pandas data frame
-    dataframe = download(googlesheet_id, env_file, console, debug_level)
+    dataframe = download(googlesheet_id, env_file, debug_level)
     return dataframe, console, logger
 
 
@@ -181,7 +176,7 @@ def send(
         googlesheet_id, debug_level, env_file
     )
     # STEP: let the person using the program select individuals to receive the SMS
-    chosen_individual_names_list = select_individuals(dataframe, console)
+    chosen_individual_names_list = select_individuals(dataframe)
     # STEP: display the names of individuals who will receive the SMS
     display_recipients(chosen_individual_names_list, console)
     # STEP: get the phone numbers of the selected individuals
