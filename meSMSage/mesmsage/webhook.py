@@ -40,7 +40,7 @@ def bot():
     return str(resp)
 
 
-def main(logger: Logger, console: Console) -> None:
+def main(googlesheet_id: str, logger: Logger, console: Console) -> None:
     """Start the local ngrok server and the WSGI server from gevent to receive webhooks."""
     # start the ngrok reverse proxy service
     start_ngrok(logger, console)
