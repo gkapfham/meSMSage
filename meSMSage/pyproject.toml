@@ -6,7 +6,7 @@ authors = ["Gregory M. Kapfhammer <gkapfham@allegheny.edu>"]
 readme = "README.md"
 
 [tool.poetry.scripts]
-mesmsage = "mesmsage.main:app"
+mesmsage = "mesmsage.main:cli"
 
 [tool.poetry.dependencies]
 python = "^3.8"
@@ -19,6 +19,8 @@ rich = "^10.0.1"
 InquirerPy = "^0.1.1"
 twilio = "^6.56.0"
 phonenumbers = "^8.12.21"
+pyngrok = "^5.0.5"
+Flask = "^1.1.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
