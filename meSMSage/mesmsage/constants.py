@@ -94,3 +94,6 @@ sheets = create_constants(
     Name_Prompt="individual's name",
     Number="Individual Phone Number",
 )
+
+# define the terminology used for webhooks
+webhooks = create_constants("webhooks", Method="POST", Port=5000, Route="/bot")
