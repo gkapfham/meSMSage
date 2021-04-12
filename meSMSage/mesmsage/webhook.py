@@ -5,6 +5,7 @@ import os
 from dotenv import load_dotenv
 
 from flask import Flask, request
+from gevent.pywsgi import WSGIServer
 from pyngrok import ngrok
 
 from twilio.rest import Client
@@ -39,4 +40,5 @@ def main():
     """Start the local ngrok server and the Flask server to receive Webhooks."""
     load_dotenv()
     start_ngrok()
-    app.run(debug=True, use_reloader=False)
+    http_server = WSGIServer(('', constants.webhooks.Port), app)
+    http_server.serve_forever()
