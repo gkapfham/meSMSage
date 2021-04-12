@@ -40,5 +40,7 @@ def main():
     """Start the local ngrok server and the Flask server to receive Webhooks."""
     load_dotenv()
     start_ngrok()
-    http_server = WSGIServer(('', constants.webhooks.Port), app)
+    http_server = WSGIServer(
+        (constants.webhooks.No_Listener, constants.webhooks.Port), app
+    )
     http_server.serve_forever()
