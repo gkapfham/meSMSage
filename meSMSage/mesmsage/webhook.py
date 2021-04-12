@@ -1,18 +1,21 @@
-"""Run a WebHook server to receive SMS messages from Twilio."""
+"""Run a Webhook server to receive SMS messages from Twilio."""
 
 import os
 
 from dotenv import load_dotenv
+
 from flask import Flask, request
+from pyngrok import ngrok
+
+from twilio.rest import Client
 from twilio.twiml.messaging_response import MessagingResponse
+
 
 app = Flask(__name__)
 
 
 def start_ngrok():
-    from twilio.rest import Client
-    from pyngrok import ngrok
-
+    """Start the local ngrok service and then update the WebHook configuration in Twilio."""
     url = ngrok.connect(5000).public_url
     print(" * Tunnel URL:", url)
     client = Client()
@@ -23,6 +26,7 @@ def start_ngrok():
 
 @app.route("/bot", methods=["POST"])
 def bot():
+    """Receive a WebHook response from the Twilio service, including all details about the message."""
     user = request.values.get("From", "")
     resp = MessagingResponse()
     resp.message(f"Hello, {user}, thank you for your message!")
@@ -30,13 +34,7 @@ def bot():
 
 
 def main():
-    """Start servers."""
+    """Start the local ngrok server and the Flask server to receive Webhooks."""
     load_dotenv()
-    # if os.environ.get("WERKZEUG_RUN_MAIN") != "true":
     start_ngrok()
     app.run(debug=True, use_reloader=False)
-
-
-if __name__ == "__main__":
-    print("Something")
-    main()
