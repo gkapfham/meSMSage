@@ -1,6 +1,7 @@
-"""Run a server to receive SMS messages."""
+"""Run a WebHook server to receive SMS messages from Twilio."""
 
 import os
+
 from dotenv import load_dotenv
 from flask import Flask, request
 from twilio.twiml.messaging_response import MessagingResponse
@@ -18,14 +19,6 @@ def start_ngrok():
     client.incoming_phone_numbers.list(
         phone_number=os.environ.get("TWILIO_PHONE_NUMBER")
     )[0].update(sms_url=url + "/bot")
-
-
-# print("Here")
-# load_dotenv()
-
-# if os.environ.get("WERKZEUG_RUN_MAIN") != "true":
-#     start_ngrok()
-# app = Flask(__name__)
 
 
 @app.route("/bot", methods=["POST"])
