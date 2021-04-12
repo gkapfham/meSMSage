@@ -18,15 +18,15 @@ app = Flask(__name__)
 
 def start_ngrok():
     """Start the local ngrok service and then update the WebHook configuration in Twilio."""
-    url = ngrok.connect(5000).public_url
+    url = ngrok.connect(constants.webhooks.Port).public_url
     print(" * Tunnel URL:", url)
     client = Client()
     client.incoming_phone_numbers.list(
         phone_number=os.environ.get(constants.environment.Twilio_Phone_Number)
-    )[0].update(sms_url=url + "/bot")
+    )[0].update(sms_url=url + constants.webhooks.Route)
 
 
-@app.route("/bot", methods=["POST"])
+@app.route(constants.webhooks.Route, methods=[constants.webhooks.Method])
 def bot():
     """Receive a WebHook response from the Twilio service, including all details about the message."""
     user = request.values.get("From", "")
