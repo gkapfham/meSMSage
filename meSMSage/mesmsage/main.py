@@ -52,13 +52,8 @@ def setup(debug_level: DebugLevel) -> Tuple[Console, Logger]:
     return console, logger
 
 
-def download(googlesheet_id: str, env_file: Path, debug_level: DebugLevel) -> DataFrame:
-    """Download the spreadsheet from Google Sheets, process it, and return an Pandas data frame."""
-    logger = logging.getLogger(constants.logging.Rich)
-    # DEBUG: display the debugging output for the program's command-line arguments
-    logger.debug(f"The Google Sheet is {googlesheet_id}.")
-    logger.debug(f"The debugging level is {debug_level.value}.")
-    # construct the full name of the .env file
+def load_environment(env_file: Path, logger: Logger) -> None:
+    """Load the environment using the dotenv package."""
     env_file_name = constants.markers.Nothing
     # the file was specified and it is valid so derive its full name
     if env_file is not None:
@@ -78,6 +73,16 @@ def download(googlesheet_id: str, env_file: Path, debug_level: DebugLevel) -> Da
     logger.debug(f"Environment file: {env_file_name}")
     # load the required secure environment for connecting to Google Sheets
     util.load_environment(env_file_name)
+
+
+def download(googlesheet_id: str, env_file: Path, debug_level: DebugLevel) -> DataFrame:
+    """Download the spreadsheet from Google Sheets, process it, and return an Pandas data frame."""
+    logger = logging.getLogger(constants.logging.Rich)
+    # DEBUG: display the debugging output for the program's command-line arguments
+    logger.debug(f"The Google Sheet is {googlesheet_id}.")
+    logger.debug(f"The debugging level is {debug_level.value}.")
+    # construct the full name of the .env file
+    load_environment(env_file, logger)
     # connect the specified Google Sheet using the default internal sheet of "Sheet1"
     sheet = sheets.connect_to_sheet(googlesheet_id)
     # extract the Pandas data frame from the sheet in sheetfu's internal format
@@ -218,10 +223,16 @@ def demo(
 
 
 @cli.command()
-def receive():
+def receive(
+    debug_level: DebugLevel = DebugLevel.ERROR, env_file: Path = typer.Option(None)
+):
     """Receive SMS messages using a webhook."""
-    typer.echo("Receiving of SMS messages")
-    webhook.main()
+    # setup the console and the logger instance
+    console, logger = setup(debug_level)
+    console.print()
+    logger.debug("Calling the main function for the webhook")
+    # start the ngrok and WSGI servers using the webhook module
+    webhook.main(logger)
 
 
 @cli.command()
