@@ -21,6 +21,7 @@ twilio = "^6.56.0"
 phonenumbers = "^8.12.21"
 pyngrok = "^5.0.5"
 Flask = "^1.1.2"
+gevent = "^21.1.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
