@@ -230,6 +230,9 @@ def receive(
     # setup the console and the logger instance
     console, logger = setup(debug_level)
     console.print()
+    # load the environment from the specified .env file
+    # (or from the default file if one was not specified)
+    load_environment(env_file, logger)
     logger.debug("Calling the main function for the webhook")
     # start the ngrok and WSGI servers using the webhook module
     webhook.main(logger)
