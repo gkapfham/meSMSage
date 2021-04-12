@@ -2,6 +2,7 @@
 
 import os
 
+from datetime import datetime
 from logging import Logger
 
 from flask import Flask, request
@@ -14,9 +15,11 @@ from twilio.rest import Client
 from twilio.twiml.messaging_response import MessagingResponse
 
 from mesmsage import constants
-
+from mesmsage import sheets
 
 app = Flask(__name__)
+
+response_sheet = None
 
 
 def start_ngrok(logger: Logger, console: Console) -> None:
@@ -35,8 +38,18 @@ def start_ngrok(logger: Logger, console: Console) -> None:
 def bot():
     """Receive a webhook response from the Twilio service, including all details about the message."""
     user = request.values.get("From", "")
+    message = request.values.get("Body", "")
     resp = MessagingResponse()
-    resp.message(f"Hello, {user}, thank you for your message!")
+    timestamp = datetime.now().strftime("%m/%d/%Y %H:%M:%S")
+    response = f"Hello, {user}, thank you for your message!"
+    resp.message(response)
+    new_response = {
+        "Timestamp": timestamp,
+        "Individual Phone Number": user,
+        "Message": message,
+        "Response": response
+    }
+    sheets.add_row(response_sheet, new_response)
     return str(resp)
 
 
@@ -44,6 +57,9 @@ def main(googlesheet_id: str, logger: Logger, console: Console) -> None:
     """Start the local ngrok server and the WSGI server from gevent to receive webhooks."""
     # start the ngrok reverse proxy service
     start_ngrok(logger, console)
+    # connect to the Google sheet used for logging the response messages
+    global response_sheet
+    response_sheet = sheets.connect_to_sheet(googlesheet_id)
     # start the production WSGI server provided by gevent
     http_server = WSGIServer(
         (constants.webhooks.No_Listener, constants.webhooks.Port), app, log=logger
