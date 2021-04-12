@@ -2,6 +2,8 @@
 
 import logging
 import os
+import signal
+import sys
 
 from enum import Enum
 from logging import Logger
@@ -224,7 +226,9 @@ def demo(
 
 @cli.command()
 def receive(
-    debug_level: DebugLevel = DebugLevel.ERROR, env_file: Path = typer.Option(None)
+    googlesheet_id: str = typer.Option(...),
+    debug_level: DebugLevel = DebugLevel.ERROR,
+    env_file: Path = typer.Option(None),
 ):
     """Receive SMS messages using a webhook."""
     # setup the console and the logger instance
@@ -235,7 +239,7 @@ def receive(
     load_environment(env_file, logger)
     logger.debug("Calling the main function for the webhook")
     # start the ngrok and WSGI servers using the webhook module
-    webhook.main(logger, console)
+    webhook.main(googlesheet_id, logger, console)
 
 
 @cli.command()
