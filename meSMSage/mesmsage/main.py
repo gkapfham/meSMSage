@@ -23,10 +23,11 @@ from mesmsage import interface
 from mesmsage import sheets
 from mesmsage import sms
 from mesmsage import util
+from mesmsage import webhook
 
 import typer
 
-app = typer.Typer()
+cli = typer.Typer()
 
 
 class DebugLevel(str, Enum):
@@ -142,7 +143,8 @@ def display_sms(
     """Display the names of individuals and their associated activities."""
     if not dry_run:
         console.print("Preparing to send these SMS:")
-    console.print("Would send send these SMS:")
+    else:
+        console.print("Would send send these SMS:")
     console.print()
     sms_text = util.get_printable_dictionary_str(number_sms_dict)
     console.print(sms_text)
@@ -161,7 +163,7 @@ def connect_and_download(
     return dataframe, console, logger
 
 
-@app.command()
+@cli.command()
 def send(
     googlesheet_id: str = typer.Option(...),
     debug_level: DebugLevel = DebugLevel.ERROR,
@@ -200,7 +202,7 @@ def send(
         logger.debug(f"Twilio returned SID: {sid}")
 
 
-@app.command()
+@cli.command()
 def demo(
     googlesheet_id: str = typer.Option(...),
     debug_level: DebugLevel = DebugLevel.ERROR,
@@ -215,7 +217,14 @@ def demo(
     demonstrate.demonstrate_pandas_analysis(dataframe)
 
 
-@app.command()
+@cli.command()
+def receive():
+    """Receive SMS messages using a webhook."""
+    typer.echo("Receiving of SMS messages")
+    webhook.main()
+
+
+@cli.command()
 def history():
     """Show SMS message history."""
     typer.echo("History of SMS sending")
