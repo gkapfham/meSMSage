@@ -235,7 +235,7 @@ def receive(
     load_environment(env_file, logger)
     logger.debug("Calling the main function for the webhook")
     # start the ngrok and WSGI servers using the webhook module
-    webhook.main(logger)
+    webhook.main(logger, console)
 
 
 @cli.command()
