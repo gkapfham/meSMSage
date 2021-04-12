@@ -29,7 +29,7 @@ def start_ngrok():
 
 @app.route(constants.webhooks.Route, methods=[constants.webhooks.Method])
 def bot():
-    """Receive a WebHook response from the Twilio service, including all details about the message."""
+    """Receive a webhook response from the Twilio service, including all details about the message."""
     user = request.values.get("From", "")
     resp = MessagingResponse()
     resp.message(f"Hello, {user}, thank you for your message!")
@@ -37,7 +37,7 @@ def bot():
 
 
 def main():
-    """Start the local ngrok server and the Flask server to receive Webhooks."""
+    """Start the local ngrok server and the WSGI server from gevent to receive webhooks."""
     load_dotenv()
     start_ngrok()
     http_server = WSGIServer(
