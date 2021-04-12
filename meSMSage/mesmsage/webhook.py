@@ -10,6 +10,8 @@ from pyngrok import ngrok
 from twilio.rest import Client
 from twilio.twiml.messaging_response import MessagingResponse
 
+from mesmsage import constants
+
 
 app = Flask(__name__)
 
@@ -20,7 +22,7 @@ def start_ngrok():
     print(" * Tunnel URL:", url)
     client = Client()
     client.incoming_phone_numbers.list(
-        phone_number=os.environ.get("TWILIO_PHONE_NUMBER")
+        phone_number=os.environ.get(constants.environment.Twilio_Phone_Number)
     )[0].update(sms_url=url + "/bot")
 
 
