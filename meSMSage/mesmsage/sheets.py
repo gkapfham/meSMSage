@@ -2,8 +2,11 @@
 
 import pandas
 
+from typing import Dict
+
 from sheetfu import model  # type: ignore
 from sheetfu import SpreadsheetApp
+from sheetfu import Table
 
 from mesmsage import configure
 from mesmsage import constants
@@ -13,6 +16,23 @@ class SheetNotFoundError(Exception):
     """Define error to indicate that there is no sheet available."""
 
     pass
+
+
+def add_row(sheet: model.Sheet, values_dictionary: Dict[str, str]) -> None:
+    """Connect to the specified Google Sheet and return the requested sheet (default is "Sheet1")."""
+    # extract a logger
+    logger = configure.configure_logging()
+    # get the entire data range for the provided Google Sheet
+    data_range = sheet.get_data_range()
+    # extract a table representation of the entire data range
+    table = Table(data_range)
+    # add a row to the table and then commit it
+    table.add_one(values_dictionary)
+    table.commit()
+    # DEBUG: display details about the sheet
+    logger.debug(f"Committed values: {values_dictionary}")
+    logger.debug(type(sheet))
+    logger.debug(sheet)
 
 
 def connect_to_sheet(
