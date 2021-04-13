@@ -6,17 +6,18 @@ from datetime import datetime
 from logging import Logger
 
 from flask import Flask, request
-from gevent.pywsgi import WSGIServer
-from pyngrok import ngrok
+from gevent.pywsgi import WSGIServer  # type: ignore
+from pyngrok import ngrok  # type: ignore
 
 from rich.console import Console
 
-from twilio.rest import Client
-from twilio.twiml.messaging_response import MessagingResponse
+from twilio.rest import Client  # type: ignore
+from twilio.twiml.messaging_response import MessagingResponse  # type: ignore
 
 from mesmsage import constants
 from mesmsage import sheets
 
+# create the Flask app that is run with the gevent WSGIServer
 app = Flask(__name__)
 
 response_sheet = None
@@ -24,9 +25,15 @@ response_sheet = None
 
 def start_ngrok(logger: Logger, console: Console) -> None:
     """Start the local ngrok service and then update the WebHook configuration in Twilio."""
+    logger.debug("Starting the ngrok service and registering it with Twilio")
+    # use pyngrok to create a local ngrok service and then connect it
+    # to the public ngrok server running in the ngrok public cloud
     url = ngrok.connect(constants.webhooks.Port).public_url
     console.print("Started the ngrok service")
     console.print(f"--> Tunnel URL for ngrok: {url}")
+    # create a Twilio client using the defined environment variables
+    # and then use this client to set the ngrok server's automatically
+    # generated URL as the webhook URL in the Twilio service
     client = Client()
     client.incoming_phone_numbers.list(
         phone_number=os.environ.get(constants.environment.Twilio_Phone_Number)
@@ -37,17 +44,26 @@ def start_ngrok(logger: Logger, console: Console) -> None:
 @app.route(constants.webhooks.Route, methods=[constants.webhooks.Method])
 def bot():
     """Receive a webhook response from the Twilio service, including all details about the message."""
+    # inspect the response received by the webhook and:
+    # --> extract the phone number of the response creator
     user = request.values.get("From", "")
+    # --> extract the message
     message = request.values.get("Body", "")
-    resp = MessagingResponse()
+    # create a timestamp representing when webhook received the message
     timestamp = datetime.now().strftime("%m/%d/%Y %H:%M:%S")
+    # create and send the response using the Twilio service
+    resp = MessagingResponse()
     response = f"Hello, {user}, thank you for your message!"
     resp.message(response)
+    # create a dictionary that represents the response that was
+    # send back to the user and then log this response in a Google sheet
+    # TODO: this should also contain the classification of the
+    # message that was sent by the user
     new_response = {
         "Timestamp": timestamp,
         "Individual Phone Number": user,
         "Message": message,
-        "Response": response
+        "Response": response,
     }
     sheets.add_row(response_sheet, new_response)
     return str(resp)
