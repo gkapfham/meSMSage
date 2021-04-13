@@ -50,6 +50,10 @@ def cover(c):
     display_internal_python_version(c)
     print("Begin " + inspect.currentframe().f_code.co_name + " --->")
     # run the test suite and collect coverage information
+    # note that this does not run the test cases marked with the @twilio
+    # marker so as to not incur service costs when testing. While this
+    # will still run the test cases that use mocks, it may still result
+    # in the tests having lower coverage than would otherwise be the case
     c.run(
         "poetry run pytest -s --cov-config .coveragerc --cov-report term-missing --cov=mesmsage --cov-branch -m 'not twilio'"
     )
