@@ -2,8 +2,6 @@
 
 import logging
 import os
-import signal
-import sys
 
 from enum import Enum
 from logging import Logger
