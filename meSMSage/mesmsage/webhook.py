@@ -14,8 +14,11 @@ from rich.console import Console
 from twilio.rest import Client  # type: ignore
 from twilio.twiml.messaging_response import MessagingResponse  # type: ignore
 
+from mesmsage import configure
 from mesmsage import constants
+from mesmsage import nlp
 from mesmsage import sheets
+from mesmsage import timer
 
 # create the Flask app that is run with the gevent WSGIServer
 app = Flask(__name__)
@@ -44,6 +47,8 @@ def start_ngrok(logger: Logger, console: Console) -> None:
 @app.route(constants.webhooks.Route, methods=[constants.webhooks.Method])
 def bot():
     """Receive a webhook response from the Twilio service, including all details about the message."""
+    # create a logger
+    logger = configure.configure_logging()
     # inspect the response received by the webhook and:
     # --> extract the phone number of the response creator
     user = request.values.get("From", "")
@@ -57,8 +62,6 @@ def bot():
     resp.message(response)
     # create a dictionary that represents the response that was
     # send back to the user and then log this response in a Google sheet
-    # TODO: this should also contain the classification of the
-    # message that was sent by the user
     new_response = {
         "Timestamp": timestamp,
         "Individual Phone Number": user,
@@ -66,6 +69,9 @@ def bot():
         "Response": response,
     }
     sheets.add_row(response_sheet, new_response)
+    # calculate the intent scores for the message received from the user
+    intent_scores_dictionary = nlp.calculate_intent_scores(message, True)
+    logger.debug(intent_scores_dictionary)
     return str(resp)
 
 
