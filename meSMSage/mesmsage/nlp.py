@@ -103,7 +103,11 @@ def calculate_intent_scores(
     logger.debug(intent_dictionary)
     # create the dictionary of the intents and the scores
     intent_scores_dictionary = {}
+    # calculate the similarity scores between the candidate responses in the
+    # intent dictionary and the actual response from the human
     for intent, response_list in intent_dictionary.items():
         score_list = calculate_similarities(response_list, human_response, parallel)
         intent_scores_dictionary[intent] = score_list
+    # return the dictionary of the form:
+    # {The intent (e.g., "SICK"): [List of float scores for each candidate response]}
     return intent_scores_dictionary
