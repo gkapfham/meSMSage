@@ -52,6 +52,9 @@ intent_dictionary = {
         "I did not sign up for a shift today.",
         "I am not supposed to work on Monday. Is this correct?",
         "I don't remember agreeing to work a shift on Monday.",
+        "I think that there is a mistake in my shifts.",
+        "I think that there are mistakes in my shifts. Are they correct?",
+        "Are these shifts correct? I don't remember signing up for them!",
     ],
     "INQUIRE": [
         "Can you tell me who I am working with on Monday?",
