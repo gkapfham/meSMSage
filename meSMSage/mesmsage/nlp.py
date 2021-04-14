@@ -1,11 +1,13 @@
 """Use natural language processing (NLP) to determine intent and similarity in human responses."""
 
-import en_core_web_lg
+import operator
 
 from multiprocessing import Pool
 
 from typing import Dict
 from typing import List
+
+import en_core_web_lg
 
 from mesmsage import configure
 from mesmsage import timer
@@ -20,13 +22,12 @@ intent_dictionary = {
         "I regret that I cannot work my shift on Monday.",
         "I regret that I can't work my shift on Monday.",
         "I will no longer be able to work my shift on Monday.",
-    ],
-    "HELP": [
-        "Can you help me to reschedule my shifts on Monday?",
-        "Can you please reschedule my Monday shift to a different day?",
-        "Can you please pick a replacement for my shift on Monday?",
-        "Can you help me to pick new shifts?",
-        "Can you clarify the date and time of my shifts this week?",
+        "I have a schedule conflict and I cannot work my shift on Monday.",
+        "I have a schedule conflict and I cannot work my shifts this week.",
+        "Something came up and I cannot work my shifts this week.",
+        "Something came up and I cannot work my shift on Monday.",
+        "I'm too busy and I cannot work my shift on Monday.",
+        "I'm too busy and I cannot work my shifts this week.",
     ],
     "FORGOT": [
         "I forgot that I was supposed to work today. Can you find someone else?",
@@ -47,6 +48,8 @@ intent_dictionary = {
         "Can you tell me who works with me on Monday?",
         "Who am I working with on Monday?",
         "Who works with me on Monday?",
+        "Who am I working with this week?",
+        "Who works with me this week?",
         "Can you tell me who works on my shifts this week?",
     ],
     "SICK": [
@@ -54,21 +57,28 @@ intent_dictionary = {
         "I do not feel good. I cannot work my shifts next week.",
         "I feel sick. I cannot work my shift on Monday. Sorry!",
         "I am sick and cannot work my shift today.",
-        "I am sick and I cannot work my shifts next week.",
+        "I am ill and I cannot work my shifts next week.",
+        "My child is sick and I cannot work my shifts next week.",
+        "My daughter is sick and I cannot work my shifts next week.",
+        "My son is sick and I cannot work my shifts next week.",
+        "My child is sick and I cannot work my shift on Monday.",
+        "My daughter is sick and I cannot work my shift on Monday.",
+        "My son is sick and I cannot work my shift on Monday.",
     ],
     "THANKS": [
         "Thanks for reminding me about my shifts, I appreciate it!",
         "Thank you for the reminder about my shifts!",
         "Thanks for reminding me about my shift on Monday!",
         "Thank you for reminder me about my shifts this week!",
-        "I appreciate your reminder about my shifts, thanks!"
+        "I appreciate your reminder about my shifts, thanks!",
     ],
     "QUIT": [
         "I'm sorry but I no longer want to work at the Motzing Center.",
-        "I'm too busy and I can no longer volunteer at the Motzing Center.",
+        "I'm sorry but I can no longer volunteer at the Motzing Center.",
+        "I'm sorry but I no longer want to work at the Kovfino.",
+        "I'm sorry but I can no longer volunteer at the Kovfino.",
+        "I'm really sorry but I can no longer work at the Motzing Center.",
         "I'm really sorry but I can no longer work at Kovfino.",
-        "I cannot work my shift on Monday.",
-        "I cannot work any of my shifts right now.",
     ],
 }
 
@@ -129,3 +139,19 @@ def calculate_intent_scores(
     # return the dictionary of the form:
     # {The intent (e.g., "SICK"): [List of float scores for each candidate response]}
     return intent_scores_dictionary
+
+
+def summarize_intent_scores(
+    intent_scores_dictionary: Dict[str, List[float]]
+) -> Dict[str, float]:
+    """Summarize the intent scores down to the maximum number for each list of values."""
+    intent_scores_summary_dictionary = {}
+    for intent, scores_list in intent_scores_dictionary.items():
+        intent_scores_summary_dictionary[intent] = max(scores_list)
+    return intent_scores_summary_dictionary
+
+
+def determine_intent(intent_scores_summary_dictionary: Dict[str, float]) -> str:
+    """Determine the intent that best matches the one provided by the human user."""
+    maximum_intent = max(intent_scores_summary_dictionary.items(), key=operator.itemgetter(1))[0]
+    return maximum_intent
