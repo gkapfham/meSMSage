@@ -63,7 +63,7 @@ def bot():
     )
     logger.debug(intent_scores_dictionary)
     logger.debug(summarized_intent_scores_dictionary)
-    response, intent = nlp.create_response(summarized_intent_scores_dictionary)
+    response, intent, score = nlp.create_response(summarized_intent_scores_dictionary)
     logger.debug(response)
     # create and send the response using the Twilio service
     resp = MessagingResponse()
@@ -76,6 +76,7 @@ def bot():
         "Message": message,
         "Response": response,
         "Classified Intent": intent,
+        "Score": score,
     }
     sheets.add_row(response_sheet, new_response)
     return str(resp)
