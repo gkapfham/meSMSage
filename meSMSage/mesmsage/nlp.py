@@ -30,6 +30,15 @@ intent_dictionary = {
         "I'm too busy and I cannot work my shift on Monday.",
         "I'm too busy and I cannot work my shifts this week.",
     ],
+    "CONFIRM": [
+        "I can definitely work my assigned shifts, thanks for alerting me!",
+        "I can work my shifts.",
+        "I can work my shifts, thanks!",
+        "I can work my shift on Monday.",
+        "I can work my shifts this week.",
+        "Yes, I can work all of my shifts this week.",
+        "Sure, I can work my shifts on Monday.",
+    ],
     "FORGOT": [
         "I forgot that I was supposed to work today. Can you find someone else?",
         "I forgot that my shift is today! I don't think I can make it now.",
@@ -90,6 +99,10 @@ response_dictionary = {
     "CANNOT": (
         "Thanks for letting us know that you cannot work one or more of your shifts."
         + " Jessica will contact you soon and also try to schedule a replacement! 🏃"
+    ),
+    "CONFIRM": (
+        "Thanks for letting us know that you can work at least one of your shifts."
+        + " We really appreciate your willingness to volunteer at the Motzing Center! 🤩"
     ),
     "FORGOT": (
         "Oh no! We are sorry to learn that you forgot one or more of your shifts."
@@ -209,7 +222,7 @@ def determine_intent(
 def create_response(
     summarized_intent_scores_dictionary: Dict[str, float],
     similarity_threshold=THRESHOLD,
-) -> (str, str):
+) -> (str, str, float):
     """Create the response that should be the intended response for the human message."""
     global intent_responses
     (intent, score) = determine_intent(summarized_intent_scores_dictionary)
@@ -218,5 +231,5 @@ def create_response(
         message = response_dictionary[intent]
     else:
         message = response_dictionary["UNKNOWN"]
-        intent = intent + " -> UNKNOWN" + f" because {score} < {similarity_threshold}"
-    return (message, intent)
+        intent = intent + " -> UNKNOWN" + f" because {score:0.4f} < {similarity_threshold}"
+    return (message, intent, score)
