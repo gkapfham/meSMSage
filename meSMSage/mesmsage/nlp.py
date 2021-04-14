@@ -109,7 +109,7 @@ response_dictionary = {
     ),
     "FORGOT": (
         "Oh no! We are sorry to learn that you forgot one or more of your shifts."
-        + " Jessica will contact you and try to schedule a replacement. 😉"
+        + " Jessica will contact you and also try to schedule a replacement. 😉"
     ),
     "INCORRECT": (
         "We're sorry that there might be a misunderstanding about your shifts."
