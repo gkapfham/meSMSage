@@ -234,5 +234,7 @@ def create_response(
         message = response_dictionary[intent]
     else:
         message = response_dictionary["UNKNOWN"]
-        intent = intent + " -> UNKNOWN" + f" because {score:0.4f} < {similarity_threshold}"
+        intent = (
+            intent + " -> UNKNOWN" + f" because {score:0.4f} < {similarity_threshold}"
+        )
     return (message, intent, score)
