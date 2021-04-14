@@ -23,14 +23,14 @@ intent_dictionary = {
     ],
     "HELP": [
         "Can you help me to reschedule my shifts on Monday?",
-        "I'm not sure how to refill the espresso machine. Can you help me?",
-        "Were we supposed to have a volunteer meeting this week?",
-        "Can we setup a time to meet to discuss my concerns about my shift?",
-        "The person who is working with me on Monday does not show up on time. Can you help?",
+        "Can you please reschedule my Monday shift to a different day?",
+        "Can you please pick a replacement for my shift on Monday?",
+        "Can you help me to pick new shifts?",
+        "Can you clarify the date and time of my shifts this week?",
     ],
     "FORGOT": [
         "I forgot that I was supposed to work today. Can you find someone else?",
-        "I forgot that my shift is today! I don't think I can make it now",
+        "I forgot that my shift is today! I don't think I can make it now.",
         "I did not remember that I cannot work today. Can you find someone else?",
         "I forgot that I was supposed to work on Monday. Can someone cover my shift?",
         "I forgot that I cannot work on Monday. Can you schedule someone else please?",
@@ -42,6 +42,13 @@ intent_dictionary = {
         "I am not supposed to work on Monday. Is this correct?",
         "I don't remember agreeing to work a shift on Monday.",
     ],
+    "INQUIRE": [
+        "Can you tell me who I am working with on Monday?",
+        "Can you tell me who works with me on Monday?",
+        "Who am I working with on Monday?",
+        "Who works with me on Monday?",
+        "Can you tell me who works on my shifts this week?",
+    ],
     "SICK": [
         "I do not feel good. I cannot work my shift today.",
         "I do not feel good. I cannot work my shifts next week.",
@@ -49,21 +56,32 @@ intent_dictionary = {
         "I am sick and cannot work my shift today.",
         "I am sick and I cannot work my shifts next week.",
     ],
+    "THANKS": [
+        "Thanks for reminding me about my shifts, I appreciate it!",
+        "Thank you for the reminder about my shifts!",
+        "Thanks for reminding me about my shift on Monday!",
+        "Thank you for reminder me about my shifts this week!",
+        "I appreciate your reminder about my shifts, thanks!"
+    ],
     "QUIT": [
         "I'm sorry but I no longer want to work at the Motzing Center.",
         "I'm too busy and I can no longer volunteer at the Motzing Center.",
         "I'm really sorry but I can no longer work at Kovfino.",
         "I cannot work my shift on Monday.",
-        "I cannot work my all of my shifts any more.",
+        "I cannot work any of my shifts right now.",
     ],
 }
+
+# globally load the spaCy NLP model to
+# avoid the costs of repeated loading
+spacy_nlp = en_core_web_lg.load()
 
 
 def calculate_similarity(candidate_response: str, human_response: str) -> float:
     """Calculate the similarity between a candidate response and a specific human response."""
     # extract a logger
     logger = configure.configure_logging()
-    spacy_nlp = en_core_web_lg.load()
+    global spacy_nlp
     human_response_nlp = spacy_nlp(human_response)
     candidate_response_nlp = spacy_nlp(candidate_response)
     similarity = human_response_nlp.similarity(candidate_response_nlp)
