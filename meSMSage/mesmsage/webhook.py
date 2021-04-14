@@ -18,7 +18,6 @@ from mesmsage import configure
 from mesmsage import constants
 from mesmsage import nlp
 from mesmsage import sheets
-from mesmsage import timer
 
 # create the Flask app that is run with the gevent WSGIServer
 app = Flask(__name__)
@@ -56,9 +55,18 @@ def bot():
     message = request.values.get("Body", "")
     # create a timestamp representing when webhook received the message
     timestamp = datetime.now().strftime("%m/%d/%Y %H:%M:%S")
+    # calculate the intent scores for the message received from the user
+    intent_scores_dictionary = nlp.calculate_intent_scores(message, True)
+    # summarize the intent scores by finding the maximum score for each intent
+    summarized_intent_scores_dictionary = nlp.summarize_intent_scores(
+        intent_scores_dictionary
+    )
+    logger.debug(intent_scores_dictionary)
+    logger.debug(summarized_intent_scores_dictionary)
+    response, intent = nlp.create_response(summarized_intent_scores_dictionary)
+    logger.debug(response)
     # create and send the response using the Twilio service
     resp = MessagingResponse()
-    response = f"Hello, {user}, thank you for your message!"
     resp.message(response)
     # create a dictionary that represents the response that was
     # send back to the user and then log this response in a Google sheet
@@ -67,11 +75,9 @@ def bot():
         "Individual Phone Number": user,
         "Message": message,
         "Response": response,
+        "Classified Intent": intent,
     }
     sheets.add_row(response_sheet, new_response)
-    # calculate the intent scores for the message received from the user
-    intent_scores_dictionary = nlp.calculate_intent_scores(message, True)
-    logger.debug(intent_scores_dictionary)
     return str(resp)
 
 
