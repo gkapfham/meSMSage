@@ -10,7 +10,8 @@ from typing import List
 import en_core_web_lg
 
 from mesmsage import configure
-from mesmsage import timer
+
+THRESHOLD = 0.85
 
 
 # The dictionary of:
@@ -55,10 +56,13 @@ intent_dictionary = {
     "SICK": [
         "I do not feel good. I cannot work my shift today.",
         "I do not feel good. I cannot work my shifts next week.",
+        "I do not feel good. I cannot work my shift today. Can you find a replacement?",
+        "I do not feel good. I cannot work my shifts next week. Can you find a replacement?",
         "I feel sick. I cannot work my shift on Monday. Sorry!",
-        "I am sick and cannot work my shift today.",
+        "I am sick and cannot work my shift today. Can you find a replacement?",
         "I am ill and I cannot work my shifts next week.",
         "My child is sick and I cannot work my shifts next week.",
+        "My child is sick and I cannot work my shifts next week. Can you help?",
         "My daughter is sick and I cannot work my shifts next week.",
         "My son is sick and I cannot work my shifts next week.",
         "My child is sick and I cannot work my shift on Monday.",
@@ -80,6 +84,47 @@ intent_dictionary = {
         "I'm really sorry but I can no longer work at the Motzing Center.",
         "I'm really sorry but I can no longer work at Kovfino.",
     ],
+}
+
+response_dictionary = {
+    "CANNOT": (
+        "Thanks for letting us know that you cannot work one or more of your shifts."
+        + " Jessica will contact you soon and also try to schedule a replacement! 🏃"
+    ),
+    "FORGOT": (
+        "Oh no! We are sorry to learn that you forgot one or more of your shifts."
+        + " Jessica will contact you and try to schedule a replacement. 😉"
+    ),
+    "INCORRECT": (
+        "We're sorry that there might be a misunderstanding about your shifts."
+        + " Please check a previous text message to see what shifts we assigned to you."
+        + " Jessica will contact you resolve any misunderstandings! 😬"
+    ),
+    "INQUIRE": (
+        "Okay, it seems like you have a question about your shifts!"
+        + " Please check a previous text message to see what shifts we assigned to you."
+        + " Jessica will contact you to answer any other questions that you have. 😂"
+    ),
+    "SICK": (
+        "Oh no, we're sorry to learn that you or someone you know might be sick!"
+        + " We hope that you feel better soon."
+        + " Jessica will attempt to reschedule your shifts. 🤒"
+    ),
+    "THANKS": (
+        "Hey, thanks for letting us know that you appreciate the Motzing Center."
+        + " We think that you are awesome, too!"
+        + " Let Jessica know if you have ideas for improving this service, okay? 🤯"
+    ),
+    "QUIT": (
+        "Uh oh, it sounds like volunteering at the Motzing Center might be causing you some trouble."
+        + " We're sorry to hear about this and hope that we can improve the situation."
+        + " Jessica will contact you in an attempt to address your concerns. 😢"
+    ),
+    "UNKNOWN": (
+        "Sorry, we could not understand your message."
+        + " I guess that is what happens when a program tries to understand a human!"
+        + " Jessica will contact you to see if she can resolve this issue. 🤷"
+    ),
 }
 
 # globally load the spaCy NLP model to
@@ -151,7 +196,27 @@ def summarize_intent_scores(
     return intent_scores_summary_dictionary
 
 
-def determine_intent(intent_scores_summary_dictionary: Dict[str, float]) -> str:
+def determine_intent(
+    intent_scores_summary_dictionary: Dict[str, float]
+) -> (str, float):
     """Determine the intent that best matches the one provided by the human user."""
-    maximum_intent = max(intent_scores_summary_dictionary.items(), key=operator.itemgetter(1))[0]
-    return maximum_intent
+    maximum_intent = max(
+        intent_scores_summary_dictionary.items(), key=operator.itemgetter(1)
+    )[0]
+    return (maximum_intent, intent_scores_summary_dictionary[maximum_intent])
+
+
+def create_response(
+    summarized_intent_scores_dictionary: Dict[str, float],
+    similarity_threshold=THRESHOLD,
+) -> (str, str):
+    """Create the response that should be the intended response for the human message."""
+    global intent_responses
+    (intent, score) = determine_intent(summarized_intent_scores_dictionary)
+    message = None
+    if score > similarity_threshold:
+        message = response_dictionary[intent]
+    else:
+        message = response_dictionary["UNKNOWN"]
+        intent = intent + " -> UNKNOWN" + f" because {score} < {similarity_threshold}"
+    return (message, intent)
