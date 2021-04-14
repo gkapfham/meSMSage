@@ -29,6 +29,9 @@ intent_dictionary = {
         "Something came up and I cannot work my shift on Monday.",
         "I'm too busy and I cannot work my shift on Monday.",
         "I'm too busy and I cannot work my shifts this week.",
+        "I'm going to be late to my shifts this week.",
+        "I'm going to be late to my shift on Friday of this week.",
+        "I'm going to be late to my shift on Friday.",
     ],
     "CONFIRM": [
         "I can definitely work my assigned shifts, thanks for alerting me!",
