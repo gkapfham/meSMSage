@@ -20,6 +20,7 @@ from mesmsage import constants
 from mesmsage import demonstrate
 from mesmsage import extract
 from mesmsage import interface
+from mesmsage import nlp
 from mesmsage import sheets
 from mesmsage import sms
 from mesmsage import util
@@ -238,6 +239,24 @@ def receive(
     logger.debug("Calling the main function for the webhook")
     # start the ngrok and WSGI servers using the webhook module
     webhook.main(googlesheet_id, logger, console)
+
+
+@cli.command()
+def prepare(
+    debug_level: DebugLevel = DebugLevel.ERROR,
+    input_path: Path = typer.Option(...),
+    output_path: Path = typer.Option(...),
+):
+    """Prepare the spaCy NLP model."""
+    # setup the console and the logger instance
+    console, logger = setup(debug_level)
+    console.print()
+    logger.debug("Preparing the spaCy NLP model")
+    spacy_jsonl_list = nlp.convert_dictionary_to_spacy_jsonl_dictionary_list(
+        nlp.intent_dictionary
+    )
+    util.save_jsonl_asset(spacy_jsonl_list)
+    util.convert("en", input_path, output_path)
 
 
 @cli.command()
