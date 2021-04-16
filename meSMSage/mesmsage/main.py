@@ -257,6 +257,19 @@ def prepare(
     )
     util.save_jsonl_asset(spacy_jsonl_list)
     util.convert("en", input_path, output_path)
+    # TODO: run the other Spacy commands?
+
+
+@cli.command()
+def interact(
+    debug_level: DebugLevel = DebugLevel.ERROR,
+):
+    """Prepare the spaCy NLP model."""
+    # setup the console and the logger instance
+    console, logger = setup(debug_level)
+    console.print()
+    logger.debug("Interact with the spaCy NLP model")
+    nlp.interact_with_spacy_model()
 
 
 @cli.command()
