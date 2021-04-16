@@ -1,5 +1,6 @@
 """Use natural language processing (NLP) to determine intent and similarity in human responses."""
 
+import copy
 import operator
 
 from multiprocessing import Pool
@@ -150,6 +151,45 @@ response_dictionary = {
 # globally load the spaCy NLP model to
 # avoid the costs of repeated loading
 spacy_nlp = en_core_web_lg.load()
+
+
+def create_default_intent_dictionary(
+    intent_dictionary: Dict[str, List[str]]
+) -> Dict[str, Dict[str, float]]:
+    """Create a dictionary for the specific intents and their encodings."""
+    # create the default intent dictionary
+    textcat_intent_dictionary = {}
+    for intent in intent_dictionary.keys():
+        textcat_intent_dictionary[intent] = 0.0
+    wrapper_textcat_intent_dictionary = {}
+    wrapper_textcat_intent_dictionary["cats"] = textcat_intent_dictionary
+    return wrapper_textcat_intent_dictionary
+
+
+def convert_dictionary_to_spacy_jsonl_dictionary_list(
+    intent_dictionary: Dict[str, List[str]]
+):
+    """Convert a standard dictionary to a dictionary in a format for JSON lines."""
+    # create the overall dictionary that will contain content in JSONL format
+    spacy_json_list = []
+    # create the dictionary of the different text categories
+    textcat_default_intent_dictionary = create_default_intent_dictionary(
+        intent_dictionary
+    )
+    for intent, messages in intent_dictionary.items():
+        for message in messages:
+            internal_message_dictionary = {}
+            internal_message_dictionary["text"] = message
+            textcat_default_intent_dictionary_deepcopy = copy.deepcopy(
+                textcat_default_intent_dictionary
+            )
+            textcat_default_intent_dictionary_deepcopy["cats"][intent] = 1.0
+            internal_message_dictionary[
+                "cats"
+            ] = textcat_default_intent_dictionary_deepcopy["cats"]
+            print(internal_message_dictionary)
+            spacy_json_list.append(internal_message_dictionary)
+    return spacy_json_list
 
 
 def calculate_similarity(candidate_response: str, human_response: str) -> float:
