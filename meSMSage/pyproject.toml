@@ -24,6 +24,8 @@ Flask = "^1.1.2"
 gevent = "^21.1.2"
 spacy = "^3.0.5"
 en-core-web-lg = {url = "https://github.com/explosion/spacy-models/releases/download/en_core_web_lg-3.0.0/en_core_web_lg-3.0.0-py3-none-any.whl"}
+srsly = "^2.4.1"
+spacy-streamlit = "^1.0.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
