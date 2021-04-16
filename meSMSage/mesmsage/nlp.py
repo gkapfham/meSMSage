@@ -9,6 +9,7 @@ from typing import Dict
 from typing import List
 from typing import Tuple
 
+import spacy
 import en_core_web_lg  # type: ignore
 
 from mesmsage import configure
@@ -151,6 +152,20 @@ response_dictionary = {
 # globally load the spaCy NLP model to
 # avoid the costs of repeated loading
 spacy_nlp = en_core_web_lg.load()
+
+
+def interact_with_spacy_model():
+    """Interact with the spaCy model."""
+    nlp = spacy.load("training/model-best")
+    text = ""
+    print("type : 'quit' to exit")
+    # predict the product category until someone writes quit
+    while text != "quit":
+        text = input("Please enter a response here: ")
+        doc = nlp(text)
+        print()
+        print(doc.cats)
+        print()
 
 
 def create_default_intent_dictionary(
