@@ -1,5 +1,15 @@
 """Utility functions for manipulating the environment and textual content."""
 
+import json
+import warnings
+
+import srsly
+
+from pathlib import Path
+
+import spacy
+from spacy.tokens import DocBin
+
 from textwrap import indent
 from textwrap import wrap
 from typing import Dict
@@ -63,3 +73,22 @@ def get_spiffy_list(contents: List[str]) -> str:
 def reindent(text: str, num_spaces: int = 4) -> str:
     """Add indentation spaces to a (potentially) multiline string."""
     return indent(text, constants.markers.Space * num_spaces)
+
+
+def save_jsonl_asset(jsonl_dictionary_list) -> None:
+    """Save a JSONL file for use during NLP training with spaCy."""
+    with open("assets/docs_intents_training.jsonl", "w+") as outputfile:
+        for jsonl_dictionary in jsonl_dictionary_list:
+            json.dump(jsonl_dictionary, outputfile, separators=(",", ":"))
+            outputfile.write("\n")
+
+
+def convert(lang: str, input_path: Path, output_path: Path):
+    """Convert a file in JSONL format to the Spacy binary format."""
+    nlp = spacy.blank(lang)
+    db = DocBin()
+    for line in srsly.read_jsonl(input_path):
+        doc = nlp.make_doc(line["text"])
+        doc.cats = line["cats"]
+        db.add(doc)
+    db.to_disk(output_path)
