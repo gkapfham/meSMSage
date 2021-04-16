@@ -6,8 +6,9 @@ from multiprocessing import Pool
 
 from typing import Dict
 from typing import List
+from typing import Tuple
 
-import en_core_web_lg
+import en_core_web_lg  # type: ignore
 
 from mesmsage import configure
 
@@ -217,7 +218,7 @@ def summarize_intent_scores(
 
 def determine_intent(
     intent_scores_summary_dictionary: Dict[str, float]
-) -> (str, float):
+) -> Tuple[str, float]:
     """Determine the intent that best matches the one provided by the human user."""
     maximum_intent = max(
         intent_scores_summary_dictionary.items(), key=operator.itemgetter(1)
@@ -228,7 +229,7 @@ def determine_intent(
 def create_response(
     summarized_intent_scores_dictionary: Dict[str, float],
     similarity_threshold=THRESHOLD,
-) -> (str, str, float):
+) -> Tuple[str, str, float]:
     """Create the response that should be the intended response for the human message."""
     global intent_responses
     (intent, score) = determine_intent(summarized_intent_scores_dictionary)
