@@ -93,8 +93,16 @@ intent_dictionary = {
 
 def test_create_default_intent_dictionary():
     """Ensure that it is possible to create the default intent dictionary."""
-    default_intent_dictionary = nlp.create_default_intent_key_dictionary(intent_dictionary)
+    default_intent_dictionary = nlp.create_default_intent_dictionary(intent_dictionary)
     assert default_intent_dictionary is not None
-    print(default_intent_dictionary)
     for key, value in default_intent_dictionary["cats"].items():
         assert value == 0.0
+
+
+def test_create_entire_jsonl_dictionary():
+    """Ensure that it is possible to construct the entire dictionary in the JSONL format."""
+    entire_jsonl_dictionary_list = (
+        nlp.convert_dictionary_to_spacy_jsonl_dictionary_list(intent_dictionary)
+    )
+    assert entire_jsonl_dictionary_list is not None
+    print(entire_jsonl_dictionary_list)
