@@ -1,9 +1,7 @@
 """Run tasks that support easy testing across multiple Python versions."""
-
 import inspect
 
 from invoke import task
-
 from rich.console import Console
 
 console = Console()
@@ -24,20 +22,26 @@ def display_internal_python_version(c):
 def test(c, noexternal=False):
     """Run the test suite."""
     display_internal_python_version(c)
-    console.print(f"[bold red]:zap:Begin {inspect.currentframe().f_code.co_name} [/bold red]")
+    console.print(
+        f"[bold red]:zap:Begin {inspect.currentframe().f_code.co_name} [/bold red]"
+    )
     # run the test suite
     if noexternal:
         c.run("poetry run pytest -x -s -m 'not googlesheets and not twilio'")
     else:
         c.run("poetry run pytest -x -s")
-    console.print(f"[bold red]:zap:End {inspect.currentframe().f_code.co_name} [/bold red]")
+    console.print(
+        f"[bold red]:zap:End {inspect.currentframe().f_code.co_name} [/bold red]"
+    )
 
 
 @task
 def debugtest(c, noexternal=False):
     """Run the test suite."""
     display_internal_python_version(c)
-    console.print(f"[bold red]:zap:Begin {inspect.currentframe().f_code.co_name} [/bold red]")
+    console.print(
+        f"[bold red]:zap:Begin {inspect.currentframe().f_code.co_name} [/bold red]"
+    )
     # run the test suite
     if noexternal:
         c.run(
@@ -45,14 +49,18 @@ def debugtest(c, noexternal=False):
         )
     else:
         c.run("poetry run pytest -x -s --log-cli-level=DEBUG")
-    console.print(f"[bold red]:zap:End {inspect.currentframe().f_code.co_name} [/bold red]")
+    console.print(
+        f"[bold red]:zap:End {inspect.currentframe().f_code.co_name} [/bold red]"
+    )
 
 
 @task
 def cover(c):
     """Run the test suite and collect coverage information."""
     display_internal_python_version(c)
-    console.print(f"[bold red]:zap:Begin {inspect.currentframe().f_code.co_name} [/bold red]")
+    console.print(
+        f"[bold red]:zap:Begin {inspect.currentframe().f_code.co_name} [/bold red]"
+    )
     # run the test suite and collect coverage information
     # note that this does not run the test cases marked with the @twilio
     # marker so as to not incur service costs when testing. While this
@@ -61,7 +69,9 @@ def cover(c):
     c.run(
         "poetry run pytest -s --cov-config .coveragerc --cov-report term-missing --cov=mesmsage --cov-branch -m 'not twilio'"
     )
-    console.print(f"[bold red]:zap:Begin {inspect.currentframe().f_code.co_name} [/bold red]")
+    console.print(
+        f"[bold red]:zap:End {inspect.currentframe().f_code.co_name} [/bold red]"
+    )
 
 
 @task
@@ -69,9 +79,14 @@ def black(c):
     """Run black code format check."""
     display_internal_python_version(c)
     print("Begin " + inspect.currentframe().f_code.co_name + " --->")
+    console.print(
+        f"[bold red]:zap:Begin {inspect.currentframe().f_code.co_name} [/bold red]"
+    )
     # run the test suite and collect coverage information
     c.run("poetry run black mesmsage tests --check")
-    print("---> End " + inspect.currentframe().f_code.co_name)
+    console.print(
+        f"[bold red]:zap:End {inspect.currentframe().f_code.co_name} [/bold red]"
+    )
 
 
 @task
