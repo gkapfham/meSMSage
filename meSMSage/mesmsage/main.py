@@ -257,7 +257,9 @@ def prepare(
 
 
 @cli.command()
-def interact(debug_level: DebugLevel = DebugLevel.ERROR,):
+def interact(
+    debug_level: DebugLevel = DebugLevel.ERROR,
+):
     """Prepare the spaCy NLP model."""
     # setup the console and the logger instance
     console, logger = setup(debug_level)
