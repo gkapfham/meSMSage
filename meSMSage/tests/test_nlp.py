@@ -105,4 +105,3 @@ def test_create_entire_jsonl_dictionary():
         nlp.convert_dictionary_to_spacy_jsonl_dictionary_list(intent_dictionary)
     )
     assert entire_jsonl_dictionary_list is not None
-    print(entire_jsonl_dictionary_list)
