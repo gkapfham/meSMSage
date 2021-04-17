@@ -1,17 +1,15 @@
 """Use natural language processing (NLP) to determine intent and similarity in human responses."""
 
-import copy
+import copy  # noreorder
 import operator
-
 from multiprocessing import Pool
-
 from typing import Dict
 from typing import List
 from typing import Tuple
+from typing import Union
 
-import spacy
 import en_core_web_lg  # type: ignore
-
+import spacy  # type: ignore
 from mesmsage import configure
 
 THRESHOLD = 0.85
@@ -193,11 +191,11 @@ def convert_dictionary_to_spacy_jsonl_dictionary_list(
     )
     for intent, messages in intent_dictionary.items():
         for message in messages:
-            internal_message_dictionary = {}
+            internal_message_dictionary: Dict[str, Union[str, Dict[str, float]]] = {}
             internal_message_dictionary["text"] = message
-            textcat_default_intent_dictionary_deepcopy = copy.deepcopy(
-                textcat_default_intent_dictionary
-            )
+            textcat_default_intent_dictionary_deepcopy: Dict[
+                str, Dict[str, float]
+            ] = copy.deepcopy(textcat_default_intent_dictionary)
             textcat_default_intent_dictionary_deepcopy["cats"][intent] = 1.0
             internal_message_dictionary[
                 "cats"
