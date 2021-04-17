@@ -1,22 +1,17 @@
 """Utility functions for manipulating the environment and textual content."""
 
-import json
-
-import srsly
-
+import json  # noreorder
 from pathlib import Path
-
-import spacy
-from spacy.tokens import DocBin
-
 from textwrap import indent
 from textwrap import wrap
 from typing import Dict
 from typing import List
 
+import spacy  # type: ignore
+import srsly  # type: ignore
 from dotenv import load_dotenv
-
 from mesmsage import constants
+from spacy.tokens import DocBin  # type: ignore
 
 
 def load_environment(env_file_name: str = None) -> None:
