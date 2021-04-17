@@ -202,7 +202,6 @@ def convert_dictionary_to_spacy_jsonl_dictionary_list(
             internal_message_dictionary[
                 "cats"
             ] = textcat_default_intent_dictionary_deepcopy["cats"]
-            print(internal_message_dictionary)
             spacy_json_list.append(internal_message_dictionary)
     return spacy_json_list
 
