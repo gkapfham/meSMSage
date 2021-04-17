@@ -1,7 +1,6 @@
 """Utility functions for manipulating the environment and textual content."""
 
 import json
-import warnings
 
 import srsly
 
