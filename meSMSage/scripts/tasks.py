@@ -24,21 +24,20 @@ def display_internal_python_version(c):
 def test(c, noexternal=False):
     """Run the test suite."""
     display_internal_python_version(c)
-    console.print(f"[bold red]:zap: Begin {inspect.currentframe().f_code.co_name} [/bold red]")
-    # print("Begin " + inspect.currentframe().f_code.co_name + " --->")
+    console.print(f"[bold red]:zap:Begin {inspect.currentframe().f_code.co_name} [/bold red]")
     # run the test suite
     if noexternal:
         c.run("poetry run pytest -x -s -m 'not googlesheets and not twilio'")
     else:
         c.run("poetry run pytest -x -s")
-    print("---> End " + inspect.currentframe().f_code.co_name)
+    console.print(f"[bold red]:zap:End {inspect.currentframe().f_code.co_name} [/bold red]")
 
 
 @task
 def debugtest(c, noexternal=False):
     """Run the test suite."""
     display_internal_python_version(c)
-    print("Begin " + inspect.currentframe().f_code.co_name + " --->")
+    console.print(f"[bold red]:zap:Begin {inspect.currentframe().f_code.co_name} [/bold red]")
     # run the test suite
     if noexternal:
         c.run(
@@ -46,7 +45,7 @@ def debugtest(c, noexternal=False):
         )
     else:
         c.run("poetry run pytest -x -s --log-cli-level=DEBUG")
-    print("---> End " + inspect.currentframe().f_code.co_name)
+    console.print(f"[bold red]:zap:End {inspect.currentframe().f_code.co_name} [/bold red]")
 
 
 @task
