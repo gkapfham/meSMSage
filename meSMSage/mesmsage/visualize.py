@@ -1,6 +1,7 @@
 """Visualize a spaCy text categorization model using Streamlit."""
 
-import spacy_streamlit  # type: ignore  noreorder
+# noreorder
+import spacy_streamlit  # type: ignore
 import typer
 
 
