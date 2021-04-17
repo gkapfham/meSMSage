@@ -4,6 +4,10 @@ import inspect
 
 from invoke import task
 
+from rich.console import Console
+
+console = Console()
+
 displayed_python_verison = False
 
 
@@ -20,7 +24,8 @@ def display_internal_python_version(c):
 def test(c, noexternal=False):
     """Run the test suite."""
     display_internal_python_version(c)
-    print("Begin " + inspect.currentframe().f_code.co_name + " --->")
+    console.print(f"[bold red]:zap: Begin {inspect.currentframe().f_code.co_name} [/bold red]")
+    # print("Begin " + inspect.currentframe().f_code.co_name + " --->")
     # run the test suite
     if noexternal:
         c.run("poetry run pytest -x -s -m 'not googlesheets and not twilio'")
