@@ -1,8 +1,7 @@
 """Define the command-line interface for the meSMSage program."""
 
-import logging
+import logging  # noreorder
 import os
-
 from enum import Enum
 from logging import Logger
 from pathlib import Path
@@ -10,11 +9,7 @@ from typing import Dict
 from typing import List
 from typing import Tuple
 
-from rich.console import Console
-from rich.text import Text
-
-from pandas import DataFrame
-
+import typer
 from mesmsage import configure
 from mesmsage import constants
 from mesmsage import demonstrate
@@ -25,8 +20,9 @@ from mesmsage import sheets
 from mesmsage import sms
 from mesmsage import util
 from mesmsage import webhook
-
-import typer
+from pandas import DataFrame
+from rich.console import Console
+from rich.text import Text
 
 cli = typer.Typer()
 
@@ -261,9 +257,7 @@ def prepare(
 
 
 @cli.command()
-def interact(
-    debug_level: DebugLevel = DebugLevel.ERROR,
-):
+def interact(debug_level: DebugLevel = DebugLevel.ERROR,):
     """Prepare the spaCy NLP model."""
     # setup the console and the logger instance
     console, logger = setup(debug_level)
