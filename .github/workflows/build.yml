@@ -94,6 +94,8 @@ jobs:
             poetry run invoke -c scripts/tasks test --noexternal
         # Run the black code formatter in checking mode
         - name: Run Black Code Formatter
+          env:
+            PYTHONIOENCODING: ${{secrets.PYTHONIOENCODING}}
           run: |
             cd meSMSage
             poetry run invoke -c scripts/tasks black
