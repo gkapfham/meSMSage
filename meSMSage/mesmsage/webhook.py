@@ -1,23 +1,21 @@
 """Run a Webhook server to receive SMS messages from Twilio."""
 
+# noreorder
 import os
-
 from datetime import datetime
 from logging import Logger
 
-from flask import Flask, request
+from flask import Flask
+from flask import request
 from gevent.pywsgi import WSGIServer  # type: ignore
-from pyngrok import ngrok  # type: ignore
-
-from rich.console import Console
-
-from twilio.rest import Client  # type: ignore
-from twilio.twiml.messaging_response import MessagingResponse  # type: ignore
-
 from mesmsage import configure
 from mesmsage import constants
 from mesmsage import nlp
 from mesmsage import sheets
+from pyngrok import ngrok  # type: ignore
+from rich.console import Console
+from twilio.rest import Client  # type: ignore
+from twilio.twiml.messaging_response import MessagingResponse  # type: ignore
 
 # create the Flask app that is run with the gevent WSGIServer
 app = Flask(__name__)
@@ -56,14 +54,16 @@ def bot():
     # create a timestamp representing when webhook received the message
     timestamp = datetime.now().strftime("%m/%d/%Y %H:%M:%S")
     # calculate the intent scores for the message received from the user
-    intent_scores_dictionary = nlp.calculate_intent_scores(message, True)
+    intent_scores_dictionary = nlp.determine_intent_spacy(message)
+    # intent_scores_dictionary = nlp.calculate_intent_scores(message, True)
     # summarize the intent scores by finding the maximum score for each intent
-    summarized_intent_scores_dictionary = nlp.summarize_intent_scores(
-        intent_scores_dictionary
-    )
-    logger.debug(intent_scores_dictionary)
-    logger.debug(summarized_intent_scores_dictionary)
-    response, intent, score = nlp.create_response(summarized_intent_scores_dictionary)
+    # summarized_intent_scores_dictionary = nlp.summarize_intent_scores(
+    #     intent_scores_dictionary
+    # )
+    # logger.debug(intent_scores_dictionary)
+    # logger.debug(summarized_intent_scores_dictionary)
+    # response, intent, score = nlp.create_response(summarized_intent_scores_dictionary)
+    response, intent, score = nlp.create_response_spacy(intent_scores_dictionary)
     logger.debug(response)
     # create and send the response using the Twilio service
     resp = MessagingResponse()
