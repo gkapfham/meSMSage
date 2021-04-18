@@ -1,5 +1,5 @@
 """Support invocation of command-line interface with a python -m command."""
 
-from .main import app
+from .main import cli
 
-app(prog_name="mesmsage")
+cli(prog_name="mesmsage")

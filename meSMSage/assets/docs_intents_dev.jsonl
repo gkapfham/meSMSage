@@ -1,0 +1,66 @@
+{"text":"I cannot work my shift on Monday or Friday.","cats":{"CANNOT":1.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":0.0,"SICK":0.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"Sorry, I can't work my shift at the Motzing Center on Monday.","cats":{"CANNOT":1.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":0.0,"SICK":0.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"I regret that I can't work my shift on Monday or Tuesday.","cats":{"CANNOT":1.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":0.0,"SICK":0.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"I regret that I can't work my shift on Monday because my parents are visiting.","cats":{"CANNOT":1.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":0.0,"SICK":0.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"I will no longer be able to work my shift on Monday or Tuesday.","cats":{"CANNOT":1.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":0.0,"SICK":0.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"I have a schedule conflict and I cannot work my shift on Friday.","cats":{"CANNOT":1.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":0.0,"SICK":0.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"I have a schedule conflict every morning at 9 am and I cannot work my shifts this week.","cats":{"CANNOT":1.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":0.0,"SICK":0.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"Something came up and I cannot work my shifts this week and next week.","cats":{"CANNOT":1.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":0.0,"SICK":0.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"Something came up with my boyfriend and I cannot work my shift on Monday.","cats":{"CANNOT":1.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":0.0,"SICK":0.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"I'm too busy and I cannot work my shift on Friday. Oops!","cats":{"CANNOT":1.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":0.0,"SICK":0.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"I'm too busy and I cannot work my shifts this week because I have to wash my car.","cats":{"CANNOT":1.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":0.0,"SICK":0.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"I'm going to be late to my shifts this week because my mother is visiting.","cats":{"CANNOT":1.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":0.0,"SICK":0.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"I just realized that I'm going to be late to my shift on Friday of this week.","cats":{"CANNOT":1.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":0.0,"SICK":0.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"I'm going to be late to my shift every day this week. Sorry for the problems.","cats":{"CANNOT":1.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":0.0,"SICK":0.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"I can definitely work my assigned shifts, thanks for alerting me!","cats":{"CANNOT":0.0,"CONFIRM":1.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":0.0,"SICK":0.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"I can work my shifts this week, great, huh?.","cats":{"CANNOT":0.0,"CONFIRM":1.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":0.0,"SICK":0.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"I can work my shifts, thanks for the reminder, it was useful!","cats":{"CANNOT":0.0,"CONFIRM":1.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":0.0,"SICK":0.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"I can work my shift on Tuesday.","cats":{"CANNOT":0.0,"CONFIRM":1.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":0.0,"SICK":0.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"I can work my shifts this week since my cat is better now.","cats":{"CANNOT":0.0,"CONFIRM":1.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":0.0,"SICK":0.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"Yes, I can work all of my shifts this week at the Motzing Center.","cats":{"CANNOT":0.0,"CONFIRM":1.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":0.0,"SICK":0.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"Sure, I can work my shifts on Tuesday and Friday.","cats":{"CANNOT":0.0,"CONFIRM":1.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":0.0,"SICK":0.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"I forgot that I was supposed to work today. Can you find someone else to work for me?","cats":{"CANNOT":0.0,"CONFIRM":0.0,"FORGOT":1.0,"INCORRECT":0.0,"INQUIRE":0.0,"SICK":0.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"I forgot that my shift is this Saturday morning! I don't think I can make it now. Can you help?","cats":{"CANNOT":0.0,"CONFIRM":0.0,"FORGOT":1.0,"INCORRECT":0.0,"INQUIRE":0.0,"SICK":0.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"I did not remember (sorry, forgot!) that I cannot work today. Can you find someone else?","cats":{"CANNOT":0.0,"CONFIRM":0.0,"FORGOT":1.0,"INCORRECT":0.0,"INQUIRE":0.0,"SICK":0.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"I forgot that I was supposed to work on Monday. Can someone cover my shift on that day, please?","cats":{"CANNOT":0.0,"CONFIRM":0.0,"FORGOT":1.0,"INCORRECT":0.0,"INQUIRE":0.0,"SICK":0.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"I forgot that I cannot work on Tuesday. Can you schedule someone else please?","cats":{"CANNOT":0.0,"CONFIRM":0.0,"FORGOT":1.0,"INCORRECT":0.0,"INQUIRE":0.0,"SICK":0.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"I don't think that I signed up for a shift on Monday. Is there a mistake?","cats":{"CANNOT":0.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":1.0,"INQUIRE":0.0,"SICK":0.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"Hi there! I did not sign up for a shift on Monday.","cats":{"CANNOT":0.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":1.0,"INQUIRE":0.0,"SICK":0.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"I did not sign up for a shift today. Is this correct?","cats":{"CANNOT":0.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":1.0,"INQUIRE":0.0,"SICK":0.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"I am not supposed to work on Monday or Tuesday. Is this correct?","cats":{"CANNOT":0.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":1.0,"INQUIRE":0.0,"SICK":0.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"I don't remember saying that I would work a shift on Monday.","cats":{"CANNOT":0.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":1.0,"INQUIRE":0.0,"SICK":0.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"I think that there is a mistake in my shifts. Is this schedule correct?","cats":{"CANNOT":0.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":1.0,"INQUIRE":0.0,"SICK":0.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"I think that there are mistakes in my shifts at the Motzing Center. Are they correct?","cats":{"CANNOT":0.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":1.0,"INQUIRE":0.0,"SICK":0.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"Are these shifts correct? I don't remember signing up for them! Can you tell me when to come to Kovfino?","cats":{"CANNOT":0.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":1.0,"INQUIRE":0.0,"SICK":0.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"Can you tell me which people I am working with on Monday?","cats":{"CANNOT":0.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":1.0,"SICK":0.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"Can you tell me who works with me on Monday and Friday?","cats":{"CANNOT":0.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":1.0,"SICK":0.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"Who am I working with on Tuesday?","cats":{"CANNOT":0.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":1.0,"SICK":0.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"Who works with me on Friday?","cats":{"CANNOT":0.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":1.0,"SICK":0.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"Who am I working with this week at Kovfino?","cats":{"CANNOT":0.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":1.0,"SICK":0.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"Who works with me this week at the Motzing Center?","cats":{"CANNOT":0.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":1.0,"SICK":0.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"Can you tell me is working with me this week? Thanks for your help!","cats":{"CANNOT":0.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":1.0,"SICK":0.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"I do not feel so hot. I cannot work my shift today.","cats":{"CANNOT":0.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":0.0,"SICK":1.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"I do not feel very good. I cannot work my shifts next week.","cats":{"CANNOT":0.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":0.0,"SICK":1.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"I do not feel good at all. I cannot work my shift today. Can you find a replacement?","cats":{"CANNOT":0.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":0.0,"SICK":1.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"I do not feel good. I can't work my shifts next week. Can you find a replacement?","cats":{"CANNOT":0.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":0.0,"SICK":1.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"I feel sick. I cannot work my shift on Monday. Sorry about this!","cats":{"CANNOT":0.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":0.0,"SICK":1.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"I am really sick right now and I cannot work my shift today. Can you find a replacement?","cats":{"CANNOT":0.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":0.0,"SICK":1.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"I am sooo ill and I cannot work my shifts next week at Kovfino.","cats":{"CANNOT":0.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":0.0,"SICK":1.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"My friend is sick and I cannot work my shifts next week.","cats":{"CANNOT":0.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":0.0,"SICK":1.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"My child is very sick and I cannot work my shifts next week. Can you help please?","cats":{"CANNOT":0.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":0.0,"SICK":1.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"My daughter is kinda sick and I cannot work my shifts next week.","cats":{"CANNOT":0.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":0.0,"SICK":1.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"My son is sick and I cannot work my shifts next week on Monday and Friday.","cats":{"CANNOT":0.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":0.0,"SICK":1.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"My child is sick and I can't be at my shift on Monday.","cats":{"CANNOT":0.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":0.0,"SICK":1.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"My daughter is sick and I cannot work my shift on Monday.","cats":{"CANNOT":0.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":0.0,"SICK":1.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"My son is sick and I cannot work my shift on Friday.","cats":{"CANNOT":0.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":0.0,"SICK":1.0,"THANKS":0.0,"QUIT":0.0}}
+{"text":"Thanks for reminding me about my shifts, I appreciate it so much! This is awesome!","cats":{"CANNOT":0.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":0.0,"SICK":0.0,"THANKS":1.0,"QUIT":0.0}}
+{"text":"Thank you a lot for the reminder about my shifts!","cats":{"CANNOT":0.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":0.0,"SICK":0.0,"THANKS":1.0,"QUIT":0.0}}
+{"text":"Thanks for reminding me about my shift on Friday!","cats":{"CANNOT":0.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":0.0,"SICK":0.0,"THANKS":1.0,"QUIT":0.0}}
+{"text":"Thank you for reminder me about my shifts this week at the Motzing Center!","cats":{"CANNOT":0.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":0.0,"SICK":0.0,"THANKS":1.0,"QUIT":0.0}}
+{"text":"Hi, there, I appreciate your reminder about my shifts, thanks!","cats":{"CANNOT":0.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":0.0,"SICK":0.0,"THANKS":1.0,"QUIT":0.0}}
+{"text":"I'm sorry but I don't want to work at the Motzing Center. I have too much on my plate","cats":{"CANNOT":0.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":0.0,"SICK":0.0,"THANKS":0.0,"QUIT":1.0}}
+{"text":"I'm really sorry but I can no longer volunteer at the Motzing Center.","cats":{"CANNOT":0.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":0.0,"SICK":0.0,"THANKS":0.0,"QUIT":1.0}}
+{"text":"I'm sorry but I no longer want to work at the Kovfino because of my friend.","cats":{"CANNOT":0.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":0.0,"SICK":0.0,"THANKS":0.0,"QUIT":1.0}}
+{"text":"I'm sorry but I can no longer volunteer at the Kovfino and the Motzing Center.","cats":{"CANNOT":0.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":0.0,"SICK":0.0,"THANKS":0.0,"QUIT":1.0}}
+{"text":"I'm really sorry but I can no longer work at the Motzing Center for the month of December.","cats":{"CANNOT":0.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":0.0,"SICK":0.0,"THANKS":0.0,"QUIT":1.0}}
+{"text":"I'm really so very sorry but I can no longer work at Kovfino.","cats":{"CANNOT":0.0,"CONFIRM":0.0,"FORGOT":0.0,"INCORRECT":0.0,"INQUIRE":0.0,"SICK":0.0,"THANKS":0.0,"QUIT":1.0}}

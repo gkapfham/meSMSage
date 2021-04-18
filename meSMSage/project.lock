@@ -1,0 +1,50 @@
+convert:
+  cmd: python -m spacy run convert
+  script:
+    - poetry run mesmsage prepare --input-path assets/docs_intents_training.jsonl
+      --output-path corpus/train.spacy
+    - poetry run mesmsage prepare --input-path assets/docs_intents_dev.jsonl --output-path
+      corpus/dev.spacy
+  deps:
+    - path: assets/docs_intents_training.jsonl
+      md5: e5823c4c86e42f320265eba18ee834cf
+    - path: assets/docs_intents_dev.jsonl
+      md5: e9981148dab4e7d6af3d41dd8a614edc
+  outs:
+    - path: corpus/train.spacy
+      md5: 7e34696cebf3953e52e7e867d84048c7
+    - path: corpus/dev.spacy
+      md5: 188dc78c431f125f10be1a6e318e0710
+  spacy_version: 3.0.5
+  spacy_git_version: 53a3b967a
+train:
+  cmd: python -m spacy run train
+  script:
+    - python -m spacy train configs/config.cfg --output training/ --paths.train corpus/train.spacy
+      --paths.dev corpus/dev.spacy --nlp.lang en --gpu-id -1
+  deps:
+    - path: configs/config.cfg
+      md5: 2153856b09483e8137b3428ca0aa256b
+    - path: corpus/train.spacy
+      md5: 7e34696cebf3953e52e7e867d84048c7
+    - path: corpus/dev.spacy
+      md5: 188dc78c431f125f10be1a6e318e0710
+  outs:
+    - path: training/model-best
+      md5: 3fc4289804f4ef3d366fc1aeeaf3b6ae
+  spacy_version: 3.0.5
+  spacy_git_version: 53a3b967a
+evaluate:
+  cmd: python -m spacy run evaluate
+  script:
+    - python -m spacy evaluate training/model-best corpus/dev.spacy --output training/metrics.json
+  deps:
+    - path: corpus/dev.spacy
+      md5: 188dc78c431f125f10be1a6e318e0710
+    - path: training/model-best
+      md5: 3fc4289804f4ef3d366fc1aeeaf3b6ae
+  outs:
+    - path: training/metrics.json
+      md5: 77823d36958fa40378a93b701635c099
+  spacy_version: 3.0.5
+  spacy_git_version: 53a3b967a

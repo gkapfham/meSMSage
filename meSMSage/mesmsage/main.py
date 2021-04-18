@@ -1,8 +1,7 @@
 """Define the command-line interface for the meSMSage program."""
 
-import logging
+import logging  # noreorder
 import os
-
 from enum import Enum
 from logging import Logger
 from pathlib import Path
@@ -10,23 +9,22 @@ from typing import Dict
 from typing import List
 from typing import Tuple
 
-from rich.console import Console
-from rich.text import Text
-
-from pandas import DataFrame
-
+import typer
 from mesmsage import configure
 from mesmsage import constants
 from mesmsage import demonstrate
 from mesmsage import extract
 from mesmsage import interface
+from mesmsage import nlp
 from mesmsage import sheets
 from mesmsage import sms
 from mesmsage import util
+from mesmsage import webhook
+from pandas import DataFrame
+from rich.console import Console
+from rich.text import Text
 
-import typer
-
-app = typer.Typer()
+cli = typer.Typer()
 
 
 class DebugLevel(str, Enum):
@@ -51,13 +49,8 @@ def setup(debug_level: DebugLevel) -> Tuple[Console, Logger]:
     return console, logger
 
 
-def download(googlesheet_id: str, env_file: Path, debug_level: DebugLevel) -> DataFrame:
-    """Download the spreadsheet from Google Sheets, process it, and return an Pandas data frame."""
-    logger = logging.getLogger(constants.logging.Rich)
-    # DEBUG: display the debugging output for the program's command-line arguments
-    logger.debug(f"The Google Sheet is {googlesheet_id}.")
-    logger.debug(f"The debugging level is {debug_level.value}.")
-    # construct the full name of the .env file
+def load_environment(env_file: Path, logger: Logger) -> None:
+    """Load the environment using the dotenv package."""
     env_file_name = constants.markers.Nothing
     # the file was specified and it is valid so derive its full name
     if env_file is not None:
@@ -77,6 +70,16 @@ def download(googlesheet_id: str, env_file: Path, debug_level: DebugLevel) -> Da
     logger.debug(f"Environment file: {env_file_name}")
     # load the required secure environment for connecting to Google Sheets
     util.load_environment(env_file_name)
+
+
+def download(googlesheet_id: str, env_file: Path, debug_level: DebugLevel) -> DataFrame:
+    """Download the spreadsheet from Google Sheets, process it, and return an Pandas data frame."""
+    logger = logging.getLogger(constants.logging.Rich)
+    # DEBUG: display the debugging output for the program's command-line arguments
+    logger.debug(f"The Google Sheet is {googlesheet_id}.")
+    logger.debug(f"The debugging level is {debug_level.value}.")
+    # construct the full name of the .env file
+    load_environment(env_file, logger)
     # connect the specified Google Sheet using the default internal sheet of "Sheet1"
     sheet = sheets.connect_to_sheet(googlesheet_id)
     # extract the Pandas data frame from the sheet in sheetfu's internal format
@@ -142,7 +145,8 @@ def display_sms(
     """Display the names of individuals and their associated activities."""
     if not dry_run:
         console.print("Preparing to send these SMS:")
-    console.print("Would send send these SMS:")
+    else:
+        console.print("Would send send these SMS:")
     console.print()
     sms_text = util.get_printable_dictionary_str(number_sms_dict)
     console.print(sms_text)
@@ -161,7 +165,7 @@ def connect_and_download(
     return dataframe, console, logger
 
 
-@app.command()
+@cli.command()
 def send(
     googlesheet_id: str = typer.Option(...),
     debug_level: DebugLevel = DebugLevel.ERROR,
@@ -200,7 +204,7 @@ def send(
         logger.debug(f"Twilio returned SID: {sid}")
 
 
-@app.command()
+@cli.command()
 def demo(
     googlesheet_id: str = typer.Option(...),
     debug_level: DebugLevel = DebugLevel.ERROR,
@@ -215,7 +219,56 @@ def demo(
     demonstrate.demonstrate_pandas_analysis(dataframe)
 
 
-@app.command()
+@cli.command()
+def receive(
+    googlesheet_id: str = typer.Option(...),
+    debug_level: DebugLevel = DebugLevel.ERROR,
+    env_file: Path = typer.Option(None),
+):
+    """Receive SMS messages using a webhook."""
+    # setup the console and the logger instance
+    console, logger = setup(debug_level)
+    console.print()
+    # load the environment from the specified .env file
+    # (or from the default file if one was not specified)
+    load_environment(env_file, logger)
+    logger.debug("Calling the main function for the webhook")
+    # start the ngrok and WSGI servers using the webhook module
+    webhook.main(googlesheet_id, logger, console)
+
+
+@cli.command()
+def prepare(
+    debug_level: DebugLevel = DebugLevel.ERROR,
+    input_path: Path = typer.Option(...),
+    output_path: Path = typer.Option(...),
+):
+    """Prepare the spaCy NLP model."""
+    # setup the console and the logger instance
+    console, logger = setup(debug_level)
+    console.print()
+    logger.debug("Preparing the spaCy NLP model")
+    spacy_jsonl_list = nlp.convert_dictionary_to_spacy_jsonl_dictionary_list(
+        nlp.intent_dictionary
+    )
+    util.save_jsonl_asset(spacy_jsonl_list)
+    util.convert("en", input_path, output_path)
+    # TODO: run the other Spacy commands?
+
+
+@cli.command()
+def interact(
+    debug_level: DebugLevel = DebugLevel.ERROR,
+):
+    """Prepare the spaCy NLP model."""
+    # setup the console and the logger instance
+    console, logger = setup(debug_level)
+    console.print()
+    logger.debug("Interact with the spaCy NLP model")
+    nlp.interact_with_spacy_model()
+
+
+@cli.command()
 def history():
     """Show SMS message history."""
     typer.echo("History of SMS sending")

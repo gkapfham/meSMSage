@@ -1,39 +1,50 @@
 """Run tasks that support easy testing across multiple Python versions."""
 
-import inspect
+import inspect  # noreorder
 
-from invoke import task
+from invoke import task  # type: ignore
+from rich.console import Console
 
-displayed_python_verison = False
+console = Console()
+
+DISPLAYED_PYTHON_VERISON = False
 
 
+# pylint: disable=invalid-name
 def display_internal_python_version(c):
     """Display the version of Python."""
-    global displayed_python_verison
+    # pylint: disable=global-statement
+    global DISPLAYED_PYTHON_VERISON
     # display diagnostic information about new version of Python
-    if not displayed_python_verison:
+    if not DISPLAYED_PYTHON_VERISON:
         c.run("python --version")
-        displayed_python_verison = True
+        DISPLAYED_PYTHON_VERISON = True
 
 
 @task
 def test(c, noexternal=False):
     """Run the test suite."""
     display_internal_python_version(c)
-    print("Begin " + inspect.currentframe().f_code.co_name + " --->")
+    console.print(
+        f"[bold red]:zap:Begin {inspect.currentframe().f_code.co_name} [/bold red]"
+    )
     # run the test suite
     if noexternal:
         c.run("poetry run pytest -x -s -m 'not googlesheets and not twilio'")
     else:
         c.run("poetry run pytest -x -s")
-    print("---> End " + inspect.currentframe().f_code.co_name)
+    console.print(
+        f"[bold red]:zap:End {inspect.currentframe().f_code.co_name} [/bold red]"
+    )
 
 
 @task
 def debugtest(c, noexternal=False):
     """Run the test suite."""
     display_internal_python_version(c)
-    print("Begin " + inspect.currentframe().f_code.co_name + " --->")
+    console.print(
+        f"[bold red]:zap:Begin {inspect.currentframe().f_code.co_name} [/bold red]"
+    )
     # run the test suite
     if noexternal:
         c.run(
@@ -41,19 +52,30 @@ def debugtest(c, noexternal=False):
         )
     else:
         c.run("poetry run pytest -x -s --log-cli-level=DEBUG")
-    print("---> End " + inspect.currentframe().f_code.co_name)
+    console.print(
+        f"[bold red]:zap:End {inspect.currentframe().f_code.co_name} [/bold red]"
+    )
 
 
 @task
 def cover(c):
     """Run the test suite and collect coverage information."""
     display_internal_python_version(c)
-    print("Begin " + inspect.currentframe().f_code.co_name + " --->")
-    # run the test suite and collect coverage information
-    c.run(
-        "poetry run pytest -s --cov-config .coveragerc --cov-report term-missing --cov=mesmsage --cov-branch -m 'not twilio'"
+    console.print(
+        f"[bold red]:zap:Begin {inspect.currentframe().f_code.co_name} [/bold red]"
     )
-    print("---> End " + inspect.currentframe().f_code.co_name)
+    # run the test suite and collect coverage information
+    # note that this does not run the test cases marked with the @twilio
+    # marker so as to not incur service costs when testing. While this
+    # will still run the test cases that use mocks, it may still result
+    # in the tests having lower coverage than would otherwise be the case
+    c.run(
+        "poetry run pytest -s --cov-config .coveragerc "
+        "--cov-report term-missing --cov=mesmsage --cov-branch -m 'not twilio'"
+    )
+    console.print(
+        f"[bold red]:zap:End {inspect.currentframe().f_code.co_name} [/bold red]"
+    )
 
 
 @task
@@ -61,28 +83,39 @@ def black(c):
     """Run black code format check."""
     display_internal_python_version(c)
     print("Begin " + inspect.currentframe().f_code.co_name + " --->")
+    console.print(
+        f"[bold red]:zap:Begin {inspect.currentframe().f_code.co_name} [/bold red]"
+    )
     # run the test suite and collect coverage information
     c.run("poetry run black mesmsage tests --check")
-    print("---> End " + inspect.currentframe().f_code.co_name)
+    console.print(
+        f"[bold red]:zap:End {inspect.currentframe().f_code.co_name} [/bold red]"
+    )
 
 
 @task
 def flake8(c):
     """Run the test suite."""
     display_internal_python_version(c)
-    print("Begin " + inspect.currentframe().f_code.co_name + " --->")
+    console.print(
+        f"[bold red]:zap:Begin {inspect.currentframe().f_code.co_name} [/bold red]"
+    )
     # run the test suite and collect coverage information
     c.run("poetry run flake8 -v mesmsage tests")
-    print("---> End " + inspect.currentframe().f_code.co_name)
+    console.print(
+        f"[bold red]:zap:End {inspect.currentframe().f_code.co_name} [/bold red]"
+    )
 
 
 @task
 def mypy(c):
     """Run mypy."""
     display_internal_python_version(c)
-    print("Begin " + inspect.currentframe().f_code.co_name + " --->")
+    console.print(
+        f"[bold red]:zap:Begin {inspect.currentframe().f_code.co_name} [/bold red]"
+    )
     # run the test suite and collect coverage information
-    c.run("poetry run mypy mesmsage")
+    c.run("poetry run mypy mesmsage scripts")
     print("---> End " + inspect.currentframe().f_code.co_name)
 
 
@@ -90,20 +123,28 @@ def mypy(c):
 def pydocstyle(c):
     """Run pydocstyle."""
     display_internal_python_version(c)
-    print("Begin " + inspect.currentframe().f_code.co_name + " --->")
+    console.print(
+        f"[bold red]:zap:Begin {inspect.currentframe().f_code.co_name} [/bold red]"
+    )
     # run the test suite and collect coverage information
-    c.run("poetry run pydocstyle -v mesmsage tests")
-    print("---> End " + inspect.currentframe().f_code.co_name)
+    c.run("poetry run pydocstyle -v mesmsage tests scripts")
+    console.print(
+        f"[bold red]:zap:End {inspect.currentframe().f_code.co_name} [/bold red]"
+    )
 
 
 @task
 def pylint(c):
     """Run pylint."""
     display_internal_python_version(c)
-    print("Begin " + inspect.currentframe().f_code.co_name + " --->")
+    console.print(
+        f"[bold red]:zap:Begin {inspect.currentframe().f_code.co_name} [/bold red]"
+    )
     # run the test suite and collect coverage information
-    c.run("poetry run pylint mesmsage tests")
-    print("---> End " + inspect.currentframe().f_code.co_name)
+    c.run("poetry run pylint mesmsage tests scripts")
+    console.print(
+        f"[bold red]:zap:Begin {inspect.currentframe().f_code.co_name} [/bold red]"
+    )
 
 
 @task(black, flake8, mypy, pydocstyle, pylint)
@@ -114,5 +155,5 @@ def linters(c):
 
 @task(cover, linters)
 # pylint: disable=unused-argument
-def all(c):
+def everything(c):
     """Run all of the tasks."""
