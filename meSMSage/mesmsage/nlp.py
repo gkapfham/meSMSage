@@ -13,6 +13,7 @@ import spacy  # type: ignore
 from mesmsage import configure
 
 THRESHOLD = 0.85
+SPACY_THRESHOLD = 0.90
 
 
 # The dictionary of:
@@ -166,6 +167,13 @@ def interact_with_spacy_model():
         print()
 
 
+def determine_intent_spacy(human_response: str) -> Dict[str, float]:
+    """Determine the intent of the human response using spaCy text categorization."""
+    nlp = spacy.load("training/model-best")
+    document = nlp(human_response)
+    return document.cats
+
+
 def create_default_intent_dictionary(
     intent_dictionary: Dict[str, List[str]]
 ) -> Dict[str, Dict[str, float]]:
@@ -278,13 +286,36 @@ def determine_intent(
     return (maximum_intent, intent_scores_summary_dictionary[maximum_intent])
 
 
+def create_response_spacy(
+    intent_scores_dictionary: Dict[str, float], similarity_threshold=SPACY_THRESHOLD
+) -> Tuple[str, str, float]:
+    """Use spaCy text categorization to create the response that should be the intended response for the human message."""
+    global intent_responses
+    logger = configure.configure_logging()
+    logger.debug(intent_scores_dictionary)
+    (intent, score) = determine_intent(intent_scores_dictionary)
+    message = None
+    if score > similarity_threshold:
+        message = response_dictionary[intent]
+    else:
+        message = response_dictionary["UNKNOWN"]
+        intent = (
+            intent + " -> UNKNOWN" + f" because {score:0.4f} < {similarity_threshold}"
+        )
+    return (message, intent, score)
+
+
 def create_response(
     summarized_intent_scores_dictionary: Dict[str, float],
     similarity_threshold=THRESHOLD,
 ) -> Tuple[str, str, float]:
     """Create the response that should be the intended response for the human message."""
     global intent_responses
+    logger = configure.configure_logging()
+    logger.debug(summarized_intent_scores_dictionary)
     (intent, score) = determine_intent(summarized_intent_scores_dictionary)
+    logger.debug(intent)
+    logger.debug(score)
     message = None
     if score > similarity_threshold:
         message = response_dictionary[intent]
