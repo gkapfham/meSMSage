@@ -139,7 +139,7 @@ def get_sms_messages(
             + "! You are working the following shift(s) at the Motzing Center: "
             + util.get_spiffy_list(activity)
             + ". "
-            + "If you are unable to work any shift(s) please respond to this text. Thank you!"
+            + "If you are unable to work any shift(s) please text Jessica at 814-573-3283. Thank you!"
         )
         sms_dictionary[phone_number] = names_message
     return sms_dictionary
